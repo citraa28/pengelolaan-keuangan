@@ -1,24 +1,20 @@
-<script>
-import { useAuth } from './composables/useAuth.js';
+<script setup>
+import { ref } from 'vue'
+import { useAuth } from './composables/useAuth.js'
 
-export default {
-  name: 'App',
-  setup() {
-    const { user, loading } = useAuth();
-
-    return {
-      user,
-      loading
-    };
-  }
-};
+const { user, loading } = useAuth()
+const isDarkMode = ref(true) // toggle dark mode di sini
 </script>
 
 <template>
-  <div id="app">
-    <div v-if="loading" class="min-h-screen flex items-center justify-center">
+  <!-- Root div yang akan mengatur dark mode -->
+  <div :class="{ dark: isDarkMode }" id="app">
+    <!-- Loading screen -->
+    <div v-if="loading" class="min-h-screen flex items-center justify-center bg-white dark:bg-gray-900 text-gray-900 dark:text-white">
       <div class="text-xl">Loading...</div>
     </div>
+
+    <!-- Main App -->
     <router-view v-else :user="user" />
   </div>
 </template>
