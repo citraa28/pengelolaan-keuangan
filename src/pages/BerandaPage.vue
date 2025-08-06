@@ -69,7 +69,7 @@
         </div>
       </div>
 
-      <div class="flex flex-wrap gap-6 my-10 px-4">
+      <div class="flex flex-wrap gap-6 my-10">
         <!-- Bar Chart -->
         <div
           class="flex-1 min-w-[300px] p-5 bg-white rounded-lg shadow"
@@ -93,6 +93,17 @@
             :chartOptions="dataChart.options"
           />
         </div>
+      </div>
+
+      <div
+        class="mt-10 text-center text-gray-600 dark:text-gray-300 text-lg italic"
+      >
+        Mengelola keuangan bukan hanya tentang mencatat pemasukan dan
+        pengeluaran, tapi tentang membangun kebiasaan yang membawa kita lebih
+        dekat pada stabilitas dan impian finansial. Dengan langkah kecil yang
+        konsisten, kamu sudah selangkah lebih maju menuju masa depan yang lebih
+        aman dan terencana. Terus lanjutkan, karena setiap rupiah yang kamu
+        kelola hari ini akan menentukan kenyamanan hidupmu esok hari. 💰📈
       </div>
     </div>
   </LayoutPage>
