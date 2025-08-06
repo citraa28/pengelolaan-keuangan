@@ -1,10 +1,31 @@
 <template>
   <LayoutPage>
     <!-- Konten Utama -->
-    <div class="p-6 mx-2.5 m-7 bg-blue-100 rounded-lg shadow-md">
-      <h1 class="text-4xl font-bold text-left">Pengeluaran Uang</h1>
-    </div>
-    <div class="p-5 m-2.5 bg-blue-100 rounded-lg shadow-md">
+    <header class="bg-white p-10 mb-6 mx-3 text-center shadow rounded-md">
+      <div class="flex flex-col items-center justify-center">
+        <h1
+          class="text-3xl font-bold font-inter pb-2 text-gray-800 flex items-center gap-2"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke-width="1.5"
+            stroke="currentColor"
+            class="size-6"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M2.25 18.75a60.07 60.07 0 0 1 15.797 2.101c.727.198 1.453-.342 1.453-1.096V18.75M3.75 4.5v.75A.75.75 0 0 1 3 6h-.75m0 0v-.375c0-.621.504-1.125 1.125-1.125H20.25M2.25 6v9m18-10.5v.75c0 .414.336.75.75.75h.75m-1.5-1.5h.375c.621 0 1.125.504 1.125 1.125v9.75c0 .621-.504 1.125-1.125 1.125h-.375m1.5-1.5H21a.75.75 0 0 0-.75.75v.75m0 0H3.75m0 0h-.375a1.125 1.125 0 0 1-1.125-1.125V15m1.5 1.5v-.75A.75.75 0 0 0 3 15h-.75M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm3 0h.008v.008H18V10.5Zm-12 0h.008v.008H6V10.5Z"
+            />
+          </svg>
+          Pengeluaran Uang
+        </h1>
+        <p><i>Awali hari dengan mencatat pengeluaran secara rapi</i></p>
+      </div>
+    </header>
+    <div class="p-5 m-2.5 bg-white rounded-lg shadow-md">
       <div class="m-3 mb-6 flex justify-start">
         <button
           @click="tambahData"
@@ -41,8 +62,8 @@
         </div>
 
         <div class="w-full overflow-x-scroll">
-          <table class="min-w-full bg-white border rounded-lg overflow-hidden">
-            <thead class="bg-gray-300 text-gray-700">
+          <table class="min-w-full bg-white border-gray-800 overflow-hidden">
+            <thead class="bg-gray-300 text-gray-800">
               <tr>
                 <th class="px-4 py-2 border">No</th>
                 <th class="px-4 py-2 border">Keterangan</th>
@@ -149,11 +170,34 @@
         </ul>
 
         <!-- Total Pengeluaran Bulan Ini -->
-        <div class="mt-15 mb-4 text-lg font-semibold text-gray-700">
-          Total Pengeluaran Bulan Ini:
-          <span class="text-blue-700">{{
-            formatRupiah(totalPengeluaranBulanIni)
-          }}</span>
+        <div class="flex items-center justify-start gap-6 mt-6">
+          <!-- Card -->
+          <div class="card">
+            <p class="text-white font-bold text-lg">
+              Total Pengeluaran Bulan Ini :
+            </p>
+            <div class="card__content text-center">
+              <p class="card__description">
+                <span class="text-blue-700 text-center font-bold text-3xl">
+                  {{ formatRupiah(totalPengeluaranBulanIni) }}
+                </span>
+              </p>
+              <div class="text-6xl text-center mt-5">🤗</div>
+            </div>
+          </div>
+
+          <!-- Motivational or informational message -->
+          <div class="ml-6 flex flex-col justify-center max-w-sm text-gray-800">
+            <h2 class="text-xl font-semibold mb-2">
+              Cerdas dalam Pengeluaran!
+            </h2>
+            <p class="text-sm leading-relaxed">
+              Catat semua pengeluaran, sekecil apapun, agar kamu tahu kemana
+              uangmu pergi. Jangan biarkan pengeluaran tak tercatat membuatmu
+              boros. 📉
+            </p>
+            <p class="mt-4 text-sm italic text-red-600">#BijakKelolaUang</p>
+          </div>
         </div>
 
         <!-- Form Tambah -->
@@ -394,3 +438,69 @@ function goToPage(page) {
   currentPage.value = page;
 }
 </script>
+
+<style scoped>
+.card {
+  position: relative;
+  width: 300px;
+  height: 200px;
+  background: linear-gradient(-45deg, #38bdf8, #3b82f6, #6366f1);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.card svg {
+  width: 48px;
+  fill: #333;
+  transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.card:hover {
+  transform: rotate(-5deg) scale(1.1);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+.card__content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(-45deg);
+  width: 100%;
+  height: 100%;
+  padding: 20px;
+  text: center;
+  box-sizing: border-box;
+  background-color: #fff;
+  opacity: 0;
+  transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.card:hover .card__content {
+  transform: translate(-50%, -50%) rotate(0deg);
+  opacity: 1;
+}
+
+.card__title {
+  margin: 0;
+  font-size: 24px;
+  color: #333;
+  font-weight: 700;
+}
+
+.card__description {
+  margin: 10px 0 0;
+  font-size: 14px;
+  text: center;
+  color: #777;
+  line-height: 1.4;
+}
+
+.card:hover svg {
+  scale: 0;
+  transform: rotate(-45deg);
+}
+</style>
