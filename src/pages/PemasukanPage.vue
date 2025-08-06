@@ -1,10 +1,32 @@
 <template>
   <LayoutPage>
     <!-- Konten Utama -->
-    <div class="p-6 mx-2.5 m-7 bg-blue-100 rounded-lg shadow-md">
-      <h1 class="text-3xl font-bold">Pemasukan Uang</h1>
-    </div>
-    <div class="p-5 m-2.5 bg-blue-100 rounded-lg shadow-md">
+    <header class="bg-white p-8 mx-3 text-center shadow rounded-md mb-6">
+      <div class="flex flex-col items-center justify-center">
+        <h1
+          class="text-3xl font-bold font-inter pb-1/ \ text-gray-800 flex items-center gap-2"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke-width="1.5"
+            stroke="currentColor"
+            class="w-8 h-8"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M2.25 8.25h19.5M2.25 9h19.5m-16.5 5.25h6m-6 2.25h3m-3.75 3h15a2.25 2.25 0 0 0 2.25-2.25V6.75A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25v10.5A2.25 2.25 0 0 0 4.5 19.5Z"
+            />
+          </svg>
+          Pemasukan Uang
+        </h1>
+        <p><i>Ayo Kendalikan Uangmu</i></p>
+      </div>
+    </header>
+
+    <div class="p-5 m-2.5 bg-white rounded-lg shadow-md">
       <div class="mb-4 flex justify-start">
         <button
           @click="tambahData"
@@ -41,54 +63,56 @@
         </div>
 
         <div class="w-full overflow-x-scroll">
-          <table class="min-w-full bg-white border rounded-lg overflow-hidden">
-          <thead class="bg-gray-300 text-gray-700">
-            <tr>
-              <th class="px-4 py-2 border">No</th>
-              <th class="px-4 py-2 border">Keterangan</th>
-              <th class="px-4 py-2 border">Tanggal</th>
-              <th class="px-4 py-2 border">Jumlah</th>
-              <th class="px-4 py-2 border">Aksi</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr
-              v-for="(item, index) in paginatedPemasukan"
-              :key="item.id"
-              class="text-center"
-            >
-              <td class="px-4 py-2 border">
-                {{ (currentPage - 1) * entriesToShow + index + 1 }}
-              </td>
-              <td class="px-4 py-2 border">{{ item.keterangan }}</td>
-              <td class="px-4 py-2 border">{{ item.tanggal }}</td>
-              <td class="px-4 py-2 border">{{ formatRupiah(item.jumlah) }}</td>
-              <td class="px-4 py-2 border">
-                <button
-                  @click="editData(item.id)"
-                  class="bg-blue-500 rounded-2xl px-5 py-1 text-white hover:underline mr-2"
-                >
-                  Edit
-                </button>
-                <button
-                  @click="hapusData(item.id)"
-                  class="bg-red-600 rounded-2xl px-3 py-1 text-white hover:underline"
-                >
-                  Hapus
-                </button>
-              </td>
-            </tr>
-            <tr v-if="paginatedPemasukan.length === 0">
-              <td colspan="5" class="px-4 py-2 text-center text-gray-500">
-                Tidak ada data
-              </td>
-            </tr>
-          </tbody>
-        </table>
+          <table class="min-w-full bg-white border-gray-800 overflow-hidden">
+            <thead class="bg-gray-300 text-gray-800">
+              <tr>
+                <th class="px-4 py-2 border">No</th>
+                <th class="px-4 py-2 border">Keterangan</th>
+                <th class="px-4 py-2 border">Tanggal</th>
+                <th class="px-4 py-2 border">Jumlah</th>
+                <th class="px-4 py-2 border">Aksi</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr
+                v-for="(item, index) in paginatedPemasukan"
+                :key="item.id"
+                class="text-center"
+              >
+                <td class="px-4 py-2 border">
+                  {{ (currentPage - 1) * entriesToShow + index + 1 }}
+                </td>
+                <td class="px-4 py-2 border">{{ item.keterangan }}</td>
+                <td class="px-4 py-2 border">{{ item.tanggal }}</td>
+                <td class="px-4 py-2 border">
+                  {{ formatRupiah(item.jumlah) }}
+                </td>
+                <td class="px-4 py-2 border">
+                  <button
+                    @click="editData(item.id)"
+                    class="bg-blue-500 rounded-2xl px-5 py-1 text-white hover:underline mr-2"
+                  >
+                    Edit
+                  </button>
+                  <button
+                    @click="hapusData(item.id)"
+                    class="bg-red-600 rounded-2xl px-3 py-1 text-white hover:underline"
+                  >
+                    Hapus
+                  </button>
+                </td>
+              </tr>
+              <tr v-if="paginatedPemasukan.length === 0">
+                <td colspan="5" class="px-4 py-2 text-center text-gray-500">
+                  Tidak ada data
+                </td>
+              </tr>
+            </tbody>
+          </table>
         </div>
 
         <!-- Pagination -->
-        <ul class="flex justify-center gap-1 text-gray-900 mt-8">
+        <ul class="flex justify-center gap-1 text-gray-900 mt-8 mb-17">
           <li>
             <button
               @click.prevent="prevPage"
@@ -147,11 +171,31 @@
         </ul>
 
         <!-- Total Pemasukan Bulan Ini -->
-        <div class="mt-15 mb-4 text-lg font-semibold text-gray-700">
-          Total Pemasukan Bulan Ini:
-          <span class="text-blue-700">{{
-            formatRupiah(totalPemasukanBulanIni)
-          }}</span>
+        <div class="flex items-center justify-start gap-6 mt-6">
+          <!-- Card -->
+          <div class="card">
+            <p class="text-white font-bold text-lg">
+              Total Pemasukan Bulan Ini :
+            </p>
+            <div class="card__content text-center">
+              <p class="card__description">
+                <span class="text-blue-700 text-center font-bold text-3xl">
+                  {{ formatRupiah(totalPemasukanBulanIni) }}
+                </span>
+              </p>
+            </div>
+          </div>
+
+          <!-- Motivational or informational message -->
+          <div class="ml-6 flex flex-col justify-center max-w-sm text-gray-800">
+            <h2 class="text-xl font-semibold mb-2">Tips Hemat Bulan Ini!</h2>
+            <p class="text-sm leading-relaxed">
+              Coba alokasikan minimal <strong>20%</strong> dari pemasukan kamu
+              untuk ditabung. Buat prioritas belanja, dan hindari pembelian
+              impulsif. 💰
+            </p>
+            <p class="mt-4 text-sm italic text-blue-600">#UangmuKendalikan</p>
+          </div>
         </div>
 
         <!-- Form Tambah -->
@@ -392,3 +436,69 @@ function goToPage(page) {
   currentPage.value = page;
 }
 </script>
+
+<style scoped>
+.card {
+  position: relative;
+  width: 300px;
+  height: 200px;
+  background: linear-gradient(-45deg, #38bdf8, #3b82f6, #6366f1);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.card svg {
+  width: 48px;
+  fill: #333;
+  transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.card:hover {
+  transform: rotate(-5deg) scale(1.1);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+.card__content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(-45deg);
+  width: 100%;
+  height: 100%;
+  padding: 20px;
+  text: center;
+  box-sizing: border-box;
+  background-color: #fff;
+  opacity: 0;
+  transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.card:hover .card__content {
+  transform: translate(-50%, -50%) rotate(0deg);
+  opacity: 1;
+}
+
+.card__title {
+  margin: 0;
+  font-size: 24px;
+  color: #333;
+  font-weight: 700;
+}
+
+.card__description {
+  margin: 10px 0 0;
+  font-size: 14px;
+  text: center;
+  color: #777;
+  line-height: 1.4;
+}
+
+.card:hover svg {
+  scale: 0;
+  transform: rotate(-45deg);
+}
+</style>
