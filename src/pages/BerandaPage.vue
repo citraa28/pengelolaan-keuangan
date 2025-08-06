@@ -2,8 +2,9 @@
   <LayoutPage>
     <div class="flex-1 p-6 md:p-8 overflow-auto">
       <!-- Welcome -->
-      <div class="text-center p-6 bg-white dark:bg-gray-800 rounded-lg shadow text-2xl font-semibold text-gray-700 dark:text-gray-100 border border-gray-200 dark:border-gray-700">
-
+      <div
+        class="text-center p-6 bg-white dark:bg-gray-800 rounded-lg shadow text-2xl font-semibold text-gray-700 dark:text-gray-100 border border-gray-200 dark:border-gray-700"
+      >
         SELAMAT DATANG DI PENGELOLAAN KEUANGAN ANDA!
       </div>
 
@@ -30,7 +31,9 @@
             </svg>
           </div>
           <div>
-            <p class="text-gray-500 dark:text-gray-300 text-sm">Total Pemasukan Bulan Ini</p>
+            <p class="text-gray-500 dark:text-gray-300 text-sm">
+              Total Pemasukan Bulan Ini
+            </p>
             <p class="text-2xl font-bold text-gray-800">
               {{ formatRupiah(totalPemasukanBulanIni) }}
             </p>
@@ -66,13 +69,10 @@
         </div>
       </div>
 
-      <div
-        class="relative mx-4 my-10 flex-1 min-w-[600px] bg-white"
-        style="height: 400px"
-      >
-        <!-- Chart -->
+      <div class="flex flex-wrap gap-6 my-10 px-4">
+        <!-- Bar Chart -->
         <div
-          class="relative mx-4 my-10 flex-1 p-5 bg-white"
+          class="flex-1 min-w-[300px] p-5 bg-white rounded-lg shadow"
           style="height: 400px"
         >
           <BarChart
@@ -81,11 +81,10 @@
             :chartOptions="dataChart.options"
           />
         </div>
-        <hr />
 
         <!-- Pie Chart -->
         <div
-          class="relative mx-4 my-10 p-5 flex-1 bg-white"
+          class="flex-1 min-w-[300px] p-5 bg-white rounded-lg shadow"
           style="height: 400px"
         >
           <PieChart
