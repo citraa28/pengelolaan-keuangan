@@ -3,6 +3,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import './style.css'
 import App from './App.vue'
 import LoginPage from './pages/LoginPage.vue'
+import AwalPage from './pages/AwalPage.vue'
 import DashboardPage from './pages/DashboardPage.vue'
 import BerandaPage from './pages/BerandaPage.vue'
 import PemasukanPage from './pages/PemasukanPage.vue'
@@ -17,6 +18,11 @@ const routes = [
     path: '/',
     name: 'Login',
     component: LoginPage
+  },
+  {
+    path: '/awal',
+    name: 'HalamanAwal',
+    component: AwalPage
   },
   {
     path: '/dashboard',
