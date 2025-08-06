@@ -183,6 +183,7 @@
                   {{ formatRupiah(totalPemasukanBulanIni) }}
                 </span>
               </p>
+              <div class="text-6xl text-center mt-5">💵</div>
             </div>
           </div>
 
