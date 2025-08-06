@@ -34,7 +34,7 @@
           <label class="block font-medium mb-1">Email</label>
           <input type="email" class="input" v-model="form.email" placeholder="email@example.com" />
         </div>
-        <button class="w-175 h-10 rounded-md bg-gradient-to-r from-sky-300 via-blue-400 to-indigo-700" @click="saveProfile">
+        <button class="w-175 h-10 rounded-md bg-gradient-to-r from-sky-300 via-blue-400 to-indigo-700 text-white font-bold" @click="saveProfile">
           <i class="fas fa-save mr-1"></i> Simpan Perubahan
         </button>
       </div>
@@ -66,7 +66,7 @@
           <label class="block font-medium mb-1">Batas Anggaran Bulanan</label>
           <input type="number" class="input" v-model.number="form.monthlyLimit" placeholder="Rp 2.000.000" />
         </div>
-        <button class="w-175 h-10 rounded-md bg-gradient-to-r from-green-300 via-green-400 to-green-700" @click="updatePreferences">
+        <button class="w-175 h-10 rounded-md bg-gradient-to-r from-green-300 via-green-400 to-green-700 text-white font-bold" @click="updatePreferences">
           <i class="fas fa-sync-alt mr-1"></i> Perbarui Preferensi
         </button>
       </div>
@@ -106,7 +106,7 @@
 
     <!-- Aksi Lanjut -->
     <div class="text-right mt-8">
-      <button class="btn-primary" @click="goToDashboard">
+      <button class="bg-gradient-to-r from-sky-300 via-blue-400 to-indigo-700 text-white font-bold  w-40 h-12 rounded-md " @click="goToDashboard">
         <i class="fas fa-arrow-right mr-1"></i> Ke Dashboard
       </button>
     </div>
