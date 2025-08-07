@@ -9,7 +9,7 @@
       <div class="w-64 h-full flex flex-col overflow-x-hidden">
         <!-- Sidebar Header -->
         <div
-          class="flex items-center justify-center h-16 bg-gradient-to-r from-sky-400 to-indigo-800  border-b border-gray-700"
+          class="flex items-center justify-center h-18 bg-gradient-to-r from-sky-400 to-indigo-800 border-b border-gray-700"
         >
           <h1 class="text-white text-lg font-bold">Manajemen Keuangan</h1>
         </div>
@@ -147,6 +147,29 @@
         <!-- Logout dan Settings -->
         <div class="p-2 border-t border-gray-700">
           <router-link
+            to="/awal"
+            :class="linkClass"
+            :active-class="activeLinkClass"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="2"
+              stroke="currentColor"
+              class="size-6"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M8.25 9V5.25A2.25 2.25 0 0 1 10.5 3h6a2.25 2.25 0 0 1 2.25 2.25v13.5A2.25 2.25 0 0 1 16.5 21h-6a2.25 2.25 0 0 1-2.25-2.25V15m-3 0-3-3m0 0 3-3m-3 3H15"
+              />
+            </svg>
+
+            <span class="font-medium">Kembali</span>
+          </router-link>
+
+          <router-link
             to="/settings"
             :class="linkClass"
             :active-class="activeLinkClass"
@@ -198,7 +221,9 @@
     <!-- Main Content Area -->
     <div class="flex-1 flex flex-col overflow-hidden">
       <!-- Header -->
-      <header class="bg-gradient-to-r from-sky-300 via-blue-700  to-blue-950 p-4 flex items-center shadow-md z-10">
+      <header
+        class="bg-gradient-to-r from-sky-300 via-blue-700 to-blue-950 p-4 flex items-center shadow-md z-10"
+      >
         <!-- Hamburger Button -->
         <button
           @click="sidebarOpen = !sidebarOpen"
@@ -221,7 +246,13 @@
         </button>
 
         <!-- Judul Aplikasi -->
-        <h2 class="text-white font-bold text-2xl">Aplikasi Keuangan</h2>
+        <h1
+          class="text-4xl font-bold text-center text-transparent bg-clip-text bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500 drop-shadow-md tracking-wide"
+        >
+          💸 <span class="font-cursive">MAY</span
+          ><span class="font-bold">TRA</span>
+          <span class="text-yellow-500">Finance</span> ✨
+        </h1>
 
         <!-- Tanggal -->
         <div class="ml-auto flex items-center text-white">
