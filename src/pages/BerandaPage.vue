@@ -96,7 +96,7 @@
       </div>
 
       <div
-        class="mt-10 text-center text-gray-600 dark:text-gray-300 text-lg italic"
+        class="mt-10 mb-15 text-center text-gray-900 dark:text-gray-300 text-lg"
       >
         Mengelola keuangan bukan hanya tentang mencatat pemasukan dan
         pengeluaran, tapi tentang membangun kebiasaan yang membawa kita lebih
@@ -104,6 +104,110 @@
         konsisten, kamu sudah selangkah lebih maju menuju masa depan yang lebih
         aman dan terencana. Terus lanjutkan, karena setiap rupiah yang kamu
         kelola hari ini akan menentukan kenyamanan hidupmu esok hari. 💰📈
+      </div>
+
+      <section class="bg-blue-200 rounded-lg py-16 px-4">
+        <div class="text-center mb-20">
+          <h2 class="text-3xl md:text-5xl font-bold text-blue-900">
+            Fitur gratis untuk semua<br />kebutuhan finansial
+          </h2>
+        </div>
+
+        <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
+          <!-- Card 1 -->
+          <div
+            class="bg-blue-700 text-white p-6 rounded-2xl shadow-md relative"
+          >
+            <div class="absolute -top-8 left-1/2 transform -translate-x-1/2">
+              <div class="bg-white p-3 rounded-xl shadow-md">
+                <img
+                  src="../assets/money.png"
+                  alt="Icon Tujuan"
+                  class="w-12 h-12 object-contain"
+                />
+              </div>
+            </div>
+            <div class="pt-12">
+              <h3 class="text-xl font-bold text-green-400 mb-2">
+                Tujuan Keuangan
+              </h3>
+              <p class="text-sm">
+                Ambil aksi untuk gapai mimpi.<br />
+                Wujudkan impian dengan jangka waktu nabung yang kamu tentukan.
+              </p>
+            </div>
+          </div>
+
+          <!-- Card 2 -->
+          <div
+            class="bg-blue-700 text-white p-6 rounded-2xl shadow-md relative"
+          >
+            <div class="absolute -top-8 left-1/2 transform -translate-x-1/2">
+              <div class="bg-white p-3 rounded-xl shadow-md">
+                <img
+                  src="../assets/note.png"
+                  alt="Icon Transaksi"
+                  class="w-12 h-12 object-contain"
+                />
+              </div>
+            </div>
+            <div class="pt-12">
+              <h3 class="text-xl font-bold text-green-400 mb-2">
+                Catat Transaksi
+              </h3>
+              <p class="text-sm">
+                Otomatis atau manual, catat tiap pengeluaran untuk hari-hari
+                anti boncos mendatang.
+              </p>
+            </div>
+          </div>
+
+          <!-- Card 3 -->
+          <div
+            class="bg-blue-700 text-white p-6 rounded-2xl shadow-md relative"
+          >
+            <div class="absolute -top-8 left-1/2 transform -translate-x-1/2">
+              <div class="bg-white p-3 rounded-xl shadow-md">
+                <img
+                  src="../assets/budget.png"
+                  alt="Icon Budget"
+                  class="w-12 h-12 object-contain"
+                />
+              </div>
+            </div>
+
+            <div class="pt-12">
+              <h3 class="text-xl font-bold text-green-400 mb-2">Budgeting</h3>
+              <p class="text-sm">
+                Semua ada budgetnya, kok!<br />
+                Atur anggaran keuangan kamu untuk segala kebutuhan bareng
+                Sribuu.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div
+        class="flex flex-col-reverse md:flex-row items-center justify-between px-6 md:px-20 py-12 bg-white gap-8"
+      >
+        <!-- Gambar di sebelah kiri -->
+        <img
+          src="../assets/keuangan.jpeg"
+          alt="Icon Budget"
+          class="w-full md:w-md h-auto object-contain"
+        />
+
+        <!-- Teks di sebelah kanan -->
+        <div class="w-full md:w-1/2 flex flex-col items-start text-left gap-4">
+          <h1 class="text-4xl md:text-5xl font-bold text-gray-700">
+            Cerdas berfinansial dengan rekomendasi pintar
+          </h1>
+          <p class="text-gray-500 text-lg">
+            Dapatkan insight dan rekomendasi bulanan yang bisa ngasih kamu
+            arahan biar lebih bijak dalam ngatur uang.
+          </p>
+        </div>
       </div>
     </div>
   </LayoutPage>
