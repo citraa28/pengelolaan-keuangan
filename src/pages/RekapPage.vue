@@ -1,102 +1,119 @@
 <template>
   <LayoutPage>
-    <!-- Konten Utama -->
-    <div class="flex-1 p-8 overflow-auto">
-      <h1 class="text-3xl font-bold text-center mb-10 text-gray-800">
-        Rekap Data Keuangan
-      </h1>
-      <!-- Form Horizontal (Tengah dan Horizontal) -->
-      <div class="p-6 mx-2.5 m-7 bg-white rounded-xl shadow-2xl">
-        <div class="flex justify-center w-full mb-6">
-          <div class="flex flex-wrap gap-6 space-x-15">
-            <!-- Jenis Keuangan -->
-            <div class="flex flex-col">
-              <label class="text-sm font-bold text-black mb-1"
-                >Jenis Keuangan</label
-              >
-              <select
-                v-model="form.jenis"
-                class="border rounded px-3 py-2 w-44 focus:outline-none focus:ring bg-amber-100 focus:ring-blue-200"
-              >
-                <option value="" disabled>Pilih Jenis</option>
-                <option value="pemasukan">Pemasukan</option>
-                <option value="pengeluaran">Pengeluaran</option>
-              </select>
-            </div>
-
-            <!-- Tanggal Awal -->
-            <div class="flex flex-col">
-              <label class="text-sm font-bold text-black mb-1"
-                >Tanggal Awal</label
-              >
-              <input
-                v-model="form.tanggalAwal"
-                type="date"
-                class="border rounded bg-amber-100 px-3 py-2 w-44"
-              />
-            </div>
-
-            <!-- Tanggal Akhir -->
-            <div class="flex flex-col">
-              <label class="text-sm font-bold text-black mb-1"
-                >Tanggal Akhir</label
-              >
-              <input
-                v-model="form.tanggalAkhir"
-                type="date"
-                class="border rounded bg-amber-100 px-3 py-2 w-44"
-              />
-            </div>
-
-            <button
-              @click="kirimData"
-              class="bg-gradient-to-r from-sky-300 via-blue-400 to-indigo-700 text-white h-10 w-50 my-6 rounded-lg hover:bg-blue-600"
-            >
-              + Simpan Data
-            </button>
-          </div>
+    <div class="flex-1 p-8 overflow-auto bg-gradient-to-br from-blue-50 to-indigo-50">
+      <!-- Header -->
+      <header class="bg-white p-6 mx-auto max-w-5xl text-center shadow-lg rounded-xl mb-8">
+        <div class="flex flex-col items-center gap-3">
+          <h1 class="text-4xl font-bold text-gray-800 flex items-center gap-4">
+            <img src="../assets/dolar.png" alt="Rekap data" class="w-16 h-16 object-contain" />
+            Rekap Data Keuangan
+          </h1>
+          <p class="text-gray-500 italic">Hemat Pangkal Kaya</p>
         </div>
+      </header>
 
-        <div class="w-full overflow-x-scroll">
-          <table class="min-w-full bg-white border rounded-2xl">
-            <thead class="bg-gray-300 text-gray-700">
+      <!-- Form Filter -->
+      <div class="p-6 mx-auto max-w-5xl bg-white rounded-xl shadow-md mb-8">
+        <div class="flex flex-wrap items-end gap-6 justify-center">
+          <!-- Jenis Keuangan -->
+          <div class="flex flex-col">
+            <label class="text-sm font-semibold mb-1">Jenis Keuangan</label>
+            <select
+              v-model="form.jenis"
+              class="border rounded-lg px-3 py-2 w-48 bg-amber-50 focus:outline-none focus:ring-2 focus:ring-blue-400"
+            >
+              <option value="" disabled>Pilih Jenis</option>
+              <option value="pemasukan">Pemasukan</option>
+              <option value="pengeluaran">Pengeluaran</option>
+            </select>
+          </div>
+
+          <!-- Tanggal Awal -->
+          <div class="flex flex-col">
+            <label class="text-sm font-semibold mb-1">Tanggal Awal</label>
+            <input
+              v-model="form.tanggalAwal"
+              type="date"
+              class="border rounded-lg bg-amber-50 px-3 py-2 w-48 focus:outline-none focus:ring-2 focus:ring-blue-400"
+            />
+          </div>
+
+          <!-- Tanggal Akhir -->
+          <div class="flex flex-col">
+            <label class="text-sm font-semibold mb-1">Tanggal Akhir</label>
+            <input
+              v-model="form.tanggalAkhir"
+              type="date"
+              class="border rounded-lg bg-amber-50 px-3 py-2 w-48 focus:outline-none focus:ring-2 focus:ring-blue-400"
+            />
+          </div>
+
+          <!-- Tombol -->
+          <button
+            @click="kirimData"
+            class="px-6 py-2 rounded-lg text-white font-semibold shadow-md bg-gradient-to-r from-sky-400 to-indigo-600 hover:from-sky-500 hover:to-indigo-700 transition"
+          >
+            + Simpan Data
+          </button>
+        </div>
+      </div>
+
+      <!-- Tabel -->
+      <div class="mx-auto max-w-5xl bg-white rounded-xl shadow-md overflow-hidden">
+        <div class="overflow-x-auto">
+          <table class="min-w-full">
+            <thead class="bg-gradient-to-r from-blue-500 to-indigo-500 text-white">
               <tr>
-                <th class="px-4 py-2 border">No</th>
-                <th class="px-4 py-2 border">Jenis Keuangan</th>
-                <th class="px-4 py-2 border">Keterangan</th>
-                <th class="px-4 py-2 border">Tanggal</th>
-                <th class="px-4 py-2 border">Jumlah</th>
+                <th class="px-4 py-3 text-left">No</th>
+                <th class="px-4 py-3 text-left">Jenis Keuangan</th>
+                <th class="px-4 py-3 text-left">Keterangan</th>
+                <th class="px-4 py-3 text-left">Tanggal</th>
+                <th class="px-4 py-3 text-left">Jumlah</th>
               </tr>
             </thead>
             <tbody>
               <tr
                 v-for="(item, index) in dataFilter"
                 :key="index"
-                class="text-center"
+                class="odd:bg-white even:bg-gray-50 hover:bg-blue-50 transition"
               >
-                <td class="px-4 py-2 border">{{ index + 1 }}</td>
-                <td class="px-4 py-2 border">{{ item.jenis }}</td>
-                <td class="px-4 py-2 border">{{ item.keterangan }}</td>
-                <td class="px-4 py-2 border">{{ item.tanggal }}</td>
-                <td class="px-4 py-2 border">
+                <td class="px-4 py-2">{{ index + 1 }}</td>
+                <td class="px-4 py-2">
+                  <span
+                    :class="item.jenis === 'pemasukan'
+                      ? 'bg-green-100 text-green-700'
+                      : 'bg-red-100 text-red-700'"
+                    class="px-2 py-1 rounded-full text-md font-semibold"
+                  >
+                    {{ item.jenis }}
+                  </span>
+                </td>
+                <td class="px-4 py-2">{{ item.keterangan }}</td>
+                <td class="px-4 py-2">{{ item.tanggal }}</td>
+                <td class="px-4 py-2 font-semibold">
                   Rp {{ formatRupiah(item.jumlah) }}
                 </td>
               </tr>
             </tbody>
           </table>
         </div>
-        <footer class="bg-amber-50">
-          <div class="mt-7 mx-auto max-w-screen-xl px-4 py-8 sm:px-6 lg:px-8">
-            <div class="sm:flex sm:items-center sm:justify-between">
-              <p
-                class="mt-4 text-center text-sm text-gray-500 lg:mt-0 lg:text-right"
-              >
-                Copyright &copy; 2025 CitraMaya. All rights reserved.
-              </p>
-            </div>
-          </div>
-        </footer>
       </div>
+
+      <!-- Faktanya -->
+      <div class="mx-auto max-w-5xl mt-10 bg-yellow-50 border-l-4 border-yellow-500 p-6 rounded-lg shadow-md">
+        <h2 class="text-4xl font-bold text-yellow-800 mb-3">Faktanya!</h2>
+        <p class="text-gray-700 leading-relaxed">
+          Tahukah kamu usaha yang tidak memiliki pencatatan keuangan akan
+          mengalami kerugian lebih besar? Di tengah pesatnya perkembangan UMKM di Indonesia,
+          masih banyak usaha yang belum memahami pentingnya memiliki pembukuan
+          yang baik untuk pengembangan usaha mereka.
+        </p>
+      </div>
+
+      <!-- Footer -->
+      <footer class="mt-10 py-6 text-center text-sm text-gray-500">
+        &copy; 2025 CitraMaya. All rights reserved.
+      </footer>
     </div>
   </LayoutPage>
 </template>
@@ -105,7 +122,6 @@
 import LayoutPage from "../layout/LayoutPage.vue";
 import { ref } from "vue";
 
-// Form kosong
 const form = ref({
   jenis: "",
   tanggalAwal: "",
@@ -114,19 +130,15 @@ const form = ref({
   jumlah: "",
 });
 
-// Array penyimpanan data
 const dataFilter = ref([]);
 
-// Fungsi format rupiah
 function formatRupiah(angka) {
   return Number(angka).toLocaleString("id-ID");
 }
 
-// Fungsi tambah data
 function kirimData() {
   let pemasukan = JSON.parse(localStorage.getItem("dataPemasukan")) || [];
   let pengeluaran = JSON.parse(localStorage.getItem("dataPengeluaran")) || [];
-
   let semuaData = [...pemasukan, ...pengeluaran];
 
   let hasil = semuaData.filter((item) => {
