@@ -2,26 +2,30 @@
   <div>
     <!-- Header -->
     <header
-      class="bg-gradient-to-r from-blue-200 via-blue-500 to-purple-600 text-white font-bold px-8 py-3 transition duration-300 ease-in-out hover:from-blue-600 hover:to-cyan-500 p-6 md:p-10 mb-6 text-center shadow flex justify-between items-center"
+      class="bg-gradient-to-r from-blue-200 via-blue-500 to-purple-600 text-white px-6 py-4 md:px-10 md:py-6 shadow transition duration-300 ease-in-out hover:from-blue-600 hover:to-cyan-500"
     >
-      <div class="flex flex-col items-center justify-center w-full">
+      <div
+        class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4"
+      >
+        <!-- Judul -->
         <h1
-          class="text-4xl font-bold font-inter text-white flex items-center gap-2"
+          class="text-2xl md:text-4xl font-bold font-inter flex items-center gap-2 text-center sm:text-left"
         >
           Pengelolaan Keuangan 💰
         </h1>
-      </div>
-      <!-- Profil di pojok kanan atas -->
-      <div class="absolute top-9 right-7">
-        <div class="flex items-center gap-3">
+
+        <!-- Profil -->
+        <div class="flex items-center gap-3 bg-white/20 px-3 py-1 rounded-full">
           <img
             src="https://www.gravatar.com/avatar/?d=mp"
             alt="User Avatar"
             class="w-10 h-10 rounded-full border-2 border-gray-300"
           />
-          <span class="text-sm font-medium text-white"
-            >maytra2803@email.com</span
+          <span
+            class="text-sm md:text-base font-medium truncate max-w-[120px] sm:max-w-none"
           >
+            maytra2803@email.com
+          </span>
         </div>
       </div>
     </header>
