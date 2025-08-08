@@ -1,7 +1,7 @@
 <template>
   <LayoutPage>
     <!-- Konten Utama -->
-    <header class="bg-white p-8 mx-3 text-center shadow rounded-md mb-6">
+    <header class="bg-white p-4 mx-3 text-center shadow rounded-xl mb-6">
       <div class="flex flex-col items-center justify-center">
         <h1
           class="text-3xl font-bold font-inter pb-1/ \ text-gray-800 flex items-center gap-2"
