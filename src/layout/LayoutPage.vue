@@ -222,41 +222,48 @@
     <div class="flex-1 flex flex-col overflow-hidden">
       <!-- Header -->
       <header
-        class="bg-gradient-to-r from-sky-300 via-blue-700 to-blue-950 p-4 flex items-center shadow-md z-10"
+        class="bg-gradient-to-r from-sky-300 via-blue-700 to-blue-950 p-4 flex flex-wrap items-center justify-between shadow-md z-10"
       >
-        <!-- Hamburger Button -->
-        <button
-          @click="sidebarOpen = !sidebarOpen"
-          class="text-white focus:outline-none mr-4"
-        >
-          <svg
-            class="w-6 h-6"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-            xmlns="http://www.w3.org/2000/svg"
+        <!-- Kiri: Hamburger + Logo -->
+        <div class="flex items-center flex-shrink-0">
+          <!-- Hamburger -->
+          <button
+            @click="sidebarOpen = !sidebarOpen"
+            class="text-white focus:outline-none mr-3"
           >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M4 6h16M4 12h16M4 18h16"
-            />
-          </svg>
-        </button>
+            <svg
+              class="w-6 h-6"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M4 6h16M4 12h16M4 18h16"
+              />
+            </svg>
+          </button>
 
-        <!-- Judul Aplikasi -->
-        <h1
-          class="text-4xl font-bold text-center text-transparent bg-clip-text bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500 drop-shadow-md tracking-wide"
-        >
-          💸 <span class="font-cursive">MAY</span
-          ><span class="font-bold">TRA</span>
-          <span class="text-yellow-500">Finance</span> ✨
-        </h1>
+          <!-- Logo -->
+          <img
+            src="../assets/note2.png"
+            alt="note"
+            class="w-20 h-18 object-contain"
+          />
+          <h1
+            class="text-3xl font-bold text-center text-transparent bg-clip-text bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500 drop-shadow-md tracking-wide"
+          >
+            <span class="font-cursive">MAY</span
+            ><span class="font-bold">TRA</span>
+            <span class="text-yellow-500">Finance</span> ✨
+          </h1>
+        </div>
 
-        <!-- Tanggal -->
-        <div class="ml-auto flex items-center text-white">
-          <p class="text-sm">📆 {{ tanggalHariIni }}</p>
+        <!-- Kanan: Tanggal -->
+        <div class="flex items-center text-white text-sm mt-2 sm:mt-0">
+          📆 {{ tanggalHariIni }}
         </div>
       </header>
 
