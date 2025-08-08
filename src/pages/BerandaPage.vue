@@ -61,7 +61,9 @@
             </svg>
           </div>
           <div>
-            <p class="text-gray-500 text-sm">Total Pengeluaran Bulan Ini</p>
+            <p class="text-gray-500 dark:text-gray-300 text-sm">
+              Total Pengeluaran Bulan Ini
+            </p>
             <p class="text-2xl font-bold text-gray-800">
               {{ formatRupiah(totalPengeluaranBulanIni) }}
             </p>
@@ -72,7 +74,7 @@
       <div class="flex flex-wrap gap-6 my-10">
         <!-- Bar Chart -->
         <div
-          class="flex-1 min-w-[300px] p-5 bg-white rounded-lg shadow"
+          class="flex-1 min-w-[50px] bg-white rounded-lg shadow"
           style="height: 400px"
         >
           <BarChart
@@ -96,7 +98,7 @@
       </div>
 
       <div
-        class="mt-10 mb-15 text-center text-gray-900 dark:text-gray-300 text-lg"
+        class="mt-10 mb-15 text-center text-gray-800 dark:text-black text-lg"
       >
         Mengelola keuangan bukan hanya tentang mencatat pemasukan dan
         pengeluaran, tapi tentang membangun kebiasaan yang membawa kita lebih
@@ -189,7 +191,7 @@
       </section>
 
       <div
-        class="flex flex-col-reverse md:flex-row items-center justify-between px-6 md:px-20 py-12 bg-white gap-8"
+        class="flex flex-col-reverse md:flex-row items-center justify-between mt-10 px-6 md:px-20 py-12 bg-white gap-8"
       >
         <!-- Gambar di sebelah kiri -->
         <img
