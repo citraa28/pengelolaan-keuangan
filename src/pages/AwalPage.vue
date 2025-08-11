@@ -42,7 +42,7 @@
         <p class="text-gray-500 text-lg">
           Dengan sistem yang mudah di gunakan dan dipahami
         </p>
-        <div class="flex justify-start mt-10 mb-15">
+        <div class="flex justify-start mt-10 mb-0">
           <router-link to="/beranda" class="button">
             Get Started
             <svg fill="currentColor" viewBox="0 0 24 24" class="icon">
@@ -65,6 +65,26 @@
         />
       </div>
     </section>
+
+    <div class="flex flex-col md:flex-row items-center justify-center mt-1 px-6 md:px-20 py-12 gap-6">
+      <img
+        src="../assets/beranda.png"
+        alt="Halaman Beranda"
+        class="w-120 h-80 object-contain"
+      />
+      <div class="w-full md:w-1/2 flex flex-col items-start text-left gap-4">
+        <h1 class="text-3xl md:text-4xl font-bold text-gray-700 justify-start">
+          Website Keuangan Gratis All In One
+        </h1>
+        <p class="text-gray-500 text-sm md:text-lg">
+          Atur keuangan Anda dengan lebih mudah, cepat, dan terencana melalui
+          website ini. Catat setiap pemasukan dan pengeluaran, pantau laporan
+          secara real-time, dan nikmati visualisasi data yang memudahkan Anda
+          memahami kondisi finansial. Wujudkan perencanaan keuangan yang cerdas
+          untuk masa depan yang lebih stabil dan terarah.
+        </p>
+      </div>
+    </div>
 
     <!-- Cards Section -->
     <div
@@ -185,6 +205,32 @@
         </div>
       </div>
     </div>
+    <footer class="bg-gray-100 border-t mt-10">
+      <div
+        class="max-w-screen-xl mx-auto px-4 py-6 flex flex-col md:flex-row items-center justify-center gap-4"
+      >
+        <!-- Logo + Nama -->
+        <div class="flex items-center gap-3">
+          <img
+            src="../assets/note2.png"
+            alt="note"
+            class="w-14 h-14 object-contain"
+          />
+          <h1
+            class="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500 drop-shadow-md tracking-wide"
+          >
+            <span class="font-cursive">MAY</span
+            ><span class="font-bold">TRA</span>
+            <span class="text-yellow-500">Finance</span> ✨
+          </h1>
+        </div>
+
+        <!-- Hak Cipta -->
+        <p class="text-sm text-gray-600 text-center">
+          © 2025 MAYTRA Finance. All rights reserved.
+        </p>
+      </div>
+    </footer>
   </div>
 </template>
 
