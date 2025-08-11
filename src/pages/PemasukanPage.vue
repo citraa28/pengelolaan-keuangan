@@ -17,7 +17,7 @@
       </div>
     </header>
 
-    <div class="p-5 m-2.5 bg-white rounded-lg shadow-md">
+    <div class="p-1 rounded-lg shadow-md">
       <div class="mb-4 flex justify-start">
         <button
           @click="tambahData"
@@ -27,7 +27,7 @@
         </button>
       </div>
 
-      <div class="p-5 m-2.5 bg-white rounded-lg shadow-md">
+      <div class="p-3 bg-white rounded-lg shadow-md">
         <!-- Show entries control -->
         <div class="mb-4 flex flex-wrap items-center justify-between gap-4">
           <div class="flex items-center space-x-2">
@@ -160,67 +160,70 @@
             </button>
           </li>
         </ul>
-
-        <!-- Total Pemasukan Bulan Ini -->
-        <div class="flex items-center justify-start gap-6 mt-6">
-          <!-- Card -->
-          <div class="card">
-            <p class="text-white font-bold text-lg">
-              Total Pemasukan Bulan Ini :
+      </div>
+      <!-- Total Pemasukan Bulan Ini -->
+      <div
+        class="flex flex-col md:flex-row items-center md:items-start justify-center mt-10 px-2 md:px-5 py-8 gap-6 md:gap-30"
+      >
+        <!-- Card -->
+        <div class="card w-full md:w-[350px]">
+          <p class="text-white font-bold text-xl text-center">
+            Total Pemasukan Bulan Ini :
+          </p>
+          <div class="card__content text-center">
+            <p class="card__description">
+              <span class="text-blue-700 font-bold text-3xl">
+                {{ formatRupiah(totalPemasukanBulanIni) }}
+              </span>
             </p>
-            <div class="card__content text-center">
-              <p class="card__description">
-                <span class="text-blue-700 text-center font-bold text-3xl">
-                  {{ formatRupiah(totalPemasukanBulanIni) }}
-                </span>
-              </p>
-              <div class="text-6xl text-center mt-5">💵</div>
-            </div>
-          </div>
-
-          <!-- Motivational or informational message -->
-          <div class="ml-6 flex flex-col justify-center max-w-sm text-gray-800">
-            <h2 class="text-xl font-semibold mb-2">Tips Hemat Bulan Ini!</h2>
-            <p class="text-sm leading-relaxed">
-              Coba alokasikan minimal <strong>20%</strong> dari pemasukan kamu
-              untuk ditabung. Buat prioritas belanja, dan hindari pembelian
-              impulsif. 💰
-            </p>
-            <p class="mt-4 text-sm italic text-blue-600">#UangmuKendalikan</p>
+            <div class="text-6xl mt-5">💵</div>
           </div>
         </div>
 
-        <!-- Form Tambah -->
-        <TambahData
-          v-if="showForm"
-          @close="showForm = false"
-          @simpan="tambahKeData"
-        />
-        <!-- Form Edit -->
-        <EditData
-          v-if="showEdit"
-          :model-value="dataSedangDiedit"
-          @update="perbaruiData"
-          @close="showEdit = false"
-        />
-        <!-- Dialog Konfirmasi Hapus -->
-        <DeleteData
-          v-if="showDeleteConfirmation"
-          @confirm="confirmDelete"
-          @close="closeDeleteConfirmation"
-        />
-        <footer class="bg-gray-50">
-          <div class="mt-7 mx-auto max-w-screen-xl px-4 py-8 sm:px-6 lg:px-8">
-            <div class="sm:flex sm:items-center sm:justify-between">
-              <p
-                class="mt-4 text-center text-sm text-gray-500 lg:mt-0 lg:text-right"
-              >
-                Copyright &copy; 2025 CitraMaya. All rights reserved.
-              </p>
-            </div>
-          </div>
-        </footer>
+        <!-- Motivational or informational message -->
+        <div
+          class="flex flex-col justify-center max-w-sm text-gray-800 text-center md:text-left"
+        >
+          <h2 class="text-4xl font-semibold mb-2">Tips Hemat Bulan Ini!</h2>
+          <p class="text-lg leading-relaxed">
+            Coba alokasikan minimal <strong>20%</strong> dari pemasukan kamu
+            untuk ditabung. Buat prioritas belanja, dan hindari pembelian
+            impulsif. 💰
+          </p>
+          <p class="mt-4 text-lg italic text-blue-600">#UangmuKendalikan</p>
+        </div>
       </div>
+
+      <!-- Form Tambah -->
+      <TambahData
+        v-if="showForm"
+        @close="showForm = false"
+        @simpan="tambahKeData"
+      />
+      <!-- Form Edit -->
+      <EditData
+        v-if="showEdit"
+        :model-value="dataSedangDiedit"
+        @update="perbaruiData"
+        @close="showEdit = false"
+      />
+      <!-- Dialog Konfirmasi Hapus -->
+      <DeleteData
+        v-if="showDeleteConfirmation"
+        @confirm="confirmDelete"
+        @close="closeDeleteConfirmation"
+      />
+      <footer>
+        <div class="mt-7 mx-auto max-w-screen-xl px-4 py-8 sm:px-6 lg:px-8">
+          <div class="sm:flex sm:items-center sm:justify-between">
+            <p
+              class="mt-4 text-center text-sm text-gray-500 lg:mt-0 lg:text-right"
+            >
+              Copyright &copy; 2025 CitraMaya. All rights reserved.
+            </p>
+          </div>
+        </div>
+      </footer>
     </div>
   </LayoutPage>
 </template>
@@ -432,8 +435,8 @@ function goToPage(page) {
 <style scoped>
 .card {
   position: relative;
-  width: 300px;
-  height: 200px;
+  width: 310px;
+  height: 190px;
   background: linear-gradient(-45deg, #38bdf8, #3b82f6, #6366f1);
   border-radius: 10px;
   display: flex;
