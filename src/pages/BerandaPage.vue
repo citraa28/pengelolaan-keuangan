@@ -71,10 +71,10 @@
         </div>
       </div>
 
-      <div class="flex flex-wrap gap-6 my-10">
+      <div class="flex flex-wrap gap-5 my-10">
         <!-- Bar Chart -->
         <div
-          class="flex-1 min-w-[50px] bg-white rounded-lg shadow"
+          class="flex-1 min-w-[0px] bg-white rounded-lg shadow"
           style="height: 400px"
         >
           <BarChart
@@ -86,7 +86,7 @@
 
         <!-- Pie Chart -->
         <div
-          class="flex-1 min-w-[300px] p-5 bg-white rounded-lg shadow"
+          class="flex-1 min-w-[300px] p-3 bg-white rounded-lg shadow"
           style="height: 400px"
         >
           <PieChart
@@ -191,7 +191,7 @@
       </section>
 
       <div
-        class="flex flex-col-reverse md:flex-row items-center justify-between mt-10 px-6 md:px-20 py-12 bg-white gap-8"
+        class="flex flex-col-reverse md:flex-row items-center justify-between mt-10 px-6 md:px-20 py-12 gap-15"
       >
         <!-- Gambar di sebelah kiri -->
         <img
@@ -210,6 +210,14 @@
             arahan biar lebih bijak dalam ngatur uang.
           </p>
         </div>
+      </div>
+
+      <div class="justify-center mt-10">
+        <h1 class="text-3xl text-center md:text-4xl font-bold text-gray-700">
+          Ringkas dan Rapi dengan<br />
+          Website Keuangan MAYTRA Finance
+        </h1>
+        
       </div>
     </div>
   </LayoutPage>
