@@ -42,9 +42,9 @@
         <p class="text-gray-500 text-lg">
           Dengan sistem yang mudah di gunakan dan dipahami
         </p>
-        <div class="flex justify-start mt-10 mb-0">
+        <div class="flex justify-center md:justify-start mt-10 mb-0">
           <router-link to="/beranda" class="button">
-            Get Started
+            <span class="max-sm:text-2xl">Get Started</span>
             <svg fill="currentColor" viewBox="0 0 24 24" class="icon">
               <path
                 clip-rule="evenodd"
@@ -66,17 +66,43 @@
       </div>
     </section>
 
-    <div class="flex flex-col md:flex-row items-center justify-center mt-1 px-6 md:px-20 py-12 gap-6">
+    <div
+      class="flex flex-col md:flex-row items-center md:items-start justify-center gap-6 bg-gradient-to-r from-[#0a1a2f] via-[#1b3b5f] to-[#3a4f8f] py-14 px-6 md:px-20"
+    >
+      <!-- Gambar -->
+      <img
+        src="../assets/uang2.png"
+        alt="Banyak Uang"
+        class="w-40 md:w-56 h-auto object-contain"
+      />
+
+      <!-- Teks -->
+      <div class="flex flex-col text-center md:text-left max-w-lg">
+        <h1 class="text-white text-3xl md:text-4xl font-bold font-serif mb-2">
+          Uang rapi, hidup happy
+        </h1>
+        <p class="text-white text-base md:text-lg leading-relaxed">
+          Kelola semua pemasukan dan pengeluaranmu secara otomatis, cepat, dan
+          aman, langsung dari satu platform yang mudah digunakan.
+        </p>
+      </div>
+    </div>
+
+    <!-- Section 1 -->
+    <div
+      class="flex flex-col md:flex-row items-center justify-center px-6 md:px-20 gap-8 py-12"
+    >
       <img
         src="../assets/beranda.png"
         alt="Halaman Beranda"
-        class="w-120 h-80 object-contain"
+        class="w-full md:w-[480px] h-auto object-contain rounded-sm"
+        style="box-shadow: 0 10px 20px rgba(0, 0, 255, 0.6)"
       />
       <div class="w-full md:w-1/2 flex flex-col items-start text-left gap-4">
-        <h1 class="text-3xl md:text-4xl font-bold text-gray-700 justify-start">
+        <h1 class="text-3xl md:text-4xl font-bold text-gray-700">
           Website Keuangan Gratis All In One
         </h1>
-        <p class="text-gray-500 text-sm md:text-lg">
+        <p class="text-gray-500 text-base md:text-lg leading-relaxed">
           Atur keuangan Anda dengan lebih mudah, cepat, dan terencana melalui
           website ini. Catat setiap pemasukan dan pengeluaran, pantau laporan
           secara real-time, dan nikmati visualisasi data yang memudahkan Anda
@@ -86,9 +112,34 @@
       </div>
     </div>
 
+    <!-- Section 2 -->
+    <div
+      class="flex flex-col md:flex-row-reverse items-center justify-center px-6 md:px-20 gap-8 py-12"
+    >
+      <img
+        src="../assets/rekap.jpeg"
+        alt="Rekap Keuangan"
+        class="w-full md:w-[370px] h-auto object-contain"
+        style="box-shadow: 0 10px 20px rgba(0, 0, 255, 0.6)"
+      />
+      <div class="w-full md:w-1/2 flex flex-col items-start text-left gap-4">
+        <h1 class="text-3xl md:text-4xl font-bold text-gray-700">
+          Salah Satu Fitur Website
+        </h1>
+        <p class="text-gray-500 text-base md:text-lg leading-relaxed">
+          Catat setiap pemasukan dan pengeluaranmu di
+          <span class="font-semibold text-blue-600">MAYTRA Finance</span>
+          biar uang nggak hilang tanpa jejak! Dengan tampilan yang rapi, imut,
+          dan mudah dipahami, kamu bisa tahu kemana uangmu pergi dan mulai
+          merencanakan masa depan yang lebih aman. Yuk, mulai hemat dari
+          sekarang karena setiap rupiah itu berharga!
+        </p>
+      </div>
+    </div>
+
     <!-- Cards Section -->
     <div
-      class="grid grid-cols-1 sm:grid-cols-2 gap-6 max-w-4xl mx-auto px-4 pb-10"
+      class="grid grid-cols-1 sm:grid-cols-2 gap-23 max-w-4xl mx-auto px-4 pb-10"
     >
       <!-- Card 1 -->
       <div
