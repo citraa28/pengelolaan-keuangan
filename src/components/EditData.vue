@@ -1,5 +1,7 @@
 <template>
-  <div class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-30">
+  <div
+    class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-30"
+  >
     <div class="bg-white w-full max-w-md rounded shadow-lg p-6">
       <h2 class="text-xl font-bold mb-4">Edit Data Keuangan</h2>
 
@@ -13,7 +15,20 @@
       </div>
 
       <div class="mb-4">
-        <label class="block text-gray-700 font-semibold mb-1">Jenis Keuangan</label>
+        <label class="block text-gray-700 font-semibold mb-1"
+          >Kategori Keperluan</label
+        >
+        <input
+          v-model="form.kategori"
+          type="text"
+          class="w-full border px-3 py-2 rounded"
+        />
+      </div>
+
+      <div class="mb-4">
+        <label class="block text-gray-700 font-semibold mb-1"
+          >Jenis Keuangan</label
+        >
         <div class="flex gap-4">
           <label class="flex items-center">
             <input
@@ -37,7 +52,9 @@
       </div>
 
       <div class="mb-4">
-        <label class="block text-gray-700 font-semibold mb-1">Jumlah (Rp)</label>
+        <label class="block text-gray-700 font-semibold mb-1"
+          >Jumlah (Rp)</label
+        >
         <input
           v-model="form.jumlah"
           type="number"
@@ -55,7 +72,10 @@
       </div>
 
       <div class="flex justify-end gap-2">
-        <button @click="$emit('close')" class="px-4 py-2 border rounded text-gray-700">
+        <button
+          @click="$emit('close')"
+          class="px-4 py-2 border rounded text-gray-700"
+        >
           Cancel
         </button>
         <button
@@ -70,23 +90,24 @@
 </template>
 
 <script setup>
-import { reactive, toRefs, watch } from 'vue';
+import { reactive, toRefs, watch } from "vue";
 
 const props = defineProps({
   modelValue: {
     type: Object,
     required: true,
-  }, 
+  },
 });
 
-const emit = defineEmits(['update', 'close']);
+const emit = defineEmits(["update", "close"]);
 
 const form = reactive({
-  id: null, 
-  keterangan: '',
-  jenis: '',
-  jumlah: '',
-  tanggal: '',
+  id: null,
+  keterangan: "",
+  kategori: "",
+  jenis: "",
+  jumlah: "",
+  tanggal: "",
   index: null,
 });
 
@@ -97,6 +118,7 @@ watch(
     if (val) {
       form.id = val.id;
       form.keterangan = val.keterangan;
+      form.kategori = val.kategori;
       form.jenis = val.jenis;
       form.jumlah = val.jumlah;
       form.tanggal = val.tanggal;
@@ -107,7 +129,7 @@ watch(
 );
 
 function simpanPerubahan() {
-  emit('update', { ...form });
-  emit('close');
+  emit("update", { ...form });
+  emit("close");
 }
 </script>
