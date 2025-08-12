@@ -212,12 +212,80 @@
         </div>
       </div>
 
-      <div class="justify-center mt-10">
-        <h1 class="text-3xl text-center md:text-4xl font-bold text-gray-700">
+      <div class="md:justify-center mt-10">
+        <!-- Judul -->
+        <h1
+          class="text-3xl text-center md:text-4xl font-serif font-bold text-gray-700 mb-10"
+        >
           Ringkas dan Rapi dengan<br />
           Website Keuangan MAYTRA Finance
         </h1>
-        
+
+        <!-- Grid 2x2 -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <!-- Item 1 -->
+          <div class="flex flex-col items-center text-center">
+            <img
+              src="../assets/ready.png"
+              alt="Ready"
+              class="w-14 md:w-23 h-auto object-contain mb-4"
+            />
+            <h2 class="text-xl md:text-2xl font-bold text-gray-700">
+              Siap Pakai
+            </h2>
+            <p class="text-base md:text-lg text-gray-700">
+              Tanpa perlu buat program dari awal, tinggal daftar dan langsung
+              gunakan
+            </p>
+          </div>
+
+          <!-- Item 2 -->
+          <div class="flex flex-col items-center text-center">
+            <img
+              src="../assets/free.png"
+              alt="Ready"
+              class="w-14 md:w-25 h-auto object-contain mb-4"
+            />
+            <h2 class="text-xl md:text-2xl font-bold text-gray-700">
+              Gratis dan Praktis
+            </h2>
+            <p class="text-base md:text-lg text-gray-700">
+              Bebas biaya, pencatatan otomatis terintegrasi dengan setiap
+              invoice pembelian dan penjualan di Website MAYTRA Finance
+            </p>
+          </div>
+
+          <!-- Item 3 -->
+          <div class="flex flex-col items-center text-center">
+            <img
+              src="../assets/pemula.png"
+              alt="Ready"
+              class="w-14 md:w-25 h-auto object-contain mb-4"
+            />
+            <h2 class="text-xl md:text-2xl font-bold text-gray-700">
+              Cocok Digunakan untuk Pemula
+            </h2>
+            <p class="text-base md:text-lg text-gray-700">
+              Website yang simple, tapi sangat bermanfaat dan mudah digunakan
+              untuk pemula
+            </p>
+          </div>
+
+          <!-- Item 4 -->
+          <div class="flex flex-col items-center text-center">
+            <img
+              src="../assets/safety.png"
+              alt="Ready"
+              class="w-14 md:w-25 h-auto object-contain mb-4"
+            />
+            <h2 class="text-xl md:text-2xl font-bold text-gray-700">
+              Jaminan Keamanan Data
+            </h2>
+            <p class="text-base md:text-lg text-gray-700">
+              Data Anda terjaga dengan standar keamanan informasi
+            </p>
+          </div>
+        </div>
       </div>
     </div>
   </LayoutPage>
