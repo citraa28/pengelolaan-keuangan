@@ -73,7 +73,10 @@
                 <td class="px-4 py-2 border">
                   {{ (currentPage - 1) * entriesToShow + index + 1 }}
                 </td>
-                <td class="px-4 py-2 border">{{ item.keterangan }}</td>
+                <td class="px-4 py-2 border">
+                  {{ item.keterangan }} <br />
+                  Kategori {{ item.kategori }}
+                </td>
                 <td class="px-4 py-2 border">{{ item.tanggal }}</td>
                 <td class="px-4 py-2 border">
                   {{ formatRupiah(item.jumlah) }}
@@ -213,17 +216,6 @@
         @confirm="confirmDelete"
         @close="closeDeleteConfirmation"
       />
-      <footer>
-        <div class="mt-7 mx-auto max-w-screen-xl px-4 py-8 sm:px-6 lg:px-8">
-          <div class="sm:flex sm:items-center sm:justify-between">
-            <p
-              class="mt-4 text-center text-sm text-gray-500 lg:mt-0 lg:text-right"
-            >
-              Copyright &copy; 2025 CitraMaya. All rights reserved.
-            </p>
-          </div>
-        </div>
-      </footer>
     </div>
   </LayoutPage>
 </template>
