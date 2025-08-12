@@ -20,6 +20,18 @@
         />
       </div>
 
+      <!-- Input Kategori -->
+      <div class="mb-3">
+        <label class="block mb-1 text-sm font-medium text-gray-700"
+          >Kategori Keperluan</label
+        >
+        <input
+          v-model="form.kategori"
+          type="text"
+          class="w-full border rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200"
+        />
+      </div>
+
       <!-- Pilih Jenis -->
       <div class="mb-3">
         <label class="block mb-1 text-sm font-medium text-gray-700"
@@ -85,6 +97,7 @@ import { ref } from "vue";
 
 const form = ref({
   keterangan: "",
+  kategori: "",
   jenis: "pemasukan",
   jumlah: "",
   tanggal: "",
@@ -93,7 +106,12 @@ const form = ref({
 const emit = defineEmits(["close", "simpan"]);
 
 function kirimData() {
-  if (!form.value.keterangan || !form.value.jumlah || !form.value.tanggal) {
+  if (
+    !form.value.keterangan ||
+    !form.value.kategori ||
+    !form.value.jumlah ||
+    !form.value.tanggal
+  ) {
     alert("Lengkapi semua field!");
     return;
   }
