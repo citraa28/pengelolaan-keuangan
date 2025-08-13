@@ -1,16 +1,18 @@
 <template>
   <LayoutPage>
     <!-- Konten Utama -->
-    <header class="bg-white p-3 mb-6 mx-3 text-center shadow rounded-xl">
+    <header
+      class="bg-white border border-blue-400 font-fredoka animate-bounce p-3 mb-6 mx-3 text-center shadow-lg rounded-xl"
+    >
       <div class="flex flex-col items-center justify-center">
+        <img
+          src="../assets/pengeluaran.png"
+          alt="Icon pengeluaran"
+          class="w-21 h-21 object-contain"
+        />
         <h1
           class="text-3xl font-bold font-inter pb-2 text-gray-800 flex items-center gap-2"
         >
-          <img
-            src="../assets/pengeluaran.png"
-            alt="Icon pengeluaran"
-            class="w-20 h-20 object-contain"
-          />
           Pengeluaran Uang
         </h1>
         <p><i>Awali hari dengan mencatat pengeluaran secara rapi</i></p>
@@ -60,7 +62,7 @@
                 <th class="px-4 py-2 border">No</th>
                 <th class="px-4 py-2 border">Keterangan</th>
                 <th class="px-4 py-2 border">Tanggal</th>
-                <th class="px-4 py-2 border">Jumlah</th>
+                <th class="px-4 py-2 border">Harga</th>
                 <th class="px-4 py-2 border">Aksi</th>
               </tr>
             </thead>
@@ -73,10 +75,17 @@
                 <td class="px-4 py-2 border">
                   {{ (currentPage - 1) * entriesToShow + index + 1 }}
                 </td>
-                <td class="px-4 py-2 border">{{ item.keterangan }}</td>
+                <td class="px-4 py-2 border">
+                  {{ item.keterangan }} <br />
+                  <span
+                    class="rounded-full bg-purple-200 px-2.5 py-0.5 text-sm whitespace-nowrap text-blue-800"
+                  >
+                    {{ item.kategori }}
+                  </span>
+                </td>
                 <td class="px-4 py-2 border">{{ item.tanggal }}</td>
                 <td class="px-4 py-2 border">
-                  Rp {{ formatRupiah(item.jumlah) }}
+                  Rp {{ formatRupiah(item.harga) }}
                 </td>
                 <td class="px-4 py-2 border">
                   <button
@@ -164,8 +173,14 @@
 
       <!-- Total Pengeluaran Bulan Ini -->
       <div
-        class="flex flex-col md:flex-row items-center md:items-start justify-center mt-10 px-2 md:px-5 py-8 gap-6 md:gap-30"
+        class="flex flex-col md:flex-row items-center justify-center mt-2 px-4 md:px-10 py-8 gap-8 md:gap-10"
       >
+        <!-- Gambar -->
+        <img
+          src="../assets/orang.gif"
+          alt="Kartun imut"
+          class="w-64 h-64 md:w-80 md:h-80 object-contain"
+        />
         <!-- Card -->
         <div class="card w-full md:w-[350px]">
           <p class="text-white font-bold text-xl text-center">
@@ -256,7 +271,7 @@ const totalPengeluaranBulanIni = computed(() => {
     );
   });
 
-  return dataBulanIni.reduce((total, item) => total + Number(item.jumlah), 0);
+  return dataBulanIni.reduce((total, item) => total + Number(item.harga), 0);
 });
 
 // Ambil data dari localStorage
