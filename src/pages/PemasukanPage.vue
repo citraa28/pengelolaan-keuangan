@@ -1,16 +1,18 @@
 <template>
   <LayoutPage>
     <!-- Konten Utama -->
-    <header class="bg-white p-4 mx-3 text-center shadow rounded-xl mb-6">
+    <header
+      class="bg-white border border-blue-400 font-fredoka animate-bounce p-3 mb-6 mx-3 text-center shadow-lg rounded-xl"
+    >
       <div class="flex flex-col items-center justify-center">
+        <img
+          src="../assets/pemasukan.gif"
+          alt="Icon pemasukan"
+          class="w-20 h-20 object-contain"
+        />
         <h1
           class="text-3xl font-bold font-inter pb-1/ \ text-gray-800 flex items-center gap-2"
         >
-          <img
-            src="../assets/pemasukan.gif"
-            alt="Icon pemasukan"
-            class="w-20 h-20 object-contain"
-          />
           Pemasukan Uang
         </h1>
         <p><i>Ayo Kendalikan Uangmu</i></p>
@@ -60,7 +62,7 @@
                 <th class="px-4 py-2 border">No</th>
                 <th class="px-4 py-2 border">Keterangan</th>
                 <th class="px-4 py-2 border">Tanggal</th>
-                <th class="px-4 py-2 border">Jumlah</th>
+                <th class="px-4 py-2 border">Harga</th>
                 <th class="px-4 py-2 border">Aksi</th>
               </tr>
             </thead>
@@ -75,11 +77,15 @@
                 </td>
                 <td class="px-4 py-2 border">
                   {{ item.keterangan }} <br />
-                  Kategori {{ item.kategori }}
+                  <span
+                    class="rounded-full bg-purple-200 px-2.5 py-0.5 text-sm whitespace-nowrap text-blue-800"
+                  >
+                    {{ item.kategori }}
+                  </span>
                 </td>
                 <td class="px-4 py-2 border">{{ item.tanggal }}</td>
                 <td class="px-4 py-2 border">
-                  {{ formatRupiah(item.jumlah) }}
+                  {{ formatRupiah(item.harga) }}
                 </td>
                 <td class="px-4 py-2 border">
                   <button
@@ -166,14 +172,21 @@
       </div>
       <!-- Total Pemasukan Bulan Ini -->
       <div
-        class="flex flex-col md:flex-row items-center md:items-start justify-center mt-10 px-2 md:px-5 py-8 gap-6 md:gap-30"
+        class="flex flex-col md:flex-row items-center justify-center mt-2 px-4 md:px-10 py-8 gap-8 md:gap-10"
       >
+        <!-- Gambar -->
+        <img
+          src="../assets/lucu.gif"
+          alt="Kartun imut"
+          class="w-64 h-64 md:w-80 md:h-80 object-contain"
+        />
+
         <!-- Card -->
-        <div class="card w-full md:w-[350px]">
-          <p class="text-white font-bold text-xl text-center">
+        <div class="card w-full max-w-xs md:max-w-sm text-center">
+          <p class="text-white font-bold text-xl">
             Total Pemasukan Bulan Ini :
           </p>
-          <div class="card__content text-center">
+          <div class="card__content mt-4">
             <p class="card__description">
               <span class="text-blue-700 font-bold text-3xl">
                 {{ formatRupiah(totalPemasukanBulanIni) }}
@@ -183,11 +196,11 @@
           </div>
         </div>
 
-        <!-- Motivational or informational message -->
+        <!-- Tips Hemat -->
         <div
           class="flex flex-col justify-center max-w-sm text-gray-800 text-center md:text-left"
         >
-          <h2 class="text-4xl font-semibold mb-2">Tips Hemat Bulan Ini!</h2>
+          <h2 class="text-3xl font-semibold mb-3">Tips Hemat Bulan Ini!</h2>
           <p class="text-lg leading-relaxed">
             Coba alokasikan minimal <strong>20%</strong> dari pemasukan kamu
             untuk ditabung. Buat prioritas belanja, dan hindari pembelian
@@ -258,7 +271,7 @@ const totalPemasukanBulanIni = computed(() => {
     );
   });
 
-  return dataBulanIni.reduce((total, item) => total + Number(item.jumlah), 0);
+  return dataBulanIni.reduce((total, item) => total + Number(item.harga), 0);
 });
 
 // Ambil data dari localStorage saat mounted
