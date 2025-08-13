@@ -3,7 +3,7 @@
     <div class="flex-1 p-6 md:p-8 overflow-auto">
       <!-- Welcome -->
       <div
-        class="text-center p-6 bg-white dark:bg-gray-800 rounded-lg shadow text-2xl font-semibold text-gray-700 dark:text-gray-100 border border-gray-200 dark:border-gray-700"
+        class="text-center font-fredoka animate-bounce p-6 bg-white rounded-lg shadow text-2xl font-semibold text-blue-900 border border-pink-400"
       >
         SELAMAT DATANG DI PENGELOLAAN KEUANGAN ANDA!
       </div>
@@ -337,12 +337,12 @@ onMounted(() => {
   dataPemasukan.value.forEach((item) => {
     const date = new Date(item.tanggal);
     const bulan = date.getMonth();
-    dataPemasukanBulanan[bulan] += Number(item.jumlah);
+    dataPemasukanBulanan[bulan] += Number(item.harga);
   });
   dataPengeluaran.value.forEach((item) => {
     const date = new Date(item.tanggal);
     const bulan = date.getMonth();
-    dataPengeluaranBulanan[bulan] += Number(item.jumlah);
+    dataPengeluaranBulanan[bulan] += Number(item.harga);
   });
 
   // Update datachart dengan hasil looping
@@ -374,7 +374,7 @@ const totalPemasukanBulanIni = computed(() => {
         date.getFullYear() === now.getFullYear()
       );
     })
-    .reduce((total, item) => total + Number(item.jumlah), 0);
+    .reduce((total, item) => total + Number(item.harga), 0);
 });
 
 const totalPengeluaranBulanIni = computed(() => {
@@ -387,7 +387,7 @@ const totalPengeluaranBulanIni = computed(() => {
         date.getFullYear() === now.getFullYear()
       );
     })
-    .reduce((total, item) => total + Number(item.jumlah), 0);
+    .reduce((total, item) => total + Number(item.harga), 0);
 });
 
 function formatRupiah(angka) {
