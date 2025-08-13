@@ -1,10 +1,14 @@
 <template>
   <div
-    class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-30"
+    class="fixed inset-0 z-50 flex items-center justify-center bg-blue-100 bg-opacity-30"
   >
-    <div class="bg-white w-full max-w-md rounded shadow-lg p-6">
+    <!-- Card -->
+    <div
+      class="bg-gradient-to-r from-pink-300 via-blue-300 to-indigo-500 w-full max-w-md rounded shadow-lg p-6"
+    >
+      <!-- Judul -->
       <h2 class="text-xl font-bold mb-4">Edit Data Keuangan</h2>
-
+      <!-- Edit Keterangan -->
       <div class="mb-4">
         <label class="block text-gray-700 font-semibold mb-1">Keterangan</label>
         <input
@@ -13,16 +17,33 @@
           class="w-full border px-3 py-2 rounded"
         />
       </div>
-
-      <div class="mb-4">
-        <label class="block text-gray-700 font-semibold mb-1"
-          >Kategori Keperluan</label
-        >
+      <!-- Edit Kategori -->
+      <div class="mb-4 relative">
+        <label class="block text-gray-700 font-semibold mb-1">
+          Kategori Keperluan
+        </label>
         <input
           v-model="form.kategori"
+          @input="filterKategori"
+          @focus="showAllKategori"
           type="text"
           class="w-full border px-3 py-2 rounded"
         />
+
+        <!-- Dropdown History -->
+        <div
+          v-if="filteredKategori.length > 0"
+          class="absolute z-10 w-full bg-blue-200 border border-gray-600 rounded shadow max-h-40 overflow-y-auto"
+        >
+          <div
+            v-for="(item, index) in filteredKategori"
+            :key="index"
+            class="px-3 py-2 hover:bg-blue-500 cursor-pointer"
+            @click="pilihKategori(item)"
+          >
+            {{ item }}
+          </div>
+        </div>
       </div>
 
       <div class="mb-4">
@@ -52,11 +73,9 @@
       </div>
 
       <div class="mb-4">
-        <label class="block text-gray-700 font-semibold mb-1"
-          >Jumlah (Rp)</label
-        >
+        <label class="block text-gray-700 font-semibold mb-1">Harga (Rp)</label>
         <input
-          v-model="form.jumlah"
+          v-model="form.harga"
           type="number"
           class="w-full border px-3 py-2 rounded"
         />
@@ -90,46 +109,73 @@
 </template>
 
 <script setup>
-import { reactive, toRefs, watch } from "vue";
+import { ref, onMounted, watch } from "vue";
 
 const props = defineProps({
-  modelValue: {
-    type: Object,
-    required: true,
-  },
+  modelValue: Object,
 });
 
 const emit = defineEmits(["update", "close"]);
 
-const form = reactive({
+const form = ref({
   id: null,
   keterangan: "",
   kategori: "",
   jenis: "",
-  jumlah: "",
+  harga: "",
   tanggal: "",
   index: null,
 });
 
-// Sync prop to local form
+const kategoriHistory = ref([]);
+const filteredKategori = ref([]);
+
+onMounted(() => {
+  kategoriHistory.value =
+    JSON.parse(localStorage.getItem("kategoriHistory")) || [];
+});
+
+function filterKategori() {
+  const query = form.value.kategori.toLowerCase();
+  filteredKategori.value = kategoriHistory.value.filter(
+    (item) => item.toLowerCase().includes(query) && query !== ""
+  );
+}
+
+function showAllKategori() {
+  filteredKategori.value = kategoriHistory.value;
+}
+
+function pilihKategori(item) {
+  form.value.kategori = item;
+  filteredKategori.value = [];
+}
+
+// Sync data dari props ke form
 watch(
   () => props.modelValue,
   (val) => {
     if (val) {
-      form.id = val.id;
-      form.keterangan = val.keterangan;
-      form.kategori = val.kategori;
-      form.jenis = val.jenis;
-      form.jumlah = val.jumlah;
-      form.tanggal = val.tanggal;
-      form.index = val.index;
+      Object.assign(form.value, val);
     }
   },
   { immediate: true }
 );
 
 function simpanPerubahan() {
-  emit("update", { ...form });
+  // Simpan kategori baru ke localStorage
+  if (
+    form.value.kategori &&
+    !kategoriHistory.value.includes(form.value.kategori)
+  ) {
+    kategoriHistory.value.push(form.value.kategori);
+    localStorage.setItem(
+      "kategoriHistory",
+      JSON.stringify(kategoriHistory.value)
+    );
+  }
+
+  emit("update", { ...form.value });
   emit("close");
 }
 </script>
