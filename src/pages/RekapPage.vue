@@ -5,7 +5,7 @@
     >
       <!-- Header -->
       <header
-        class="bg-white p-6 mx-auto max-w-5xl text-center shadow-lg rounded-xl mb-8"
+        class="bg-white border border-blue-400 font-fredoka animate-bounce p-6 mx-auto max-w-5xl text-center shadow-xl rounded-xl mb-8"
       >
         <div class="flex flex-col items-center gap-3">
           <h1 class="text-4xl font-bold text-gray-800 flex items-center gap-4">
@@ -79,8 +79,9 @@
                 <th class="px-4 py-3 text-left">No</th>
                 <th class="px-4 py-3 text-left">Jenis Keuangan</th>
                 <th class="px-4 py-3 text-left">Keterangan</th>
+                <th class="px-4 py-3 text-left">Kategori</th>
                 <th class="px-4 py-3 text-left">Tanggal</th>
-                <th class="px-4 py-3 text-left">Jumlah</th>
+                <th class="px-4 py-3 text-left">Harga</th>
               </tr>
             </thead>
             <tbody>
@@ -103,9 +104,10 @@
                   </span>
                 </td>
                 <td class="px-4 py-2">{{ item.keterangan }}</td>
+                <td class="px-4 py-2">{{ item.kategori }}</td>
                 <td class="px-4 py-2">{{ item.tanggal }}</td>
                 <td class="px-4 py-2 font-semibold">
-                  Rp {{ formatRupiah(item.jumlah) }}
+                  Rp {{ formatRupiah(item.harga) }}
                 </td>
               </tr>
             </tbody>
@@ -138,7 +140,8 @@ const form = ref({
   tanggalAwal: "",
   tanggalAkhir: "",
   keterangan: "",
-  jumlah: "",
+  kategori: "",
+  harga: "",
 });
 
 const dataFilter = ref([]);
