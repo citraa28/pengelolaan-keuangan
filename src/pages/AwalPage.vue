@@ -66,28 +66,6 @@
       </div>
     </section>
 
-    <div
-      class="flex flex-col md:flex-row items-center md:items-start justify-center gap-6 bg-gradient-to-r from-[#0a1a2f] via-[#1b3b5f] to-[#3a4f8f] py-14 px-6 md:px-20"
-    >
-      <!-- Gambar -->
-      <img
-        src="../assets/uang2.png"
-        alt="Banyak Uang"
-        class="w-40 md:w-56 h-auto object-contain"
-      />
-
-      <!-- Teks -->
-      <div class="flex flex-col text-center md:text-left max-w-lg">
-        <h1 class="text-white text-3xl md:text-4xl font-bold font-serif mb-2">
-          Uang rapi, hidup happy
-        </h1>
-        <p class="text-white text-base md:text-lg leading-relaxed">
-          Kelola semua pemasukan dan pengeluaranmu secara otomatis, cepat, dan
-          aman, langsung dari satu platform yang mudah digunakan.
-        </p>
-      </div>
-    </div>
-
     <!-- Section 1 -->
     <div
       class="flex flex-col md:flex-row items-center justify-center px-6 md:px-20 gap-8 py-12"
@@ -137,13 +115,35 @@
       </div>
     </div>
 
+    <div
+      class="flex flex-col md:flex-row items-center my-15 md:items-start justify-center gap-6 bg-gradient-to-r from-[#495f72] to-[#35ccd4] py-14 px-6 md:px-20"
+    >
+      <!-- Gambar -->
+      <img
+        src="../assets/uang2.png"
+        alt="Banyak Uang"
+        class="w-40 md:w-56 h-auto object-contain"
+      />
+
+      <!-- Teks -->
+      <div class="flex flex-col text-center md:text-left max-w-lg">
+        <h1 class="text-white text-3xl md:text-4xl font-bold font-serif mb-2">
+          Uang rapi, hidup happy
+        </h1>
+        <p class="text-white text-base md:text-lg leading-relaxed">
+          Kelola semua pemasukan dan pengeluaranmu secara otomatis, cepat, dan
+          aman, langsung dari satu platform yang mudah digunakan.
+        </p>
+      </div>
+    </div>
+
     <!-- Cards Section -->
     <div
       class="grid grid-cols-1 sm:grid-cols-2 gap-23 max-w-4xl mx-auto px-4 pb-10"
     >
       <!-- Card 1 -->
       <div
-        class="relative bg-white p-6 rounded-lg shadow group hover:bg-[#00838d] hover:text-white transition duration-300"
+        class="relative bg-white p-6 rounded-lg shadow group hover:bg-gradient-to-r hover:bg-[#00838d] hover:text-white transition duration-300"
       >
         <div class="text-2xl mb-3">📊</div>
         <h2 class="text-xl font-semibold mb-1">
@@ -256,6 +256,7 @@
         </div>
       </div>
     </div>
+
     <footer class="bg-gray-100 border-t mt-10">
       <div
         class="max-w-screen-xl mx-auto px-4 py-6 flex flex-col md:flex-row items-center justify-center gap-4"
