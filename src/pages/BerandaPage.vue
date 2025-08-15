@@ -1,9 +1,9 @@
 <template>
   <LayoutPage>
-    <div class="flex-1 p-6 md:p-8 overflow-auto">
+    <div class="flex-1 md:p-8 overflow-auto">
       <!-- Welcome -->
       <div
-        class="text-center font-fredoka animate-bounce p-6 bg-white rounded-lg shadow text-2xl font-semibold text-blue-900 border border-pink-400"
+        class="text-center text-shadow font-serif md:font-mono animate-bounce p-6 bg-white rounded-lg shadow text-2xl md:text-3xl font-semibold text-blue-900 border border-blue-300"
       >
         SELAMAT DATANG DI PENGELOLAAN KEUANGAN ANDA!
       </div>
@@ -71,29 +71,20 @@
         </div>
       </div>
 
-      <div class="flex flex-wrap gap-5 my-10">
-        <!-- Bar Chart -->
-        <div
-          class="flex-1 min-w-[0px] bg-white rounded-lg shadow"
-          style="height: 400px"
-        >
-          <BarChart
-            v-if="dataChart.data.datasets.length"
-            :chartData="dataChart.data"
-            :chartOptions="dataChart.options"
-          />
-        </div>
+      <!-- Bar Chart -->
+      <div class="bg-white rounded-lg shadow gap-5 my-10 p-4">
+        <h1 class="text-center text-lg md:text-2xl font-bold font-serif py-5">
+          Data Pemasukan Dan Pengeluaran
+        </h1>
 
-        <!-- Pie Chart -->
-        <div
-          class="flex-1 min-w-[300px] p-3 bg-white rounded-lg shadow"
-          style="height: 400px"
-        >
-          <PieChart
-            v-if="dataChart.data.datasets.length"
-            :chartData="dataChart.data"
-            :chartOptions="dataChart.options"
-          />
+        <div class="overflow-x-auto">
+          <div style="min-width: 400px; height: 400px">
+            <BarChart
+              v-if="dataChart.data.datasets.length"
+              :chartData="dataChart.data"
+              :chartOptions="dataChart.options"
+            />
+          </div>
         </div>
       </div>
 
@@ -295,7 +286,6 @@
 import LayoutPage from "../layout/LayoutPage.vue";
 import { ref, computed, onMounted } from "vue";
 import BarChart from "../components/BarChart.vue";
-import PieChart from "../components/PieChart.vue";
 
 const dataPemasukan = ref([]);
 const dataPengeluaran = ref([]);
@@ -357,7 +347,7 @@ onMounted(() => {
     {
       label: "Pengeluaran",
       data: dataPengeluaranBulanan,
-      backgroundColor: "#FF6384",
+      backgroundColor: "#FF6389",
       borderColor: "rgba(255, 99, 132, 1)",
       borderWidth: 1,
     },
@@ -398,3 +388,9 @@ function formatRupiah(angka) {
   }).format(Number(angka) || 0);
 }
 </script>
+
+<style>
+.text-shadow {
+  text-shadow: 2px 3px 4px rgba(0, 0, 0, 0.3);
+}
+</style>
