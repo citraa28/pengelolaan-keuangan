@@ -90,13 +90,13 @@
                 <td class="px-4 py-2 border">
                   <button
                     @click="editData(item.id)"
-                    class="bg-blue-500 rounded-2xl px-5 py-1 text-white hover:underline mr-2"
+                    class="bg-blue-500 rounded-2xl px-6 m-1 py-1 text-white hover:underline mr-2"
                   >
                     Edit
                   </button>
                   <button
                     @click="hapusData(item.id)"
-                    class="bg-red-600 rounded-2xl px-3 py-1 text-white hover:underline"
+                    class="bg-red-600 rounded-2xl px-4 py-1 text-white hover:underline"
                   >
                     Hapus
                   </button>
@@ -174,15 +174,10 @@
       <div
         class="flex flex-col md:flex-row items-center justify-center mt-2 px-4 md:px-10 py-8 gap-8 md:gap-10"
       >
-        <!-- Gambar -->
-        <img
-          src="../assets/lucu.gif"
-          alt="Kartun imut"
-          class="w-64 h-64 md:w-80 md:h-80 object-contain"
-        />
-
         <!-- Card -->
-        <div class="card w-full max-w-xs md:max-w-sm text-center">
+        <div
+          class="order-1 md:order-1 card w-full max-w-xs md:max-w-sm text-center"
+        >
           <p class="text-white font-bold text-xl">
             Total Pemasukan Bulan Ini :
           </p>
@@ -196,9 +191,16 @@
           </div>
         </div>
 
+        <!-- Gambar -->
+        <img
+          src="../assets/lucu.gif"
+          alt="Kartun imut"
+          class="order-2 md:order-2 w-64 h-64 md:w-80 md:h-80 object-contain"
+        />
+
         <!-- Tips Hemat -->
         <div
-          class="flex flex-col justify-center max-w-sm text-gray-800 text-center md:text-left"
+          class="order-3 md:order-3 flex flex-col justify-center max-w-sm mb-10 md:mb-0 text-gray-800 text-center md:text-left"
         >
           <h2 class="text-3xl font-semibold mb-3">Tips Hemat Bulan Ini!</h2>
           <p class="text-lg leading-relaxed">
@@ -480,13 +482,6 @@ function goToPage(page) {
 .card:hover .card__content {
   transform: translate(-50%, -50%) rotate(0deg);
   opacity: 1;
-}
-
-.card__title {
-  margin: 0;
-  font-size: 24px;
-  color: #333;
-  font-weight: 700;
 }
 
 .card__description {
