@@ -175,12 +175,6 @@
       <div
         class="flex flex-col md:flex-row items-center justify-center mt-2 px-4 md:px-10 py-8 gap-8 md:gap-10"
       >
-        <!-- Gambar -->
-        <img
-          src="../assets/orang.gif"
-          alt="Kartun imut"
-          class="w-64 h-64 md:w-80 md:h-80 object-contain"
-        />
         <!-- Card -->
         <div class="card w-full md:w-[350px]">
           <p class="text-white font-bold text-xl text-center">
@@ -195,6 +189,12 @@
             <div class="text-6xl mt-5">💵</div>
           </div>
         </div>
+        <!-- Gambar -->
+        <img
+          src="../assets/orang.gif"
+          alt="Kartun imut"
+          class="w-64 h-64 md:w-80 md:h-80 object-contain"
+        />
 
         <!-- Motivational or informational message -->
         <div
