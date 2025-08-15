@@ -222,7 +222,7 @@
     <div class="flex-1 flex flex-col overflow-hidden">
       <!-- Header -->
       <header
-        class="bg-gradient-to-r from-sky-300 via-blue-700 to-blue-950 p-4 flex flex-wrap items-center justify-between shadow-md z-10"
+        class="bg-blue-400 p-4 flex flex-wrap items-center justify-between shadow-md z-10"
       >
         <!-- Kiri: Hamburger + Logo -->
         <div class="flex items-center flex-shrink-0">
@@ -253,11 +253,11 @@
             class="w-20 h-18 object-contain"
           />
           <h1
-            class="text-3xl font-bold text-center text-transparent bg-clip-text bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500 drop-shadow-md tracking-wide"
+            class="text-3xl font-bold text-center text-white drop-shadow-md tracking-wide"
           >
             <span class="font-cursive">MAY</span
             ><span class="font-bold">TRA</span>
-            <span class="text-yellow-500">Finance</span> ✨
+            <span class="text-white">Finance</span> ✨
           </h1>
         </div>
 
