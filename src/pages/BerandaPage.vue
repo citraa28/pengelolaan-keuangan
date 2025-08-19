@@ -72,7 +72,7 @@
       </div>
 
       <!-- Bar Chart -->
-      <div class="bg-white rounded-lg shadow gap-5 my-10 p-4">
+      <div class="bg-white rounded-lg shadow gap-5 my-3 md:my-10 p-4">
         <h1 class="text-center text-lg md:text-2xl font-bold font-serif py-5">
           Data Pemasukan Dan Pengeluaran
         </h1>
@@ -84,6 +84,46 @@
               :chartData="dataChart.data"
               :chartOptions="dataChart.options"
             />
+          </div>
+        </div>
+      </div>
+
+      <div
+        class="flex flex-col md:flex-row justify-center md:bg-white rounded-lg shadow my-5 p-4 gap-6"
+      >
+        <!-- Pie Chart khusus kategori pemasukan -->
+        <div class="bg-white rounded-lg shadow gap-5 my-5 p-4">
+          <h1 class="text-center text-lg md:text-2xl font-bold font-serif py-5">
+            Data Pemasukan per Kategori
+          </h1>
+
+          <div class="flex justify-center">
+            <!-- atur ukuran responsif -->
+            <div class="w-64 h-70 md:w-96 md:h-96">
+              <PieChart
+                v-if="dataPieChartPemasukan.data.datasets.length"
+                :chartData="dataPieChartPemasukan.data"
+                :chartOptions="dataPieChartPemasukan.options"
+              />
+            </div>
+          </div>
+        </div>
+
+        <!-- Pie Chart khusus kategori pemasukan -->
+        <div class="bg-white rounded-lg shadow gap-5 my-5 p-4">
+          <h1 class="text-center text-lg md:text-2xl font-bold font-serif py-5">
+            Data Pengeluaran per Kategori
+          </h1>
+
+          <div class="flex justify-center">
+            <!-- atur ukuran responsif -->
+            <div class="w-64 h-70 md:w-96 md:h-96">
+              <PieChart
+                v-if="dataPieChartPengeluaran.data.datasets.length"
+                :chartData="dataPieChartPengeluaran.data"
+                :chartOptions="dataPieChartPengeluaran.options"
+              />
+            </div>
           </div>
         </div>
       </div>
@@ -286,6 +326,7 @@
 import LayoutPage from "../layout/LayoutPage.vue";
 import { ref, computed, onMounted } from "vue";
 import BarChart from "../components/BarChart.vue";
+import PieChart from "../components/PieChart.vue";
 
 const dataPemasukan = ref([]);
 const dataPengeluaran = ref([]);
@@ -313,14 +354,65 @@ const dataChart = ref({
   },
 });
 
+// PIE CHART PEMASUKAN
+const dataPieChartPemasukan = ref({
+  data: {
+    labels: [],
+    datasets: [],
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: { display: true, position: "bottom" },
+      datalabels: {
+        color: "#fff",
+        formatter: (value, context) => {
+          let total = context.chart._metasets[0].total;
+          let percentage = ((value / total) * 100).toFixed(1) + "%";
+          let label = context.chart.data.labels[context.dataIndex];
+          return `${label}\n${percentage}`;
+        },
+        font: { weight: "bold", size: 14 },
+      },
+    },
+  },
+});
+
+// PIE CHART PENGELUARAN
+const dataPieChartPengeluaran = ref({
+  data: {
+    labels: [],
+    datasets: [],
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: { display: true, position: "bottom" },
+      datalabels: {
+        color: "#fff",
+        formatter: (value, context) => {
+          let total = context.chart._metasets[0].total;
+          let percentage = ((value / total) * 100).toFixed(1) + "%";
+          let label = context.chart.data.labels[context.dataIndex];
+          return `${label}\n${percentage}`;
+        },
+        font: { weight: "bold", size: 14 },
+      },
+    },
+  },
+});
+
 onMounted(() => {
+  // ambil data dari localStorage
   const pemasukanSaved = localStorage.getItem("dataPemasukan");
   dataPemasukan.value = pemasukanSaved ? JSON.parse(pemasukanSaved) : [];
 
   const pengeluaranSaved = localStorage.getItem("dataPengeluaran");
   dataPengeluaran.value = pengeluaranSaved ? JSON.parse(pengeluaranSaved) : [];
 
-  // Looping untuk menjumlahkan per bulan
+  // buat data bulanan untuk bar chart
   const dataPemasukanBulanan = Array(12).fill(0);
   const dataPengeluaranBulanan = Array(12).fill(0);
 
@@ -329,13 +421,13 @@ onMounted(() => {
     const bulan = date.getMonth();
     dataPemasukanBulanan[bulan] += Number(item.harga);
   });
+
   dataPengeluaran.value.forEach((item) => {
     const date = new Date(item.tanggal);
     const bulan = date.getMonth();
     dataPengeluaranBulanan[bulan] += Number(item.harga);
   });
 
-  // Update datachart dengan hasil looping
   dataChart.value.data.datasets = [
     {
       label: "Pemasukan",
@@ -352,8 +444,66 @@ onMounted(() => {
       borderWidth: 1,
     },
   ];
+
+  // hitung pemasukan per kategori (pie chart)
+  // PIE CHART PEMASUKAN
+
+  const kategoriPemasukanMap = {};
+  dataPemasukan.value.forEach((item) => {
+    if (!kategoriPemasukanMap[item.kategori]) {
+      kategoriPemasukanMap[item.kategori] = 0;
+    }
+    kategoriPemasukanMap[item.kategori] += Number(item.harga);
+  });
+
+  dataPieChartPemasukan.value.data.labels = Object.keys(kategoriPemasukanMap);
+  dataPieChartPemasukan.value.data.datasets = [
+    {
+      data: Object.values(kategoriPemasukanMap),
+      backgroundColor: [
+        "#36A2EB",
+        "#FF6384",
+        "#FFCE56",
+        "#4BC0C0",
+        "#9966FF",
+        "#FF9F40",
+        "#8BC34A",
+        "#F44336",
+      ],
+    },
+  ];
+
+  // PIE CHART PENGELUARAN
+
+  const kategoriPengeluaranMap = {};
+  dataPengeluaran.value.forEach((item) => {
+    if (!kategoriPengeluaranMap[item.kategori]) {
+      kategoriPengeluaranMap[item.kategori] = 0;
+    }
+    kategoriPengeluaranMap[item.kategori] += Number(item.harga);
+  });
+
+  dataPieChartPengeluaran.value.data.labels = Object.keys(
+    kategoriPengeluaranMap
+  );
+  dataPieChartPengeluaran.value.data.datasets = [
+    {
+      data: Object.values(kategoriPengeluaranMap),
+      backgroundColor: [
+        "#36A2EB",
+        "#FF6384",
+        "#FFCE56",
+        "#4BC0C0",
+        "#9966FF",
+        "#FF9F40",
+        "#8BC34A",
+        "#F44336",
+      ],
+    },
+  ];
 });
 
+// total pemasukan bulan ini
 const totalPemasukanBulanIni = computed(() => {
   const now = new Date();
   return dataPemasukan.value
@@ -367,6 +517,7 @@ const totalPemasukanBulanIni = computed(() => {
     .reduce((total, item) => total + Number(item.harga), 0);
 });
 
+// total pengeluaran bulan ini
 const totalPengeluaranBulanIni = computed(() => {
   const now = new Date();
   return dataPengeluaran.value
@@ -380,6 +531,7 @@ const totalPengeluaranBulanIni = computed(() => {
     .reduce((total, item) => total + Number(item.harga), 0);
 });
 
+// fungsi format rupiah
 function formatRupiah(angka) {
   return new Intl.NumberFormat("id-ID", {
     style: "currency",
