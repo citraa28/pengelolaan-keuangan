@@ -19,14 +19,45 @@
       </div>
     </header>
 
-    <div class="rounded-lg shadow-md">
-      <div class="m-3 mb-6 flex justify-start">
+    <div class="p-1 rounded-lg shadow-md">
+      <!-- Flex container untuk tombol + filter -->
+      <div class="flex flex-wrap items-center justify-between mb-5 gap-3">
+        <!-- Tombol tambah data -->
         <button
           @click="tambahData"
           class="bg-gradient-to-r from-sky-300 via-blue-400 to-indigo-700 text-white px-4 py-2 rounded hover:bg-blue-950"
         >
           + Tambah Data
         </button>
+
+        <!-- Filter bulan & tahun -->
+        <div class="flex items-center gap-4">
+          <div class="flex items-center gap-2">
+            <label for="bulan" class="text-sm text-gray-800">Bulan</label>
+            <select
+              id="bulan"
+              v-model="filterBulan"
+              class="w-24 px-2 py-1 border border-gray-400 rounded text-sm"
+            >
+              <option v-for="(nama, i) in namaBulan" :key="i" :value="i">
+                {{ nama }}
+              </option>
+            </select>
+          </div>
+
+          <div class="flex items-center gap-2">
+            <label for="tahun" class="text-sm text-gray-800">Tahun</label>
+            <select
+              id="tahun"
+              v-model="filterTahun"
+              class="w-28 px-2 py-1 border border-gray-400 rounded text-sm"
+            >
+              <option v-for="tahun in tahunOptions" :key="tahun" :value="tahun">
+                {{ tahun }}
+              </option>
+            </select>
+          </div>
+        </div>
       </div>
 
       <div class="p-5 m-2.5 bg-white rounded-lg shadow-md">
@@ -274,6 +305,41 @@ const totalPengeluaranBulanIni = computed(() => {
   return dataBulanIni.reduce((total, item) => total + Number(item.harga), 0);
 });
 
+const namaBulan = [
+  "Januari",
+  "Februari",
+  "Maret",
+  "April",
+  "Mei",
+  "Juni",
+  "Juli",
+  "Agustus",
+  "September",
+  "Oktober",
+  "November",
+  "Desember",
+];
+
+const sekarang = new Date();
+const filterBulan = ref(sekarang.getMonth()); // default bulan ini
+const filterTahun = ref(sekarang.getFullYear()); // default tahun ini
+
+// Tahun tersedia (diambil dari data)
+const tahunOptions = computed(() => {
+  const semuaTahun = dataPengeluaran.value
+    .map((item) => {
+      if (!item.tanggal) return null;
+      const tahun = new Date(item.tanggal).getFullYear();
+      return isNaN(tahun) ? null : tahun;
+    })
+    .filter((t) => t !== null);
+
+  // Pastikan tahun ini selalu ada dalam pilihan, bahkan jika belum ada datanya
+  semuaTahun.push(new Date().getFullYear());
+
+  return [...new Set(semuaTahun)].sort((a, b) => b - a);
+});
+
 // Ambil data dari localStorage
 onMounted(() => {
   const saved = localStorage.getItem("dataPengeluaran");
@@ -317,11 +383,17 @@ watch(
 
 const filteredPengeluaran = computed(() => {
   const query = searchQuery.value.toLowerCase();
-  return dataBulanIni.value.filter(
-    (item) =>
+
+  return dataPengeluaran.value.filter((item) => {
+    const tanggal = new Date(item.tanggal);
+    const cocokBulan = tanggal.getMonth() === filterBulan.value;
+    const cocokTahun = tanggal.getFullYear() === filterTahun.value;
+    const cocokCari =
       item.keterangan.toLowerCase().includes(query) ||
-      item.tanggal.toLowerCase().includes(query)
-  );
+      item.tanggal.toLowerCase().includes(query);
+
+    return cocokBulan && cocokTahun && cocokCari;
+  });
 });
 
 const totalPages = computed(() => {
