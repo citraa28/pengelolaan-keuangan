@@ -1,310 +1,165 @@
 <template>
-  <div
-    :class="[
-      'max-w-3xl mx-auto rounded-2xl p-10 mt-10 space-y-12 transition-all duration-500',
-      form.darkMode
-        ? 'bg-gradient-to-br from-gray-900 to-gray-800 text-gray-100 shadow-2xl'
-        : 'bg-neutral-100 text-gray-800 shadow-xl',
-    ]"
-  >
-    <!-- Navigasi Balik -->
-    <RouterLink
-      to="/beranda"
-      class="text-blue-600 hover:underline flex items-center gap-2 mb-6 font-medium"
-    >
-      <i class="fas fa-arrow-left"></i> Kembali ke Beranda
-    </RouterLink>
-
+  <div class="flex h-screen flex-col bg-gray-50">
     <!-- Header -->
-    <div class="flex items-center gap-3 mb-4">
-      <i class="fas fa-cog text-blue-500 text-3xl animate-spin-slow"></i>
-      <h1 class="text-4xl font-bold tracking-wide">Pengaturan Akun</h1>
-    </div>
-    <hr class="border-gray-300 dark:border-gray-600" />
-
-    <!-- PROFIL-->
-    <section>
-      <h2 class="text-2xl font-semibold flex items-center gap-2 mb-4">
-        <i class="fas fa-user text-purple-500"></i> Profil
-        <span
-          class="bg-purple-100 text-purple-800 text-xs font-semibold px-2 py-1 rounded-full"
-          >Data Utama</span
-        >
-      </h2>
-      <div class="grid gap-5">
-        <div>
-          <label class="block font-medium mb-1">Nama Lengkap</label>
-          <input
-            type="text"
-            class="input"
-            v-model="form.name"
-            placeholder="Masukkan nama lengkap"
-          />
-        </div>
-        <div>
-          <label class="block font-medium mb-1">Email</label>
-          <input
-            type="email"
-            class="input"
-            v-model="form.email"
-            placeholder="email@example.com"
-          />
-        </div>
-        <button
-          class="w-40 md:w-175 h-10 rounded-md bg-gradient-to-r from-sky-300 via-blue-400 to-indigo-700 text-white font-bold"
-          @click="saveProfile"
-        >
-          <i class="fas fa-save mr-1"></i> Simpan Perubahan
-        </button>
-      </div>
-    </section>
-
-    <!-- PREFERENSI -->
-    <section>
-      <h2 class="text-2xl font-semibold flex items-center gap-2 mb-4">
-        <i class="fas fa-sliders-h text-green-500"></i> Preferensi
-        <span
-          class="bg-green-100 text-green-800 text-xs font-semibold px-2 py-1 rounded-full"
-          >Personalisasi</span
-        >
-      </h2>
-      <div class="grid gap-5">
-        <div>
-          <label class="block font-medium mb-1">Bahasa</label>
-          <select class="input" v-model="form.language">
-            <option value="id">Bahasa Indonesia</option>
-            <option value="en">English</option>
-          </select>
-        </div>
-        <div>
-          <label class="block font-medium mb-1">Mata Uang</label>
-          <select class="input" v-model="form.currency">
-            <option value="IDR">Rupiah (IDR)</option>
-            <option value="USD">Dollar (USD)</option>
-            <option value="EUR">Euro (EUR)</option>
-          </select>
-        </div>
-        <div>
-          <label class="block font-medium mb-1">Batas Anggaran Bulanan</label>
-          <input
-            type="number"
-            class="input"
-            v-model.number="form.monthlyExpenseLimit"
-            placeholder="Rp 2.000.000"
-          />
-        </div>
-        <button
-          class="w-40 md:w-175 h-10 rounded-md bg-gradient-to-r from-green-300 via-green-400 to-green-700 text-white font-bold"
-          @click="updatePreferences"
-        >
-          <i class="fas fa-sync-alt mr-1"></i> Perbarui Preferensi
-        </button>
-      </div>
-    </section>
-
-    <!-- NOTIFIKASI -->
-    <section>
-      <h2 class="text-2xl font-semibold flex items-center gap-2 mb-4">
-        <i class="fas fa-bell text-yellow-500"></i> Notifikasi
-        <span
-          class="bg-yellow-100 text-yellow-800 text-xs font-semibold px-2 py-1 rounded-full"
-          >Pengingat</span
-        >
-      </h2>
-      <div class="space-y-2">
-        <label class="flex items-center gap-2">
-          <input type="checkbox" v-model="form.notifyOverBudget" />
-          Kirim notifikasi jika melebihi anggaran
-        </label>
-        <label class="flex items-center gap-2">
-          <input type="checkbox" v-model="form.emailSummary" />
-          Kirim ringkasan bulanan ke email
-        </label>
-      </div>
-    </section>
-
-    <!-- KEAMANAN -->
-    <section>
-      <h2 class="text-2xl font-semibold flex items-center gap-2 mb-4">
-        <i class="fas fa-lock text-red-500"></i> Keamanan
-      </h2>
-      <div>
-        <label class="block font-medium mb-1">Password Baru</label>
-        <input
-          type="password"
-          class="input"
-          v-model="form.newPassword"
-          placeholder="••••••••"
-        />
-      </div>
-      <button class="btn-danger mt-3" @click="changePassword">
-        <i class="fas fa-key mr-1"></i> Ubah Password
-      </button>
-    </section>
-
-    <!-- Aksi Lanjut -->
-    <div class="text-right mt-8">
+    <header
+      class="flex items-center bg-blue-600 text-white px-4 py-5 shadow-md"
+    >
       <button
-        class="bg-gradient-to-r from-sky-300 via-blue-400 to-indigo-700 text-white font-bold w-40 h-12 rounded-md"
-        @click="goToDashboard"
+        @click="sidebarOpen = !sidebarOpen"
+        class="text-white focus:outline-none mr-3"
       >
-        <i class="fas fa-arrow-right mr-1"></i> Ke Dashboard
+        <svg
+          class="w-6 h-6"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M4 6h16M4 12h16M4 18h16"
+          />
+        </svg>
       </button>
+      <h1 class="ml-3 text-xl font-semibold">Settings</h1>
+    </header>
+
+    <div class="flex flex-1">
+      <!-- Sidebar -->
+      <div
+        class="fixed top-0 left-0 h-full w-64 bg-white border-r shadow-lg p-6 z-20 transform transition-transform duration-300 md:relative md:translate-x-0"
+        :class="sidebarOpen ? 'translate-x-0' : '-translate-x-full'"
+      >
+        <!-- Tombol Tutup (hanya di HP) -->
+        <button
+          class="absolute top-4 right-4 text-gray-600 md:hidden"
+          @click="sidebarOpen = false"
+        >
+          <i class="fas fa-times text-xl"></i>
+        </button>
+
+        <h2 class="text-2xl font-bold mb-6">Menu</h2>
+        <ul class="space-y-3">
+          <RouterLink
+            to="/beranda"
+            class="text-blue-600 hover:underline flex items-center gap-2 mb-6 font-medium"
+            @click="sidebarOpen = false"
+          >
+            <i class="fas fa-arrow-left"></i> Kembali ke Beranda
+          </RouterLink>
+
+          <li>
+            <button @click="setTab('profil')" :class="buttonClass('profil')">
+              Profil
+            </button>
+          </li>
+          <li>
+            <button
+              @click="setTab('keamanan')"
+              :class="buttonClass('keamanan')"
+            >
+              Keamanan
+            </button>
+          </li>
+          <li>
+            <button
+              @click="setTab('preferensi')"
+              :class="buttonClass('preferensi')"
+            >
+              Preferensi
+            </button>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Overlay -->
+      <div
+        v-if="sidebarOpen"
+        class="fixed inset-0 bg-black bg-opacity-50 z-10 md:hidden"
+        @click="sidebarOpen = false"
+      ></div>
+
+      <!-- Konten -->
+      <div class="flex-1 p-5 md:p-10 overflow-y-auto w-full">
+        <!-- Profil -->
+        <div
+          v-if="activeTab === 'profil'"
+          class="bg-white p-6 rounded-lg shadow"
+        >
+          <h3 class="text-xl font-bold mb-4">Pengaturan Profil</h3>
+          <div class="mb-4">
+            <label class="block text-gray-700 mb-2">Nama</label>
+            <input
+              v-model="form.nama"
+              type="text"
+              class="w-full border px-3 py-2 rounded"
+            />
+          </div>
+          <div class="mb-4">
+            <label class="block text-gray-700 mb-2">Email</label>
+            <input
+              v-model="form.email"
+              type="email"
+              class="w-full border px-3 py-2 rounded"
+            />
+          </div>
+          <button
+            @click="simpan"
+            class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+          >
+            Simpan Perubahan
+          </button>
+        </div>
+
+        <!-- Keamanan -->
+        <div
+          v-if="activeTab === 'keamanan'"
+          class="bg-white p-6 rounded-lg shadow"
+        >
+          <h3 class="text-xl font-bold mb-4">Pengaturan Keamanan</h3>
+          <p class="text-gray-600">Atur password dan verifikasi keamanan.</p>
+        </div>
+
+        <!-- Preferensi -->
+        <div
+          v-if="activeTab === 'preferensi'"
+          class="bg-white p-6 rounded-lg shadow"
+        >
+          <h3 class="text-xl font-bold mb-4">Preferensi</h3>
+          <p class="text-gray-600">Sesuaikan tema dan tampilan aplikasi.</p>
+        </div>
+      </div>
     </div>
   </div>
 </template>
 
 <script setup>
-import { ref, onMounted } from "vue";
-import { useRouter, RouterLink } from "vue-router";
+import { ref } from "vue";
 
-onMounted(() => {
-  const savedProfile = localStorage.getItem("userProfile");
-  const savedPreferences = localStorage.getItem("userPreferences");
-  const savedPassword = localStorage.getItem("userPassword");
-
-  if (savedProfile) {
-    const profile = JSON.parse(savedProfile);
-    form.value.name = profile.name || "";
-    form.value.email = profile.email || "";
-  }
-
-  if (savedPreferences) {
-    const prefs = JSON.parse(savedPreferences);
-    form.value.language = prefs.language || "id";
-    form.value.currency = prefs.currency || "IDR";
-    form.value.monthlyExpenseLimit = prefs.monthlyExpenseLimit || null;
-    form.value.notifyOverBudget = prefs.notifyOverBudget || false;
-    form.value.emailSummary = prefs.emailSummary || false;
-  }
-
-  if (savedPassword) {
-    // Tidak ditampilkan di input demi keamanan
-    form.value.newPassword = "";
-  }
-});
-
-const router = useRouter();
+const activeTab = ref("profil");
+const sidebarOpen = ref(false);
 
 const form = ref({
-  name: "",
+  nama: "",
   email: "",
-  language: "id",
-  currency: "IDR",
-  monthlyExpenseLimit: null,
-  notifyOverBudget: false,
-  emailSummary: false,
-  newPassword: "",
-  darkMode: false,
 });
 
-const saveProfile = () => {
-  localStorage.setItem(
-    "userProfile",
-    JSON.stringify({
-      name: form.value.name,
-      email: form.value.email,
-    })
-  );
-  alert(
-    `Profil disimpan!\nNama: ${form.value.name}\nEmail: ${form.value.email}`
-  );
+const setTab = (tab) => {
+  activeTab.value = tab;
+  sidebarOpen.value = false;
 };
 
-const updatePreferences = () => {
-  if (form.value.monthlyExpenseLimit <= 0) {
-    alert("Batas pengeluaran harus lebih dari 0");
-    return;
-  }
-
-  localStorage.setItem(
-    "userPreferences",
-    JSON.stringify({
-      language: form.value.language,
-      currency: form.value.currency,
-      monthlyLimit: form.value.monthlyLimit,
-      notifyOverBudget: form.value.notifyOverBudget,
-      emailSummary: form.value.emailSummary,
-    })
-  );
-  alert(
-    `Preferensi diperbarui!\nBahasa: ${form.value.language}\nMata Uang: ${form.value.currency}\nBatas Anggaran: ${form.value.monthlyLimit}`
-  );
+const buttonClass = (tab) => {
+  return [
+    "w-full text-left px-3 py-2 rounded-md",
+    activeTab.value === tab
+      ? "bg-blue-600 text-white"
+      : "hover:bg-gray-100 text-gray-700",
+  ];
 };
 
-const changePassword = () => {
-  if (form.value.newPassword.length < 6) {
-    alert("Password harus minimal 6 karakter.");
-    return;
-  }
-
-  localStorage.setItem("userPassword", form.value.newPassword);
-  alert("Password berhasil diubah!");
-  form.value.newPassword = "";
-};
-
-const goToDashboard = () => {
-  router.push("/awal");
+const simpan = () => {
+  alert(`Data disimpan:\nNama: ${form.value.nama}\nEmail: ${form.value.email}`);
 };
 </script>
-
-<style scoped>
-.input {
-  width: 100%;
-  padding: 0.6rem 0.75rem;
-  border-radius: 0.5rem;
-  border: 1px solid #d1d5db;
-  background-color: #fff;
-  color: #111827;
-  transition: all 0.3s ease;
-}
-.input:focus {
-  border-color: #3b82f6;
-  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3);
-  outline: none;
-}
-.btn-primary {
-  background: linear-gradient(to right, #3b82f6, #2563eb);
-  color: white;
-  padding: 0.6rem 1.4rem;
-  border-radius: 0.5rem;
-  font-weight: 600;
-  transition: all 0.3s ease;
-}
-.btn-primary:hover {
-  background: #1d4ed8;
-}
-.btn-secondary {
-  background-color: #10b981;
-  color: white;
-  padding: 0.6rem 1.4rem;
-  border-radius: 0.5rem;
-  font-weight: 600;
-  transition: all 0.3s ease;
-}
-.btn-secondary:hover {
-  background-color: #059669;
-}
-.btn-danger {
-  background-color: #ef4444;
-  color: white;
-  padding: 0.6rem 1.4rem;
-  border-radius: 0.5rem;
-  font-weight: 600;
-  transition: all 0.3s ease;
-}
-.btn-danger:hover {
-  background-color: #dc2626;
-}
-.animate-spin-slow {
-  animation: spin 3s linear infinite;
-}
-@keyframes spin {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
-}
-</style>
