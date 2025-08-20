@@ -250,10 +250,10 @@
           <img
             src="../assets/note2.png"
             alt="note"
-            class="w-20 h-18 object-contain"
+            class="w-12 md:w-20 h-12md:h-18 object-contain"
           />
           <h1
-            class="text-3xl font-bold text-center text-white drop-shadow-md tracking-wide"
+            class="text-2xl md:text-3xl font-bold text-center text-white drop-shadow-md tracking-wide"
           >
             <span class="font-cursive">MAY</span
             ><span class="font-bold">TRA</span>
