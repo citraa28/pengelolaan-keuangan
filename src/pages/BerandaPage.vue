@@ -416,16 +416,29 @@ onMounted(() => {
   const dataPemasukanBulanan = Array(12).fill(0);
   const dataPengeluaranBulanan = Array(12).fill(0);
 
+  // ambil tahun sekarang
+  const currentYear = new Date().getFullYear();
+
   dataPemasukan.value.forEach((item) => {
     const date = new Date(item.tanggal);
     const bulan = date.getMonth();
-    dataPemasukanBulanan[bulan] += Number(item.harga);
+    const tahun = date.getFullYear();
+
+    // hanya masukkan jika tahun = tahun sekarang
+    if (tahun === currentYear) {
+      dataPemasukanBulanan[bulan] += Number(item.harga);
+    }
   });
 
   dataPengeluaran.value.forEach((item) => {
     const date = new Date(item.tanggal);
     const bulan = date.getMonth();
-    dataPengeluaranBulanan[bulan] += Number(item.harga);
+    const tahun = date.getFullYear();
+
+    // hanya masukkan jika tahun = tahun sekarang
+    if (tahun === currentYear) {
+      dataPengeluaranBulanan[bulan] += Number(item.harga);
+    }
   });
 
   dataChart.value.data.datasets = [
