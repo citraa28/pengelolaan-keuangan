@@ -296,7 +296,7 @@ const toggleDropdown = () => {
 const logout = async () => {
   try {
     await signOut(auth);
-    router.push("/");
+    router.push("/login");
   } catch (error) {
     console.error("Gagal saat logout:", error);
   }
