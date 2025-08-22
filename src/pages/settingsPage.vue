@@ -127,6 +127,7 @@
         >
           <h3 class="text-xl font-bold mb-4">Pengaturan Keamanan</h3>
 
+          <!-- Username -->
           <div class="mb-4">
             <label class="block text-gray-700 mb-2">Username</label>
             <input
@@ -135,14 +136,28 @@
               class="w-full border px-3 py-2 rounded"
             />
           </div>
+
+          <!-- Password dengan icon mata -->
           <div class="mb-4">
-            <label class="block text-gray-700 mb-2">Ganti Password</label>
-            <input
-              v-model="form.password"
-              type="password"
-              class="w-full border px-3 py-2 rounded"
-            />
+            <label class="block text-gray-700 mb-2">Password</label>
+            <div class="relative">
+              <input
+                v-model="form.password"
+                :type="showPassword ? 'text' : 'password'"
+                class="w-full border px-3 py-2 rounded pr-10"
+              />
+              <!-- Ikon mata -->
+              <button
+                type="button"
+                @click="showPassword = !showPassword"
+                class="absolute right-3 top-2 text-gray-500 hover:text-gray-700"
+              >
+                <span v-if="showPassword">🙈</span>
+                <span v-else>👁️</span>
+              </button>
+            </div>
           </div>
+
           <button
             @click="save"
             class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
@@ -198,9 +213,13 @@
 
 <script setup>
 import { ref, computed, onMounted, watch } from "vue";
+import { auth } from "../firebase";
+import { onAuthStateChanged } from "firebase/auth";
 
 const activeTab = ref("profil");
 const sidebarOpen = ref(false);
+
+const showPassword = ref(false);
 
 const form = ref({
   nama: "",
@@ -293,7 +312,16 @@ const perbarui = () => {
   localStorage.setItem("form", JSON.stringify(form.value));
 };
 
+// ✅ Ambil data user login dari Firebase + localStorage
 onMounted(() => {
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      form.value.email = user.email || "";
+      form.value.username = user.displayName || user.email.split("@")[0];
+      form.value.nama = user.displayName || "";
+    }
+  });
+
   const saved = localStorage.getItem("form");
   if (saved) {
     form.value = JSON.parse(saved);

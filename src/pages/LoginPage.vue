@@ -89,10 +89,12 @@
 import { ref } from 'vue';
 import { signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
 import { auth } from '../firebase.js';
+import { useRouter } from 'vue-router';
 
 export default {
   name: 'LoginPage',
   setup() {
+    const router = useRouter();
     const loading = ref(false);
     const error = ref('');
 
@@ -103,6 +105,7 @@ export default {
       try {
         const provider = new GoogleAuthProvider();
         await signInWithPopup(auth, provider);
+        router.push('/awal');
         // Login berhasil, user akan diarahkan ke dashboard
       } catch (err) {
         console.error('Google login error:', err);

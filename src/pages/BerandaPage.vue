@@ -109,7 +109,7 @@
           </div>
         </div>
 
-        <!-- Pie Chart khusus kategori pemasukan -->
+        <!-- Pie Chart khusus kategori pengeluaran -->
         <div class="bg-white rounded-lg shadow gap-5 my-5 p-4">
           <h1 class="text-center text-lg md:text-2xl font-bold font-serif py-5">
             Data Pengeluaran per Kategori
