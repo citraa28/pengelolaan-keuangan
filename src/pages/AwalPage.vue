@@ -24,7 +24,7 @@
           <span
             class="text-sm md:text-base font-medium truncate max-w-[120px] sm:max-w-none"
           >
-            maytra2803@email.com
+            {{ userEmail || "Guest" }}
           </span>
         </div>
       </div>
@@ -287,11 +287,24 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
 import BerandaPage from "../pages/BerandaPage.vue";
 import { useRouter } from "vue-router";
+import { auth } from "../firebase"; // pastikan import auth
+import { onAuthStateChanged } from "firebase/auth";
 
 const router = useRouter();
+const userEmail = ref(null);
+
+onMounted(() => {
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      userEmail.value = user.email; // ambil email user login
+    } else {
+      userEmail.value = null;
+    }
+  });
+});
 
 function goToBeranda() {
   router.push("/beranda");
