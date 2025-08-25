@@ -4,7 +4,6 @@ import './style.css'
 import App from './App.vue'
 import LoginPage from './pages/LoginPage.vue'
 import AwalPage from './pages/AwalPage.vue'
-import DashboardPage from './pages/DashboardPage.vue'
 import BerandaPage from './pages/BerandaPage.vue'
 import PemasukanPage from './pages/PemasukanPage.vue'
 import PengeluaranPage from './pages/PengeluaranPage.vue'
@@ -15,46 +14,44 @@ import { onAuthStateChanged } from 'firebase/auth'
 
 const routes = [
   {
+    path: '/',
+    name: 'HalamanAwal',
+    component: AwalPage
+  },
+  {
     path: '/login',
     name: 'Login',
     component: LoginPage
   },
   {
-    path: '/awal',
-    name: 'HalamanAwal',
-    component: AwalPage
-  },
-  {
-    path: '/dashboard',
-    name: 'Dashboard',
-    component: DashboardPage,
-    props: true,
-    meta: { requiresAuth: true }
-  },
-  {
     path: '/beranda',
     name: 'Beranda',
-    component: BerandaPage
+    component: BerandaPage,
+    meta: { requiresAuth: true }
   },
   {
     path: '/pemasukan',
     name: 'Pemasukan',
-    component: PemasukanPage
+    component: PemasukanPage,
+    meta: { requiresAuth: true }
   },
   {
     path: '/pengeluaran',
     name: 'Pengeluaran',
-    component: PengeluaranPage
+    component: PengeluaranPage,
+    meta: { requiresAuth: true }
   },
   {
     path: '/rekap',
     name: 'RekapData',
-    component: RekapPage
+    component: RekapPage,
+    meta: { requiresAuth: true }
   },
   {
     path: '/settings',
     name: 'Settings',
-    component: settingsPage
+    component: settingsPage,
+    meta: { requiresAuth: true }
   }
 ];
 
@@ -65,26 +62,39 @@ const router = createRouter({
 
 // Route guard untuk melindungi halaman yang memerlukan autentikasi
 router.beforeEach((to, from, next) => {
+  // Cek apakah halaman yang diakses memerlukan autentikasi
   const requiresAuth = to.matched.some(record => record.meta.requiresAuth);
   
-  if (requiresAuth) {
-    // Cek status autentikasi user
-    onAuthStateChanged(auth, (user) => {
+  // Cek status autentikasi user
+  onAuthStateChanged(auth, (user) => {
+    // Jika halaman yang diakses memerlukan autentikasi
+    if (requiresAuth) {
+      // Jika user sudah login
       if (user) {
-        // User sudah login, izinkan akses ke dashboard
-        next();
+        if (to.path === '/login') {
+          // Jika urlnya /login, redirect ke halaman beranda
+          next('/beranda');
+        } else {
+          // Jika urlnya bukan /login, lanjutkan ke halaman yang diakses
+          next();
+        }
       } else {
-        // User belum login, redirect ke halaman login
-        next('/');
+        // Jika user belum login, redirect ke halaman login
+        next('/login');
       }
-    }, () => {
-      // Error dalam pengecekan auth, redirect ke login
-      next('/');
-    });
-  } else {
-    // Halaman tidak memerlukan auth, izinkan akses
-    next();
-  }
+    } else { // Jika halaman yang diakses tidak memerlukan autentikasi
+      // Jika user sudah login dan urlnya /login, redirect ke halaman beranda
+      if(user && to.path === '/login') {
+        next('/beranda');
+      } else {
+        // Jika urlnya bukan /login, lanjutkan ke halaman yang diakses
+        next();
+      }
+    }
+  }, () => {
+    // Error dalam pengecekan auth, redirect ke login
+    next('/login');
+  });
 });
 
 const app = createApp(App);

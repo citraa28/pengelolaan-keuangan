@@ -105,8 +105,8 @@ export default {
       try {
         const provider = new GoogleAuthProvider();
         await signInWithPopup(auth, provider);
-        router.push('/awal');
         // Login berhasil, user akan diarahkan ke dashboard
+        router.push('/beranda');
       } catch (err) {
         console.error('Google login error:', err);
         if (err.code === 'auth/popup-closed-by-user') {

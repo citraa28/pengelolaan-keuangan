@@ -147,7 +147,7 @@
         <!-- Logout dan Settings -->
         <div class="p-2 border-t border-gray-700">
           <router-link
-            to="/awal"
+            to="/"
             :class="linkClass"
             :active-class="activeLinkClass"
           >

@@ -8,8 +8,13 @@ export function useAuth() {
 
   onMounted(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-      user.value = currentUser;
-      loading.value = false;
+      if (currentUser) {
+        user.value = currentUser;
+        loading.value = false;
+      } else {
+        user.value = null;
+        loading.value = false;
+      }
     });
 
     // Cleanup subscription on unmount
