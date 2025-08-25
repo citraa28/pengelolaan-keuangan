@@ -43,26 +43,6 @@
               Masuk dengan Google
             </span>
           </button>
-
-          <!-- Divider -->
-          <div class="relative">
-            <div class="absolute inset-0 flex items-center">
-              <div class="w-full border-t border-gray-300"></div>
-            </div>
-            <div class="relative flex justify-center text-sm">
-              <span class="px-2 bg-white text-gray-500">atau</span>
-            </div>
-          </div>
-
-          <!-- Alternative Options -->
-          <div class="text-center">
-            <p class="text-sm text-gray-600">
-              Belum punya akun?
-              <a href="#" class="font-medium text-indigo-600 hover:text-indigo-500 transition-colors duration-200">
-                Daftar sekarang
-              </a>
-            </p>
-          </div>
         </div>
 
         <!-- Error Message -->
