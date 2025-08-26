@@ -2,7 +2,7 @@
   <div>
     <!-- Header -->
     <header
-      class="bg-gradient-to-r from-blue-200 via-blue-500 to-purple-600 text-white px-6 py-4 md:px-10 md:py-6 shadow transition duration-300 ease-in-out hover:from-blue-600 hover:to-cyan-500"
+      class="bg-gradient-to-r from-blue-600 to-cyan-500 text-white px-6 py-4 md:px-10 md:py-6 shadow transition duration-300 ease-in-out hover:from-blue-200 hover:via-blue-500 hover:to-purple-600"
     >
       <div
         class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4"
@@ -73,7 +73,7 @@
       <img
         src="../assets/beranda.png"
         alt="Halaman Beranda"
-        class="w-full md:w-[480px] h-auto object-contain rounded-sm"
+        class="w-full md:w-[480px] h-auto object-contain rounded-sm float-animation"
         style="box-shadow: 0 10px 20px rgba(0, 0, 255, 0.6)"
       />
       <div class="w-full md:w-1/2 flex flex-col items-start text-left gap-4">
@@ -97,7 +97,7 @@
       <img
         src="../assets/rekap.jpeg"
         alt="Rekap Keuangan"
-        class="w-full md:w-[370px] h-auto object-contain"
+        class="w-full md:w-[370px] h-auto object-contain rounded-sm float-animation"
         style="box-shadow: 0 10px 20px rgba(0, 0, 255, 0.6)"
       />
       <div class="w-full md:w-1/2 flex flex-col items-start text-left gap-4">
@@ -312,6 +312,22 @@ function goToBeranda() {
 </script>
 
 <style scoped>
+@keyframes float {
+  0% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-15px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
+}
+
+.float-animation {
+  animation: float 5s ease-in-out infinite;
+}
+
 .go-corner {
   display: flex;
   align-items: center;
