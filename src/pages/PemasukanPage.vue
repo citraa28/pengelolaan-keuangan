@@ -25,7 +25,7 @@
         <!-- Tombol tambah data -->
         <button
           @click="tambahData"
-          class="bg-gradient-to-r from-sky-300 via-blue-400 to-indigo-700 text-white px-4 py-2 rounded hover:bg-blue-950"
+          class="bg-gradient-to-r from-sky-300 via-blue-400 to-indigo-700 text-white px-4 py-2 md:py-3 rounded-lg hover:bg-blue-950"
         >
           + Tambah Data
         </button>
@@ -206,22 +206,17 @@
         class="flex flex-col md:flex-row items-center justify-center mt-2 px-4 md:px-10 py-8 gap-8 md:gap-10"
       >
         <!-- Card -->
-        <div
-          class="order-1 md:order-1 card w-full max-w-xs md:max-w-sm text-center"
-        >
-          <p class="text-white font-bold text-xl">
-            Total Pemasukan Bulan Ini :
-          </p>
-          <div class="card__content mt-4">
-            <p class="card__description">
-              <span class="text-blue-700 font-bold text-3xl">
+        <div class="order-1 md:order-1 card">
+          <div class="card__content">
+            <p class="text-white font-semibold text-lg">Total Pemasukan</p>
+            <p class="card__description mt-2">
+              <span>
                 {{ formatRupiah(totalPemasukanBulanIni) }}
               </span>
             </p>
-            <div class="text-6xl mt-5">💵</div>
+            <div class="card__icon">💵</div>
           </div>
         </div>
-
         <!-- Gambar -->
         <img
           src="../assets/lucu.gif"
@@ -513,58 +508,62 @@ function goToPage(page) {
 <style scoped>
 .card {
   position: relative;
-  width: 310px;
-  height: 190px;
-  background: linear-gradient(-45deg, #38bdf8, #3b82f6, #6366f1);
-  border-radius: 10px;
+  width: 320px;
+  height: 200px;
+  background: linear-gradient(135deg, #2563eb, #4f46e5);
+  border-radius: 18px;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   overflow: hidden;
-  transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
-}
-
-.card svg {
-  width: 48px;
-  fill: #333;
-  transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+  box-shadow: 0 8px 20px rgba(37, 99, 235, 0.4);
+  transition: all 0.4s ease;
 }
 
 .card:hover {
-  transform: rotate(-5deg) scale(1.1);
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+  transform: translateY(-8px) scale(1.05);
+  box-shadow: 0 15px 30px rgba(79, 70, 229, 0.45);
 }
 
 .card__content {
+  z-index: 2;
+  text-align: center;
+}
+
+.card__description span {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #facc15; /* kuning emas */
+}
+
+.card__badge {
   position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%) rotate(-45deg);
-  width: 100%;
-  height: 100%;
-  padding: 20px;
-  text: center;
-  box-sizing: border-box;
-  background-color: #fff;
-  opacity: 0;
-  transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+  top: 12px;
+  right: 12px;
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(8px);
+  color: white;
+  font-size: 0.75rem;
+  padding: 4px 10px;
+  border-radius: 9999px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
 }
 
-.card:hover .card__content {
-  transform: translate(-50%, -50%) rotate(0deg);
-  opacity: 1;
+.card__icon {
+  font-size: 3rem;
+  margin-top: 12px;
+  animation: bounce 1.5s infinite;
 }
 
-.card__description {
-  margin: 10px 0 0;
-  font-size: 14px;
-  text: center;
-  color: #777;
-  line-height: 1.4;
-}
-
-.card:hover svg {
-  scale: 0;
-  transform: rotate(-45deg);
+@keyframes bounce {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
 }
 </style>
