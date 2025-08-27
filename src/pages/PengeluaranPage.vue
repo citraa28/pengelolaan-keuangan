@@ -2,7 +2,7 @@
   <LayoutPage>
     <!-- Konten Utama -->
     <header
-      class="bg-white border border-blue-400 font-fredoka animate-bounce p-3 mb-6 mx-3 text-center shadow-lg rounded-xl"
+      class="bg-white border border-blue-400 p-3 mb-6 mx-3 text-center shadow-lg rounded-xl"
     >
       <div class="flex flex-col items-center justify-center">
         <img
@@ -11,11 +11,13 @@
           class="w-21 h-21 object-contain"
         />
         <h1
-          class="text-3xl font-bold font-inter pb-2 text-gray-800 flex items-center gap-2"
+          class="text-2xl md:text-4xl font-bold font-fredoka text-blue-600 drop-shadow-md animate-bounce"
         >
-          Pengeluaran Uang
+          💰 Pengeluaran Uang 💰
         </h1>
-        <p><i>Awali hari dengan mencatat pengeluaran secara rapi</i></p>
+        <p class="font-pacifico text-base md:text-lg text-pink-500">
+          <i>Awali hari dengan mencatat pengeluaran secara rapi</i>
+        </p>
       </div>
     </header>
 

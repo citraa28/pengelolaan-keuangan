@@ -1,22 +1,24 @@
 <template>
   <LayoutPage>
-    <div
-      class="flex-1 p-8 overflow-auto bg-gradient-to-br from-blue-50 to-indigo-50"
-    >
+    <div class="flex-1 p-2 overflow-auto">
       <!-- Header -->
       <header
         class="bg-white border border-blue-400 font-fredoka animate-bounce p-6 mx-auto max-w-5xl text-center shadow-xl rounded-xl mb-8"
       >
         <div class="flex flex-col items-center gap-3">
-          <h1 class="text-4xl font-bold text-gray-800 flex items-center gap-4">
-            <img
-              src="../assets/dolar.png"
-              alt="Rekap data"
-              class="w-16 h-16 object-contain"
-            />
-            Rekap Data Keuangan
+          <img
+            src="../assets/dolar.png"
+            alt="Rekap data"
+            class="w-16 h-16 object-contain"
+          />
+          <h1
+            class="text-2xl md:text-4xl font-bold text-gray-800 flex items-center gap-4"
+          >
+            💰 Rekap Data Keuangan 💰
           </h1>
-          <p class="text-gray-500 italic">Hemat Pangkal Kaya</p>
+          <p class="font-pacifico text-lg text-pink-500 italic">
+            Hemat Pangkal Kaya
+          </p>
         </div>
       </header>
 
