@@ -14,18 +14,8 @@
           Pengelolaan Keuangan 💰
         </h1>
 
-        <!-- Profil -->
-        <div class="flex items-center gap-3 bg-white/20 px-3 py-1 rounded-full">
-          <img
-            src="https://www.gravatar.com/avatar/?d=mp"
-            alt="User Avatar"
-            class="w-10 h-10 rounded-full border-2 border-gray-300"
-          />
-          <span
-            class="text-sm md:text-base font-medium truncate max-w-[120px] sm:max-w-none"
-          >
-            {{ userEmail || "Guest" }}
-          </span>
+        <div class="text-white text-sm md:text-base pr-4">
+          📆 {{ tanggalHariIni }}
         </div>
       </div>
     </header>
@@ -295,6 +285,23 @@ import { onAuthStateChanged } from "firebase/auth";
 
 const router = useRouter();
 const userEmail = ref(null);
+
+const tanggalHariIni = ref("");
+const now = new Date();
+const days = [
+  "Sunday",
+  "Monday",
+  "Tuesday",
+  "Wednesday",
+  "Thursday",
+  "Friday",
+  "Saturday",
+];
+const dayName = days[now.getDay()];
+const day = String(now.getDate()).padStart(2, "0");
+const month = String(now.getMonth() + 1).padStart(2, "0");
+const year = now.getFullYear();
+tanggalHariIni.value = `${dayName}, ${day}/${month}/${year}`;
 
 onMounted(() => {
   onAuthStateChanged(auth, (user) => {
