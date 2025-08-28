@@ -9,9 +9,26 @@
       <div class="w-64 h-full flex flex-col overflow-x-hidden">
         <!-- Sidebar Header -->
         <div
-          class="flex items-center justify-center h-18 bg-gradient-to-r from-sky-400 to-indigo-800 border-b border-gray-700"
+          class="flex flex-col items-center justify-center gap-3 h-24 bg-gradient-to-r from-sky-400 to-indigo-800 border-b border-gray-700 px-3 py-2"
         >
+          <!-- Judul -->
           <h1 class="text-white text-lg font-bold">Manajemen Keuangan</h1>
+
+          <!-- Profil User -->
+          <div
+            class="flex items-center gap-3 bg-white/20 px-3 py-1 rounded-full"
+          >
+            <img
+              src="https://www.gravatar.com/avatar/?d=mp"
+              alt="User Avatar"
+              class="w-5 h-5 rounded-full border-2 border-gray-300"
+            />
+            <span
+              class="text-xs md:text-sm text-white font-medium truncate max-w-[120px] sm:max-w-none"
+            >
+              {{ userEmail || "Guest" }}
+            </span>
+          </div>
         </div>
 
         <!-- Navigation -->
@@ -222,7 +239,7 @@
           <img
             src="../assets/note2.png"
             alt="note"
-            class="w-12 md:w-20 h-12md:h-18 object-contain"
+            class="w-12 md:w-20 h-12 md:h-18 object-contain"
           />
           <h1
             class="text-2xl md:text-3xl font-bold text-center text-white drop-shadow-md tracking-wide"
@@ -233,10 +250,8 @@
           </h1>
         </div>
 
-        <!-- Kanan: Tanggal -->
-        <div
-          class="flex items-center text-white text-sm md:text-base mt-2 sm:mt-0"
-        >
+        <!-- Tanggal -->
+        <div class="text-white text-sm md:text-base pr-8">
           📆 {{ tanggalHariIni }}
         </div>
       </header>
@@ -250,14 +265,16 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
 import { useRouter } from "vue-router";
 import { auth } from "../firebase";
 import { signOut } from "firebase/auth";
+import { onAuthStateChanged } from "firebase/auth";
 
 const sidebarOpen = ref(false);
 const open = ref(false);
 const router = useRouter();
+const userEmail = ref(null);
 
 const linkClass =
   "flex items-center gap-3 rounded-lg px-3 py-2 text-gray-300 hover:bg-gray-700 hover:text-white transition-colors";
@@ -292,4 +309,14 @@ const day = String(now.getDate()).padStart(2, "0");
 const month = String(now.getMonth() + 1).padStart(2, "0");
 const year = now.getFullYear();
 tanggalHariIni.value = `${dayName}, ${day}/${month}/${year}`;
+
+onMounted(() => {
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      userEmail.value = user.email; // ambil email user login
+    } else {
+      userEmail.value = null;
+    }
+  });
+});
 </script>
