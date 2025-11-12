@@ -2,16 +2,11 @@
   <LayoutPage>
     <!-- Konten Utama -->
     <header
-      class="bg-white border border-blue-400 p-3 mb-6 mx-3 text-center shadow-lg rounded-xl"
+      class="bg-white border border-blue-400 p-6 mb-6 mx-3 text-center shadow-lg rounded-xl"
     >
       <div class="flex flex-col items-center justify-center">
-        <img
-          src="../assets/pemasukan.gif"
-          alt="Icon pemasukan"
-          class="w-20 h-20 object-contain"
-        />
         <h1
-          class="text-2xl md:text-4xl font-bold font-fredoka text-blue-600 drop-shadow-md animate-bounce"
+          class="text-2xl md:text-4xl font-bold font-fredoka text-blue-600 drop-shadow-md"
         >
           💰 Pemasukan Uang 💰
         </h1>
@@ -27,7 +22,7 @@
         <!-- Tombol tambah data -->
         <button
           @click="tambahData"
-          class="bg-gradient-to-r from-sky-300 via-blue-400 to-indigo-700 text-white px-4 py-2 md:py-3 rounded-lg hover:bg-blue-950"
+          class="bg-blue-500 text-white px-4 py-2 md:py-3 rounded-lg hover:bg-blue-950"
         >
           + Tambah Data
         </button>
@@ -208,7 +203,7 @@
         class="flex flex-col md:flex-row items-center justify-center mt-2 px-4 md:px-10 py-8 gap-8 md:gap-10"
       >
         <!-- Card -->
-        <div class="order-1 md:order-1 card">
+        <div class="order-1 md:order-1 bg-blue-500 card">
           <div class="card__content">
             <p class="text-white font-semibold text-lg">Total Pemasukan</p>
             <p class="card__description mt-2">
@@ -216,16 +211,9 @@
                 {{ formatRupiah(totalPemasukanBulanIni) }}
               </span>
             </p>
-            <div class="card__icon">💵</div>
+            <!-- <div class="card__icon">💵</div> -->
           </div>
         </div>
-        <!-- Gambar -->
-        <img
-          src="../assets/lucu.gif"
-          alt="Kartun imut"
-          class="order-2 md:order-2 w-64 h-64 md:w-80 md:h-80 object-contain"
-        />
-
         <!-- Tips Hemat -->
         <div
           class="order-3 md:order-3 flex flex-col justify-center max-w-sm mb-10 md:mb-0 text-gray-800 text-center md:text-left"
@@ -512,7 +500,6 @@ function goToPage(page) {
   position: relative;
   width: 320px;
   height: 200px;
-  background: linear-gradient(135deg, #2563eb, #4f46e5);
   border-radius: 18px;
   display: flex;
   flex-direction: column;

@@ -4,14 +4,9 @@
     <header
       class="bg-white border border-blue-400 p-3 mb-6 mx-3 text-center shadow-lg rounded-xl"
     >
-      <div class="flex flex-col items-center justify-center">
-        <img
-          src="../assets/pengeluaran.png"
-          alt="Icon pengeluaran"
-          class="w-21 h-21 object-contain"
-        />
+      <div class="flex flex-col items-center justify-center p-5">
         <h1
-          class="text-2xl md:text-4xl font-bold font-fredoka text-blue-600 drop-shadow-md animate-bounce"
+          class="text-2xl md:text-4xl font-bold font-fredoka text-blue-600 drop-shadow-md"
         >
           💰 Pengeluaran Uang 💰
         </h1>
@@ -27,7 +22,7 @@
         <!-- Tombol tambah data -->
         <button
           @click="tambahData"
-          class="bg-gradient-to-r from-sky-300 via-blue-400 to-indigo-700 text-white px-4 py-2 rounded hover:bg-blue-950"
+          class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-950"
         >
           + Tambah Data
         </button>
@@ -209,7 +204,7 @@
         class="flex flex-col md:flex-row items-center justify-center mt-2 px-4 md:px-10 py-8 gap-8 md:gap-10"
       >
         <!-- Card -->
-        <div class="order-1 md:order-1 card">
+        <div class="order-1 md:order-1 bg-blue-500 card">
           <div class="card__content">
             <p class="text-white font-semibold text-lg">Total Pengeluaran</p>
             <p class="card__description mt-2">
@@ -217,7 +212,6 @@
                 {{ formatRupiah(totalPengeluaranBulanIni) }}
               </span>
             </p>
-            <div class="card__icon">💵</div>
           </div>
         </div>
 
@@ -515,7 +509,6 @@ function goToPage(page) {
   position: relative;
   width: 320px;
   height: 200px;
-  background: linear-gradient(135deg, #2563eb, #4f46e5);
   border-radius: 18px;
   display: flex;
   flex-direction: column;

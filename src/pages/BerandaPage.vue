@@ -3,7 +3,7 @@
     <div class="flex-1 md:p-8 overflow-auto">
       <!-- Welcome -->
       <div
-        class="text-center text-shadow font-serif md:font-mono md:animate-bounce p-6 bg-white rounded-lg shadow text-2xl md:text-3xl font-semibold text-blue-900 border border-blue-300"
+        class="text-center text-shadow font-serif md:font-mono  p-6 bg-white rounded-lg shadow text-2xl md:text-3xl font-semibold text-blue-900 border border-blue-300"
       >
         SELAMAT DATANG DI PENGELOLAAN KEUANGAN ANDA!
       </div>

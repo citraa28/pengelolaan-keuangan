@@ -3,14 +3,9 @@
     <div class="flex-1 p-2 overflow-auto">
       <!-- Header -->
       <header
-        class="bg-white border border-blue-400 font-fredoka animate-bounce p-6 mx-auto max-w-5xl text-center shadow-xl rounded-xl mb-8"
+        class="bg-white border border-blue-400 font-fredoka p-6 mx-auto max-w-5xl text-center shadow-xl rounded-xl mb-8"
       >
-        <div class="flex flex-col items-center gap-3">
-          <img
-            src="../assets/dolar.png"
-            alt="Rekap data"
-            class="w-16 h-16 object-contain"
-          />
+        <div class="flex flex-col items-center gap-3 p-5">
           <h1
             class="text-2xl md:text-4xl font-bold text-gray-800 flex items-center gap-4"
           >
@@ -61,7 +56,7 @@
           <!-- Tombol -->
           <button
             @click="kirimData"
-            class="px-6 py-2 rounded-lg text-white font-semibold shadow-md bg-gradient-to-r from-sky-400 to-indigo-600 hover:from-sky-500 hover:to-indigo-700 transition"
+            class="px-6 py-2 rounded-lg text-white font-semibold shadow-md bg-blue-500 transition"
           >
             + Simpan Data
           </button>

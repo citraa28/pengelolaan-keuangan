@@ -4,13 +4,13 @@
   >
     <!-- Card -->
     <div
-      class="bg-gradient-to-r from-pink-300 via-blue-300 to-indigo-500 w-full max-w-md rounded shadow-lg p-6"
+      class="bg-blue-300 w-full max-w-md rounded shadow-lg p-6"
     >
       <!-- Judul -->
       <h2 class="text-xl font-bold mb-4">Edit Data Keuangan</h2>
       <!-- Edit Keterangan -->
       <div class="mb-4">
-        <label class="block text-gray-700 font-semibold mb-1">Keterangan</label>
+        <label class="block text-black font-semibold mb-1">Keterangan</label>
         <input
           v-model="form.keterangan"
           type="text"
@@ -19,7 +19,7 @@
       </div>
       <!-- Edit Kategori -->
       <div class="mb-4 relative">
-        <label class="block text-gray-700 font-semibold mb-1">
+        <label class="block text-black font-semibold mb-1">
           Kategori Keperluan
         </label>
         <input
@@ -47,7 +47,7 @@
       </div>
 
       <div class="mb-4">
-        <label class="block text-gray-700 font-semibold mb-1"
+        <label class="block text-black font-semibold mb-1"
           >Jenis Keuangan</label
         >
         <div class="flex gap-4">
@@ -73,7 +73,7 @@
       </div>
 
       <div class="mb-4">
-        <label class="block text-gray-700 font-semibold mb-1">Harga (Rp)</label>
+        <label class="block text-black font-semibold mb-1">Harga (Rp)</label>
         <input
           v-model="form.harga"
           type="number"
@@ -82,7 +82,7 @@
       </div>
 
       <div class="mb-6">
-        <label class="block text-gray-700 font-semibold mb-1">Tanggal</label>
+        <label class="block text-black font-semibold mb-1">Tanggal</label>
         <input
           v-model="form.tanggal"
           type="date"
@@ -93,13 +93,13 @@
       <div class="flex justify-end gap-2">
         <button
           @click="$emit('close')"
-          class="px-4 py-2 border rounded text-gray-700"
+          class="px-4 py-2 border rounded bg-blue-100 text-black"
         >
           Cancel
         </button>
         <button
           @click="simpanPerubahan"
-          class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-800"
+          class="bg-blue-600 text-white px-4 py-2 rounded"
         >
           Simpan Perubahan
         </button>

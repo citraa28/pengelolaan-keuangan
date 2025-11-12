@@ -5,14 +5,14 @@
   >
     <!-- Card -->
     <div
-      class="bg-gradient-to-r from-sky-200 via-blue-400 to-blue-600 w-full max-w-md rounded-lg shadow-lg p-6 relative"
+      class="bg-blue-200 w-full max-w-md rounded-lg shadow-lg p-6 relative"
     >
       <!-- Judul -->
       <h2 class="text-xl font-semibold mb-4">Tambah Data Keuangan</h2>
 
       <!-- Input Keterangan -->
       <div class="mb-3">
-        <label class="block mb-1 text-sm font-medium text-gray-700">
+        <label class="block mb-1 text-sm font-medium text-black">
           Keterangan
         </label>
         <input
@@ -24,7 +24,7 @@
 
       <!-- Input Kategori -->
       <div class="mb-3 relative">
-        <label class="block mb-1 text-sm font-medium text-gray-700">
+        <label class="block mb-1 text-sm font-medium text-black">
           Kategori Keperluan
         </label>
         <input
@@ -54,7 +54,7 @@
 
       <!-- Pilih Jenis -->
       <div class="mb-3">
-        <label class="block mb-1 text-sm font-medium text-gray-700">
+        <label class="block mb-1 text-sm font-medium text-black">
           Jenis Keuangan
         </label>
         <div class="flex gap-4">
@@ -71,7 +71,7 @@
 
       <!-- Jumlah -->
       <div class="mb-3">
-        <label class="block mb-1 text-sm font-medium text-gray-700">
+        <label class="block mb-1 text-sm font-medium text-black">
           Harga (Rp)
         </label>
         <input
@@ -83,7 +83,7 @@
 
       <!-- Tanggal -->
       <div class="mb-4">
-        <label class="block mb-1 text-sm font-medium text-gray-700">
+        <label class="block mb-1 text-sm font-medium text-black">
           Tanggal
         </label>
         <input
@@ -97,13 +97,13 @@
       <div class="flex justify-end gap-2">
         <button
           @click="$emit('close')"
-          class="px-4 py-2 border rounded text-black hover:underline"
+          class="px-4 py-2 border rounded bg-blue-50 text-black hover:underline"
         >
           Batal
         </button>
         <button
           @click="kirimData"
-          class="bg-indigo-800 text-white px-4 py-2 rounded hover:bg-blue-600"
+          class="bg-blue-700 text-white px-4 py-2 rounded"
         >
           + Simpan Data
         </button>
