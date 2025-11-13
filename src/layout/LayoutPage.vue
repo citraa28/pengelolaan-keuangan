@@ -267,9 +267,9 @@
 <script setup>
 import { ref, onMounted } from "vue";
 import { useRouter } from "vue-router";
-import { auth } from "../firebase";
-import { signOut } from "firebase/auth";
-import { onAuthStateChanged } from "firebase/auth";
+// import { auth } from "../firebase";
+// import { signOut } from "firebase/auth";
+// import { onAuthStateChanged } from "firebase/auth";
 
 const sidebarOpen = ref(false);
 const open = ref(false);

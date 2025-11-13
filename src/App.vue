@@ -1,8 +1,8 @@
 <script setup>
 import { ref } from 'vue'
-import { useAuth } from './composables/useAuth.js'
+// import { useAuth } from './composables/useAuth.js'
 
-const { user, loading } = useAuth()
+// const { user, loading } = useAuth()
 const isDarkMode = ref(true) // toggle dark mode di sini
 </script>
 

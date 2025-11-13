@@ -280,8 +280,8 @@
 import { ref, onMounted } from "vue";
 import BerandaPage from "../pages/BerandaPage.vue";
 import { useRouter } from "vue-router";
-import { auth } from "../firebase"; // pastikan import auth
-import { onAuthStateChanged } from "firebase/auth";
+// import { auth } from "../firebase"; // pastikan import auth
+// import { onAuthStateChanged } from "firebase/auth";
 
 const router = useRouter();
 const userEmail = ref(null);
@@ -303,15 +303,15 @@ const month = String(now.getMonth() + 1).padStart(2, "0");
 const year = now.getFullYear();
 tanggalHariIni.value = `${dayName}, ${day}/${month}/${year}`;
 
-onMounted(() => {
-  onAuthStateChanged(auth, (user) => {
-    if (user) {
-      userEmail.value = user.email; // ambil email user login
-    } else {
-      userEmail.value = null;
-    }
-  });
-});
+// onMounted(() => {
+//   onAuthStateChanged(auth, (user) => {
+//     if (user) {
+//       userEmail.value = user.email; // ambil email user login
+//     } else {
+//       userEmail.value = null;
+//     }
+//   });
+// });
 
 function goToBeranda() {
   router.push("/beranda");

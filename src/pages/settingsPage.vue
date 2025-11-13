@@ -211,140 +211,140 @@
   </div>
 </template>
 
-<script setup>
-import { ref, computed, onMounted, watch } from "vue";
-import { auth } from "../firebase";
-import { onAuthStateChanged } from "firebase/auth";
+//  <script setup>
+// import { ref, computed, onMounted, watch } from "vue";
+// import { auth } from "../firebase";
+// import { onAuthStateChanged } from "firebase/auth";
 
-const activeTab = ref("profil");
-const sidebarOpen = ref(false);
+// const activeTab = ref("profil");
+// const sidebarOpen = ref(false);
 
-const showPassword = ref(false);
+// const showPassword = ref(false);
 
-const form = ref({
-  nama: "",
-  email: "",
-  tanggalLahir: "",
-  username: "",
-  password: "",
-  language: "Indonesia",
-  currency: "",
-});
+// const form = ref({
+//   nama: "",
+//   email: "",
+//   tanggalLahir: "",
+//   username: "",
+//   password: "",
+//   language: "Indonesia",
+//   currency: "",
+// });
 
-// Kamus Bahasa
-const translate = {
-  Indonesia: {
-    settings: "Pengaturan",
-    profile: "Profil",
-    security: "Keamanan",
-    preference: "Preferensi",
-    back: "Kembali ke Beranda",
-    menu: "Menu",
-    save: "Simpan Perubahan",
-    update: "Perbarui Preferensi",
-    name: "Nama",
-    email: "Email",
-    birth: "Tanggal Lahir",
-    language: "Bahasa",
-    currency: "Mata Uang",
-    birthday: "🎉 Selamat Ulang Tahun",
-    password: "Kata Sandi",
-    username: "Nama Pengguna",
-  },
-  English: {
-    settings: "Settings",
-    menu: "Menu",
-    back: "Back to Home",
-    profile: "Profile",
-    security: "Security",
-    preference: "Preferences",
-    save: "Save Changes",
-    update: "Update Preferences",
-    name: "Name",
-    email: "Email",
-    birth: "Date of Birth",
-    language: "Language",
-    currency: "Currency",
-    birthday: "🎉 Happy Birthday",
-    password: "Password",
-    username: "Username",
-  },
-};
+// // Kamus Bahasa
+// const translate = {
+//   Indonesia: {
+//     settings: "Pengaturan",
+//     profile: "Profil",
+//     security: "Keamanan",
+//     preference: "Preferensi",
+//     back: "Kembali ke Beranda",
+//     menu: "Menu",
+//     save: "Simpan Perubahan",
+//     update: "Perbarui Preferensi",
+//     name: "Nama",
+//     email: "Email",
+//     birth: "Tanggal Lahir",
+//     language: "Bahasa",
+//     currency: "Mata Uang",
+//     birthday: "🎉 Selamat Ulang Tahun",
+//     password: "Kata Sandi",
+//     username: "Nama Pengguna",
+//   },
+//   English: {
+//     settings: "Settings",
+//     menu: "Menu",
+//     back: "Back to Home",
+//     profile: "Profile",
+//     security: "Security",
+//     preference: "Preferences",
+//     save: "Save Changes",
+//     update: "Update Preferences",
+//     name: "Name",
+//     email: "Email",
+//     birth: "Date of Birth",
+//     language: "Language",
+//     currency: "Currency",
+//     birthday: "🎉 Happy Birthday",
+//     password: "Password",
+//     username: "Username",
+//   },
+// };
 
-// Getter teks sesuai bahasa
-const t = computed(() => translate[form.value.language]);
+// // Getter teks sesuai bahasa
+// const t = computed(() => translate[form.value.language]);
 
-const setTab = (tab) => {
-  activeTab.value = tab;
-  sidebarOpen.value = false;
-};
+// const setTab = (tab) => {
+//   activeTab.value = tab;
+//   sidebarOpen.value = false;
+// };
 
-const buttonClass = (tab) => {
-  return [
-    "w-full text-left px-3 py-2 rounded-md",
-    activeTab.value === tab
-      ? "bg-blue-600 text-white"
-      : "hover:bg-gray-100 text-gray-700",
-  ];
-};
+// const buttonClass = (tab) => {
+//   return [
+//     "w-full text-left px-3 py-2 rounded-md",
+//     activeTab.value === tab
+//       ? "bg-blue-600 text-white"
+//       : "hover:bg-gray-100 text-gray-700",
+//   ];
+// };
 
-const simpan = () => {
-  alert(
-    `Data disimpan:\nNama: ${form.value.nama}\nEmail: ${form.value.email}\nTanggal Lahir:${form.value.tanggalLahir}`
-  );
+// const simpan = () => {
+//   alert(
+//     `Data disimpan:\nNama: ${form.value.nama}\nEmail: ${form.value.email}\nTanggal Lahir:${form.value.tanggalLahir}`
+//   );
 
-  localStorage.setItem("form", JSON.stringify(form.value));
-};
+//   localStorage.setItem("form", JSON.stringify(form.value));
+// };
 
-const save = () => {
-  alert(
-    `${t.value.save}:\n${t.value.username}: ${form.value.username}\n${t.value.password}: ${form.value.password}`
-  );
+// const save = () => {
+//   alert(
+//     `${t.value.save}:\n${t.value.username}: ${form.value.username}\n${t.value.password}: ${form.value.password}`
+//   );
 
-  localStorage.setItem("form", JSON.stringify(form.value));
-};
+//   localStorage.setItem("form", JSON.stringify(form.value));
+// };
 
-const perbarui = () => {
-  alert(
-    `${t.value.update}:\n${t.value.language}: ${form.value.language}\n${t.value.currency}: ${form.value.currency}`
-  );
+// const perbarui = () => {
+//   alert(
+//     `${t.value.update}:\n${t.value.language}: ${form.value.language}\n${t.value.currency}: ${form.value.currency}`
+//   );
 
-  localStorage.setItem("form", JSON.stringify(form.value));
-};
+//   localStorage.setItem("form", JSON.stringify(form.value));
+// };
 
-// ✅ Ambil data user login dari Firebase + localStorage
-onMounted(() => {
-  onAuthStateChanged(auth, (user) => {
-    if (user) {
-      form.value.email = user.email || "";
-      form.value.username = user.displayName || user.email.split("@")[0];
-      form.value.nama = user.displayName || "";
-    }
-  });
+// // ✅ Ambil data user login dari Firebase + localStorage
+// onMounted(() => {
+//   onAuthStateChanged(auth, (user) => {
+//     if (user) {
+//       form.value.email = user.email || "";
+//       form.value.username = user.displayName || user.email.split("@")[0];
+//       form.value.nama = user.displayName || "";
+//     }
+//   });
 
-  const saved = localStorage.getItem("form");
-  if (saved) {
-    form.value = JSON.parse(saved);
+//   const saved = localStorage.getItem("form");
+//   if (saved) {
+//     form.value = JSON.parse(saved);
 
-    if (form.value.tanggalLahir) {
-      const today = new Date();
-      const tglLahir = new Date(form.value.tanggalLahir);
+//     if (form.value.tanggalLahir) {
+//       const today = new Date();
+//       const tglLahir = new Date(form.value.tanggalLahir);
 
-      if (
-        today.getDate() === tglLahir.getDate() &&
-        today.getMonth() === tglLahir.getMonth()
-      ) {
-        alert(`🎉Selamat Ulang Tahun, ${form.value.nama}! 🎂`);
-      }
-    }
-  }
-});
+//       if (
+//         today.getDate() === tglLahir.getDate() &&
+//         today.getMonth() === tglLahir.getMonth()
+//       ) {
+//         alert(`🎉Selamat Ulang Tahun, ${form.value.nama}! 🎂`);
+//       }
+//     }
+//   }
+// });
 
-// Simpan bahasa saat diganti
-watch(
-  () => form.value.language,
-  () => {
-    localStorage.setItem("form", JSON.stringify(form.value));
-  }
-);
-</script>
+// // Simpan bahasa saat diganti
+// watch(
+//   () => form.value.language,
+//   () => {
+//     localStorage.setItem("form", JSON.stringify(form.value));
+//   }
+// );
+// </script>

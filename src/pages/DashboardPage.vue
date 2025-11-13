@@ -18,8 +18,8 @@
 
 <script>
 import { ref, computed } from 'vue';
-import { signOut } from 'firebase/auth';
-import { auth } from '../firebase.js';
+// import { signOut } from 'firebase/auth';
+// import { auth } from '../firebase.js';
 
 export default {
   name: 'DashboardPage',
@@ -29,25 +29,25 @@ export default {
       required: true
     }
   },
-  setup() {
-    const loading = ref(false);
+  // setup() {
+  //   const loading = ref(false);
 
-    const handleLogout = async () => {
-      loading.value = true;
-      try {
-        await signOut(auth);
-        // Logout berhasil, user akan diarahkan ke login
-      } catch (err) {
-        console.error('Error logging out:', err);
-      } finally {
-        loading.value = false;
-      }
-    };
+  //   const handleLogout = async () => {
+  //     loading.value = true;
+  //     try {
+  //       await signOut(auth);
+  //       // Logout berhasil, user akan diarahkan ke login
+  //     } catch (err) {
+  //       console.error('Error logging out:', err);
+  //     } finally {
+  //       loading.value = false;
+  //     }
+  //   };
 
-    return {
-      loading,
-      handleLogout
-    };
-  }
+  //   return {
+  //     loading,
+  //     handleLogout
+  //   };
+  // }
 };
 </script> 
