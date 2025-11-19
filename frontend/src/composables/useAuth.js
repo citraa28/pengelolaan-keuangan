@@ -8,6 +8,7 @@ const user = ref(null);
 const token = ref(localStorage.getItem('token') || null);
 
 export function useAuth() {
+  const router = useRouter();
   const errors = ref({});
   const loading = ref(false);
   const { fetchPemasukan, fetchPengeluaran, clearKeuanganState } = useKeuangan();
@@ -35,7 +36,6 @@ export function useAuth() {
   };
 
   const login = async (credentials) => {
-    const router = useRouter();
     loading.value = true;
     errors.value = {};
     try {
@@ -72,7 +72,6 @@ export function useAuth() {
   };
 
   const register = async (data) => {
-    const router = useRouter();
     loading.value = true;
     errors.value = {};
     try {
@@ -108,7 +107,6 @@ export function useAuth() {
   };
 
   const logout = async () => {
-    const router = useRouter();
     if (!token.value) return;
     
     try {
