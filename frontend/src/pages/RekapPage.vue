@@ -132,6 +132,10 @@
 import LayoutPage from "../layout/LayoutPage.vue";
 import { ref } from "vue";
 import { onMounted } from "vue";
+import { useKeuangan } from "../composables/useKeuangan.js";
+
+const { pemasukan, pengeluaran, fetchPemasukan, fetchPengeluaran } =
+  useKeuangan();
 
 const form = ref({
   jenis: "",
@@ -152,9 +156,22 @@ function formatRupiah(angka) {
 
 function applyFilter() {
   console.log("Menerapkan filter..."); // Mengambil data dari localStorage (sumber data saat ini)
-  let pemasukan = JSON.parse(localStorage.getItem("dataPemasukan")) || [];
-  let pengeluaran = JSON.parse(localStorage.getItem("dataPengeluaran")) || [];
-  let semuaData = [...pemasukan, ...pengeluaran];
+  let semuaData = [
+    ...pemasukan.value.map((p) => ({
+      jenis: "pemasukan",
+      keterangan: p.keterangan,
+      kategori: p.kategori?.nama_kategori,
+      tanggal: p.tanggal,
+      jumlah: p.jumlah,
+    })),
+    ...pengeluaran.value.map((p) => ({
+      jenis: "pengeluaran",
+      keterangan: p.keterangan,
+      kategori: p.kategori?.nama_kategori,
+      tanggal: p.tanggal,
+      jumlah: p.jumlah,
+    })),
+  ];
 
   let hasil = semuaData.filter((item) => {
     // Filter Jenis
@@ -179,8 +196,10 @@ function applyFilter() {
 }
 
 // Panggil filterData saat komponen pertama kali dimuat
-onMounted(() => {
-  // Untuk menampilkan data awal (tanpa filter)
+onMounted(async () => {
+  await fetchPemasukan();
+  await fetchPengeluaran();
+
   applyFilter();
 });
 </script>
