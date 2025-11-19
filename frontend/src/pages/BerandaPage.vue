@@ -381,269 +381,162 @@
 
 <script setup>
 import LayoutPage from "../layout/LayoutPage.vue";
-import { ref, computed, onMounted } from "vue";
+import { ref, computed, onMounted, watch } from "vue";
 import BarChart from "../components/BarChart.vue";
 import PieChart from "../components/PieChart.vue";
+import { useKeuangan } from "../composables/useKeuangan.js";
 
-const dataPemasukan = ref([]);
-const dataPengeluaran = ref([]);
-const showDetailPemasukan = ref(false); // modal toggle
+// Get the centralized state and fetch functions
+const { pemasukan, pengeluaran, fetchPemasukan, fetchPengeluaran } = useKeuangan();
+
+const showDetailPemasukan = ref(false);
 const showDetailPengeluaran = ref(false);
 
-// kelompok pemasukan per bulan
-const pemasukanPerBulan = computed(() => {
-  const grouped = {};
-  dataPemasukan.value.forEach((item) => {
-    const date = new Date(item.tanggal);
-    const bulan = date.toLocaleString("id-ID", {
-      month: "long",
-      year: "numeric",
-    });
-    if (!grouped[bulan]) grouped[bulan] = 0;
-    grouped[bulan] += Number(item.harga);
-  });
-  return Object.entries(grouped)
-    .map(([bulan, total]) => ({ bulan, total }))
-    .sort((a, b) => new Date(b.bulan) - new Date(a.bulan))
-    .reverse(); // urutkan terbaru di atas
+// Fetch data on mount if not already present
+onMounted(() => {
+  if (pemasukan.value.length === 0) {
+    fetchPemasukan();
+  }
+  if (pengeluaran.value.length === 0) {
+    fetchPengeluaran();
+  }
 });
 
-// kelompok pengeluaran per bulan
+// --- Computed Properties for Display ---
+
+const totalPemasukanBulanIni = computed(() => {
+  const now = new Date();
+  return pemasukan.value
+    .filter((item) => {
+      const date = new Date(item.tanggal);
+      return date.getMonth() === now.getMonth() && date.getFullYear() === now.getFullYear();
+    })
+    .reduce((total, item) => total + Number(item.jumlah), 0);
+});
+
+const totalPengeluaranBulanIni = computed(() => {
+  const now = new Date();
+  return pengeluaran.value
+    .filter((item) => {
+      const date = new Date(item.tanggal);
+      return date.getMonth() === now.getMonth() && date.getFullYear() === now.getFullYear();
+    })
+    .reduce((total, item) => total + Number(item.jumlah), 0);
+});
+
+const pemasukanPerBulan = computed(() => {
+  const grouped = {};
+  pemasukan.value.forEach((item) => {
+    const date = new Date(item.tanggal);
+    const bulan = date.toLocaleString("id-ID", { month: "long", year: "numeric" });
+    if (!grouped[bulan]) grouped[bulan] = 0;
+    grouped[bulan] += Number(item.jumlah);
+  });
+  return Object.entries(grouped).map(([bulan, total]) => ({ bulan, total })).sort((a, b) => new Date(b.bulan) - new Date(a.bulan)).reverse();
+});
+
 const pengeluaranPerBulan = computed(() => {
   const grouped = {};
-  dataPengeluaran.value.forEach((item) => {
+  pengeluaran.value.forEach((item) => {
     const date = new Date(item.tanggal);
-    const bulan = date.toLocaleString("id-ID", {
-      month: "long",
-      year: "numeric",
-    });
+    const bulan = date.toLocaleString("id-ID", { month: "long", year: "numeric" });
     if (!grouped[bulan]) grouped[bulan] = 0;
-    grouped[bulan] += Number(item.harga);
+    grouped[bulan] += Number(item.jumlah);
   });
-  return Object.entries(grouped)
-    .map(([bulan, total]) => ({ bulan, total }))
-    .sort((a, b) => new Date(b.bulan) - new Date(a.bulan))
-    .reverse(); // urutkan terbaru di atas
+  return Object.entries(grouped).map(([bulan, total]) => ({ bulan, total })).sort((a, b) => new Date(b.bulan) - new Date(a.bulan)).reverse();
 });
+
+// --- Chart Data ---
 
 const dataChart = ref({
   data: {
-    labels: [
-      "January",
-      "February",
-      "March",
-      "April",
-      "May",
-      "June",
-      "July",
-      "August",
-      "September",
-      "October",
-      "November",
-      "December",
-    ],
+    labels: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
     datasets: [],
   },
   options: { responsive: true, maintainAspectRatio: false },
 });
 
-// PIE CHART PEMASUKAN
 const dataPieChartPemasukan = ref({
-  data: {
-    labels: [],
-    datasets: [],
-  },
+  data: { labels: [], datasets: [] },
   options: {
     responsive: true,
     maintainAspectRatio: false,
-    plugins: {
-      legend: { display: true, position: "bottom" },
-      datalabels: {
-        color: "#fff",
-        formatter: (value, context) => {
-          let total = context.chart._metasets[0].total;
-          let percentage = ((value / total) * 100).toFixed(1) + "%";
-          let label = context.chart.data.labels[context.dataIndex];
-          return `${label}\n${percentage}`;
-        },
-        font: { weight: "bold", size: 14 },
-      },
-    },
+    plugins: { legend: { display: true, position: "bottom" } },
   },
 });
 
-// PIE CHART PENGELUARAN
 const dataPieChartPengeluaran = ref({
-  data: {
-    labels: [],
-    datasets: [],
-  },
+  data: { labels: [], datasets: [] },
   options: {
     responsive: true,
     maintainAspectRatio: false,
-    plugins: {
-      legend: { display: true, position: "bottom" },
-      datalabels: {
-        color: "#fff",
-        formatter: (value, context) => {
-          let total = context.chart._metasets[0].total;
-          let percentage = ((value / total) * 100).toFixed(1) + "%";
-          let label = context.chart.data.labels[context.dataIndex];
-          return `${label}\n${percentage}`;
-        },
-        font: { weight: "bold", size: 14 },
-      },
-    },
+    plugins: { legend: { display: true, position: "bottom" } },
   },
 });
 
-onMounted(() => {
-  // ambil data dari localStorage
-  const pemasukanSaved = localStorage.getItem("dataPemasukan");
-  dataPemasukan.value = pemasukanSaved ? JSON.parse(pemasukanSaved) : [];
-
-  const pengeluaranSaved = localStorage.getItem("dataPengeluaran");
-  dataPengeluaran.value = pengeluaranSaved ? JSON.parse(pengeluaranSaved) : [];
-
-  // buat data bulanan untuk bar chart
-  const dataPemasukanBulanan = Array(12).fill(0);
-  const dataPengeluaranBulanan = Array(12).fill(0);
-
-  // ambil tahun sekarang
+// Watch for data changes to update charts
+watch([pemasukan, pengeluaran], () => {
   const currentYear = new Date().getFullYear();
 
-  dataPemasukan.value.forEach((item) => {
+  // Bar Chart Data
+  const dataPemasukanBulanan = Array(12).fill(0);
+  pemasukan.value.forEach((item) => {
     const date = new Date(item.tanggal);
-    const bulan = date.getMonth();
-    const tahun = date.getFullYear();
-
-    // hanya masukkan jika tahun = tahun sekarang
-    if (tahun === currentYear) {
-      dataPemasukanBulanan[bulan] += Number(item.harga);
+    if (date.getFullYear() === currentYear) {
+      dataPemasukanBulanan[date.getMonth()] += Number(item.jumlah);
     }
   });
 
-  dataPengeluaran.value.forEach((item) => {
+  const dataPengeluaranBulanan = Array(12).fill(0);
+  pengeluaran.value.forEach((item) => {
     const date = new Date(item.tanggal);
-    const bulan = date.getMonth();
-    const tahun = date.getFullYear();
-
-    // hanya masukkan jika tahun = tahun sekarang
-    if (tahun === currentYear) {
-      dataPengeluaranBulanan[bulan] += Number(item.harga);
+    if (date.getFullYear() === currentYear) {
+      dataPengeluaranBulanan[date.getMonth()] += Number(item.jumlah);
     }
   });
 
   dataChart.value.data.datasets = [
-    {
-      label: "Pemasukan",
-      data: dataPemasukanBulanan,
-      backgroundColor: "rgba(75, 192, 192, 0.2)",
-      borderColor: "rgba(75, 192, 192, 1)",
-      borderWidth: 1,
-    },
-    {
-      label: "Pengeluaran",
-      data: dataPengeluaranBulanan,
-      backgroundColor: "#FF6389",
-      borderColor: "rgba(255, 99, 132, 1)",
-      borderWidth: 1,
-    },
+    { label: "Pemasukan", data: dataPemasukanBulanan, backgroundColor: "rgba(75, 192, 192, 0.2)", borderColor: "rgba(75, 192, 192, 1)", borderWidth: 1 },
+    { label: "Pengeluaran", data: dataPengeluaranBulanan, backgroundColor: "#FF6389", borderColor: "rgba(255, 99, 132, 1)", borderWidth: 1 },
   ];
 
-  // hitung pemasukan per kategori (pie chart)
-  // PIE CHART PEMASUKAN
-
+  // Pie Chart Pemasukan
   const kategoriPemasukanMap = {};
-  dataPemasukan.value.forEach((item) => {
-    if (!kategoriPemasukanMap[item.kategori]) {
-      kategoriPemasukanMap[item.kategori] = 0;
-    }
-    kategoriPemasukanMap[item.kategori] += Number(item.harga);
+  pemasukan.value.forEach((item) => {
+    const kategori = item.kategori?.nama_kategori || 'Lainnya';
+    if (!kategoriPemasukanMap[kategori]) kategoriPemasukanMap[kategori] = 0;
+    kategoriPemasukanMap[kategori] += Number(item.jumlah);
   });
 
-  dataPieChartPemasukan.value.data.labels = Object.keys(kategoriPemasukanMap);
-  dataPieChartPemasukan.value.data.datasets = [
-    {
+  dataPieChartPemasukan.value.data = {
+    labels: Object.keys(kategoriPemasukanMap),
+    datasets: [{ 
       data: Object.values(kategoriPemasukanMap),
-      backgroundColor: [
-        "#36A2EB",
-        "#FF6384",
-        "#FFCE56",
-        "#4BC0C0",
-        "#9966FF",
-        "#FF9F40",
-        "#8BC34A",
-        "#F44336",
-      ],
-    },
-  ];
+      backgroundColor: ["#36A2EB", "#FF6384", "#FFCE56", "#4BC0C0", "#9966FF", "#FF9F40", "#8BC34A", "#F44336"],
+    }],
+  };
 
-  // PIE CHART PENGELUARAN
-
+  // Pie Chart Pengeluaran
   const kategoriPengeluaranMap = {};
-  dataPengeluaran.value.forEach((item) => {
-    if (!kategoriPengeluaranMap[item.kategori]) {
-      kategoriPengeluaranMap[item.kategori] = 0;
-    }
-    kategoriPengeluaranMap[item.kategori] += Number(item.harga);
+  pengeluaran.value.forEach((item) => {
+    const kategori = item.kategori?.nama_kategori || 'Lainnya';
+    if (!kategoriPengeluaranMap[kategori]) kategoriPengeluaranMap[kategori] = 0;
+    kategoriPengeluaranMap[kategori] += Number(item.jumlah);
   });
 
-  dataPieChartPengeluaran.value.data.labels = Object.keys(
-    kategoriPengeluaranMap
-  );
-  dataPieChartPengeluaran.value.data.datasets = [
-    {
+  dataPieChartPengeluaran.value.data = {
+    labels: Object.keys(kategoriPengeluaranMap),
+    datasets: [{ 
       data: Object.values(kategoriPengeluaranMap),
-      backgroundColor: [
-        "#36A2EB",
-        "#FF6384",
-        "#FFCE56",
-        "#4BC0C0",
-        "#9966FF",
-        "#FF9F40",
-        "#8BC34A",
-        "#F44336",
-      ],
-    },
-  ];
-});
+      backgroundColor: ["#FF6384", "#36A2EB", "#FFCE56", "#4BC0C0", "#9966FF", "#FF9F40", "#8BC34A", "#F44336"],
+     }],
+  };
 
-// total pemasukan bulan ini
-const totalPemasukanBulanIni = computed(() => {
-  const now = new Date();
-  return dataPemasukan.value
-    .filter((item) => {
-      const date = new Date(item.tanggal);
-      return (
-        date.getMonth() === now.getMonth() &&
-        date.getFullYear() === now.getFullYear()
-      );
-    })
-    .reduce((total, item) => total + Number(item.harga), 0);
-});
+}, { deep: true, immediate: true });
 
-// total pengeluaran bulan ini
-const totalPengeluaranBulanIni = computed(() => {
-  const now = new Date();
-  return dataPengeluaran.value
-    .filter((item) => {
-      const date = new Date(item.tanggal);
-      return (
-        date.getMonth() === now.getMonth() &&
-        date.getFullYear() === now.getFullYear()
-      );
-    })
-    .reduce((total, item) => total + Number(item.harga), 0);
-});
-
-// fungsi format rupiah
+// Utility function
 function formatRupiah(angka) {
-  return new Intl.NumberFormat("id-ID", {
-    style: "currency",
-    currency: "IDR",
-    minimumFractionDigits: 0,
-  }).format(Number(angka) || 0);
+  return new Intl.NumberFormat("id-ID", { style: "currency", currency: "IDR", minimumFractionDigits: 0 }).format(Number(angka) || 0);
 }
 </script>
 

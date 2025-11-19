@@ -2,16 +2,16 @@
   <LayoutPage>
     <!-- Konten Utama -->
     <header
-      class="bg-white border border-blue-400 p-3 mb-6 mx-3 text-center shadow-lg rounded-xl"
+      class="bg-white border border-blue-400 p-6 mb-6 mx-3 text-center shadow-lg rounded-xl"
     >
-      <div class="flex flex-col items-center justify-center p-5">
+      <div class="flex flex-col items-center justify-center">
         <h1
           class="text-2xl md:text-4xl font-bold font-fredoka text-blue-600 drop-shadow-md"
         >
-          💰 Pengeluaran Uang 💰
+          💰 Pemasukan Uang 💰
         </h1>
         <p class="font-pacifico text-base md:text-lg text-pink-500">
-          <i>Awali hari dengan mencatat pengeluaran secara rapi</i>
+          <i>Ayo Kendalikan Uangmu ✨</i>
         </p>
       </div>
     </header>
@@ -21,8 +21,8 @@
       <div class="flex flex-wrap items-center justify-between mb-5 gap-3">
         <!-- Tombol tambah data -->
         <button
-          @click="tambahData"
-          class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-950"
+          @click="showForm = true"
+          class="bg-blue-500 text-white px-4 py-2 md:py-3 rounded-lg hover:bg-blue-950"
         >
           + Tambah Data
         </button>
@@ -57,7 +57,7 @@
         </div>
       </div>
 
-      <div class="p-5 m-2.5 bg-white rounded-lg shadow-md">
+      <div class="p-3 bg-white rounded-lg shadow-md">
         <!-- Show entries control -->
         <div class="mb-4 flex flex-wrap items-center justify-between gap-4">
           <div class="flex items-center space-x-2">
@@ -90,13 +90,19 @@
                 <th class="px-4 py-2 border">No</th>
                 <th class="px-4 py-2 border">Keterangan</th>
                 <th class="px-4 py-2 border">Tanggal</th>
-                <th class="px-4 py-2 border">Harga</th>
+                <th class="px-4 py-2 border">Jumlah</th>
                 <th class="px-4 py-2 border">Aksi</th>
               </tr>
             </thead>
             <tbody>
+              <tr v-if="loading">
+                <td colspan="5" class="px-4 py-2 text-center text-gray-500">
+                  Memuat data...
+                </td>
+              </tr>
               <tr
-                v-for="(item, index) in paginatedPengeluaran"
+                v-else-if="paginatedPemasukan.length > 0"
+                v-for="(item, index) in paginatedPemasukan"
                 :key="item.id"
                 class="text-center"
               >
@@ -106,31 +112,32 @@
                 <td class="px-4 py-2 border">
                   {{ item.keterangan }} <br />
                   <span
+                    v-if="item.kategori"
                     class="rounded-full bg-purple-200 px-2.5 py-0.5 text-sm whitespace-nowrap text-blue-800"
                   >
-                    {{ item.kategori }}
+                    {{ item.kategori.nama_kategori }}
                   </span>
                 </td>
                 <td class="px-4 py-2 border">{{ item.tanggal }}</td>
                 <td class="px-4 py-2 border">
-                  Rp {{ formatRupiah(item.harga) }}
+                  {{ formatRupiah(item.jumlah) }}
                 </td>
                 <td class="px-4 py-2 border">
                   <button
-                    @click="editData(item.id)"
-                    class="bg-blue-500 rounded-2xl px-5 py-1 text-white hover:underline mr-2"
+                    @click="handleEdit(item)"
+                    class="bg-blue-500 rounded-2xl px-6 m-1 py-1 text-white hover:underline mr-2"
                   >
                     Edit
                   </button>
                   <button
-                    @click="hapusData(item.id)"
-                    class="bg-red-600 rounded-2xl px-3 py-1 text-white hover:underline"
+                    @click="handleDelete(item.id)"
+                    class="bg-red-600 rounded-2xl px-4 py-1 text-white hover:underline"
                   >
                     Hapus
                   </button>
                 </td>
               </tr>
-              <tr v-if="paginatedPengeluaran.length === 0">
+              <tr v-else>
                 <td colspan="5" class="px-4 py-2 text-center text-gray-500">
                   Tidak ada data
                 </td>
@@ -140,7 +147,7 @@
         </div>
 
         <!-- Pagination -->
-        <ul class="flex justify-center gap-1 text-gray-900 mt-8">
+        <ul class="flex justify-center gap-1 text-gray-900 mt-8 mb-17">
           <li>
             <button
               @click.prevent="prevPage"
@@ -198,41 +205,32 @@
           </li>
         </ul>
       </div>
-
-      <!-- Total Pengeluaran Bulan Ini -->
+      <!-- Total Pemasukan Bulan Ini -->
       <div
         class="flex flex-col md:flex-row items-center justify-center mt-2 px-4 md:px-10 py-8 gap-8 md:gap-10"
       >
         <!-- Card -->
         <div class="order-1 md:order-1 bg-blue-500 card">
           <div class="card__content">
-            <p class="text-white font-semibold text-lg">Total Pengeluaran</p>
+            <p class="text-white font-semibold text-lg">Total Pemasukan</p>
             <p class="card__description mt-2">
               <span>
-                {{ formatRupiah(totalPengeluaranBulanIni) }}
+                {{ formatRupiah(totalPemasukanBulanIni) }}
               </span>
             </p>
           </div>
         </div>
-
-        <!-- Gambar -->
-        <img
-          src="../assets/orang.gif"
-          alt="Kartun imut"
-          class="w-64 h-64 md:w-80 md:h-80 object-contain"
-        />
-
-        <!-- Motivational or informational message -->
+        <!-- Tips Hemat -->
         <div
-          class="flex flex-col justify-center max-w-sm text-gray-800 text-center md:text-left"
+          class="order-3 md:order-3 flex flex-col justify-center max-w-sm mb-10 md:mb-0 text-gray-800 text-center md:text-left"
         >
-          <h2 class="text-4xl font-semibold mb-2">Cerdas dalam Pengeluaran!</h2>
+          <h2 class="text-3xl font-semibold mb-3">Tips Hemat Bulan Ini!</h2>
           <p class="text-lg leading-relaxed">
-            Catat semua pengeluaran, sekecil apapun, agar kamu tahu kemana
-            uangmu pergi. Jangan biarkan pengeluaran tak tercatat membuatmu
-            boros. 📉
+            Coba alokasikan minimal <strong>20%</strong> dari pemasukan kamu
+            untuk ditabung. Buat prioritas belanja, dan hindari pembelian
+            impulsif. 💰
           </p>
-          <p class="mt-4 text-lg italic text-red-600">#BijakKelolaUang</p>
+          <p class="mt-4 text-lg italic text-blue-600">#UangmuKendalikan</p>
         </div>
       </div>
 
@@ -240,20 +238,22 @@
       <TambahData
         v-if="showForm"
         @close="showForm = false"
-        @simpan="tambahKeData"
+        @simpan="handleTambah"
+        jenis-transaksi="pemasukan"
       />
       <!-- Form Edit -->
       <EditData
         v-if="showEdit"
         :model-value="dataSedangDiedit"
-        @update="perbaruiData"
+        @update="handleUpdate"
         @close="showEdit = false"
+        jenis-transaksi="pemasukan"
       />
-      <!-- Hapus Data -->
+      <!-- Dialog Konfirmasi Hapus -->
       <DeleteData
         v-if="showDeleteConfirmation"
-        @confirm="confirmDelete"
-        @close="closeDeleteConfirmation"
+        @confirm="handleConfirmDelete"
+        @close="showDeleteConfirmation = false"
       />
     </div>
   </LayoutPage>
@@ -265,243 +265,129 @@ import LayoutPage from "../layout/LayoutPage.vue";
 import TambahData from "../components/TambahData.vue";
 import EditData from "../components/EditData.vue";
 import DeleteData from "../components/DeleteData.vue";
+import { useKeuangan } from "../composables/useKeuangan.js";
 
-// State
+// Centralized state and functions from our new composable
+const { 
+  pemasukan, 
+  loading, 
+  fetchPemasukan, 
+  addPemasukan, 
+  updatePemasukan, 
+  deletePemasukan 
+} = useKeuangan();
+
+// UI State
 const showForm = ref(false);
 const showEdit = ref(false);
 const showDeleteConfirmation = ref(false);
 const itemToDeleteId = ref(null);
 const dataSedangDiedit = ref({});
 
-const dataPengeluaran = ref([]);
-const dataBulanIni = ref([]);
-const dataRekap = ref([]);
-
-// Show entries state dan opsi
+// Filtering and Pagination state
 const entriesToShow = ref(5);
 const entryOptions = [5, 10, 25, 50, 100];
-
 const searchQuery = ref("");
 const currentPage = ref(1);
-
-// Menghitung total pemasukan bulan ini
-const totalPengeluaranBulanIni = computed(() => {
-  const sekarang = new Date();
-  const bulanIni = sekarang.getMonth();
-  const tahunIni = sekarang.getFullYear();
-
-  const dataBulanIni = dataPengeluaran.value.filter((item) => {
-    const tanggal = new Date(item.tanggal);
-    return (
-      tanggal.getMonth() === bulanIni && tanggal.getFullYear() === tahunIni
-    );
-  });
-
-  return dataBulanIni.reduce((total, item) => total + Number(item.harga), 0);
-});
-
-const namaBulan = [
-  "Januari",
-  "Februari",
-  "Maret",
-  "April",
-  "Mei",
-  "Juni",
-  "Juli",
-  "Agustus",
-  "September",
-  "Oktober",
-  "November",
-  "Desember",
-];
-
+const namaBulan = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
 const sekarang = new Date();
-const filterBulan = ref(sekarang.getMonth()); // default bulan ini
-const filterTahun = ref(sekarang.getFullYear()); // default tahun ini
+const filterBulan = ref(sekarang.getMonth());
+const filterTahun = ref(sekarang.getFullYear());
 
-// Tahun tersedia (diambil dari data)
-const tahunOptions = computed(() => {
-  const semuaTahun = dataPengeluaran.value
-    .map((item) => {
-      if (!item.tanggal) return null;
-      const tahun = new Date(item.tanggal).getFullYear();
-      return isNaN(tahun) ? null : tahun;
-    })
-    .filter((t) => t !== null);
-
-  // Pastikan tahun ini selalu ada dalam pilihan, bahkan jika belum ada datanya
-  semuaTahun.push(new Date().getFullYear());
-
-  return [...new Set(semuaTahun)].sort((a, b) => b - a);
-});
-
-// Ambil data dari localStorage
+// Fetch data when component is mounted
 onMounted(() => {
-  const saved = localStorage.getItem("dataPengeluaran");
-  const parsed = saved ? JSON.parse(saved) : [];
-
-  const sekarang = new Date();
-  const bulanIni = sekarang.getMonth();
-  const tahunIni = sekarang.getFullYear();
-
-  // Pisahkan data bulan ini dan rekap
-  dataBulanIni.value = parsed.filter((item) => {
-    const tanggal = new Date(item.tanggal);
-    return (
-      tanggal.getMonth() === bulanIni && tanggal.getFullYear() === tahunIni
-    );
-  });
-
-  dataRekap.value = parsed.filter((item) => {
-    const tanggal = new Date(item.tanggal);
-    return (
-      tanggal.getMonth() !== bulanIni || tanggal.getFullYear() !== tahunIni
-    );
-  });
-
-  dataPengeluaran.value = parsed; // tetap simpan semuanya jika ingin akses rekap
+  fetchPemasukan();
 });
 
-// Simpan ke localStorage saat berubah
-watch([entriesToShow, searchQuery], () => {
-  currentPage.value = 1;
-});
-
-watch(
-  dataPengeluaran,
-  () => {
-    const semua = [...dataRekap.value, ...dataBulanIni.value];
-    localStorage.setItem("dataPengeluaran", JSON.stringify(semua));
-  },
-  { deep: true }
-);
-
-const filteredPengeluaran = computed(() => {
+// Computed properties for filtering, pagination, and totals
+const filteredPemasukan = computed(() => {
+  if (loading.value) return [];
   const query = searchQuery.value.toLowerCase();
-
-  return dataPengeluaran.value.filter((item) => {
+  return pemasukan.value.filter((item) => {
     const tanggal = new Date(item.tanggal);
     const cocokBulan = tanggal.getMonth() === filterBulan.value;
     const cocokTahun = tanggal.getFullYear() === filterTahun.value;
     const cocokCari =
-      item.keterangan.toLowerCase().includes(query) ||
-      item.tanggal.toLowerCase().includes(query);
-
+      (item.keterangan && item.keterangan.toLowerCase().includes(query)) ||
+      (item.tanggal && item.tanggal.toLowerCase().includes(query));
     return cocokBulan && cocokTahun && cocokCari;
   });
 });
 
-const totalPages = computed(() => {
-  return Math.ceil(filteredPengeluaran.value.length / entriesToShow.value);
-});
+const totalPages = computed(() => Math.ceil(filteredPemasukan.value.length / entriesToShow.value));
 
-// Data yang ditampilkan per halaman
-const paginatedPengeluaran = computed(() => {
+const paginatedPemasukan = computed(() => {
   const start = (currentPage.value - 1) * entriesToShow.value;
-  return filteredPengeluaran.value.slice(start, start + entriesToShow.value);
+  return filteredPemasukan.value.slice(start, start + entriesToShow.value);
 });
 
-// Tambah data
-function tambahData() {
-  showForm.value = true;
-}
+const totalPemasukanBulanIni = computed(() => {
+  return filteredPemasukan.value.reduce((total, item) => total + Number(item.jumlah), 0);
+});
 
-function tambahKeData(dataBaru) {
-  dataBaru.id = Date.now();
-  dataPengeluaran.value.push(dataBaru);
+const tahunOptions = computed(() => {
+  const semuaTahun = pemasukan.value.map((item) => new Date(item.tanggal).getFullYear());
+  semuaTahun.push(new Date().getFullYear());
+  return [...new Set(semuaTahun)].sort((a, b) => b - a);
+});
 
-  const tanggal = new Date(dataBaru.tanggal);
-  const sekarang = new Date();
-  if (
-    tanggal.getMonth() === sekarang.getMonth() &&
-    tanggal.getFullYear() === sekarang.getFullYear()
-  ) {
-    dataBulanIni.value.push(dataBaru);
-  } else {
-    dataRekap.value.push(dataBaru);
+// Watchers to reset pagination
+watch([entriesToShow, searchQuery, filterBulan, filterTahun], () => {
+  currentPage.value = 1;
+});
+
+// CRUD Handlers
+async function handleTambah(dataBaru) {
+  try {
+    await addPemasukan(dataBaru);
+    showForm.value = false;
+  } catch (error) {
+    console.error("Gagal menambah data:", error);
+    // Optionally, show an error message to the user
   }
 }
 
-// Format ke Rupiah
-function formatRupiah(angka) {
-  return new Intl.NumberFormat("id-ID").format(Number(angka) || 0);
+function handleEdit(item) {
+  // Pass the data to the form, ensuring category is a string
+  dataSedangDiedit.value = { ...item, kategori: item.kategori?.nama_kategori };
+  showEdit.value = true;
 }
 
-function updateDataBulanIni() {
-  const sekarang = new Date();
-  const bulanIni = sekarang.getMonth();
-  const tahunIni = sekarang.getFullYear();
-
-  dataBulanIni.value = dataPengeluaran.value.filter((item) => {
-    const tanggal = new Date(item.tanggal);
-    return (
-      tanggal.getMonth() === bulanIni && tanggal.getFullYear() === tahunIni
-    );
-  });
-
-  dataRekap.value = dataPengeluaran.value.filter((item) => {
-    const tanggal = new Date(item.tanggal);
-    return (
-      tanggal.getMonth() !== bulanIni || tanggal.getFullYear() !== tahunIni
-    );
-  });
-}
-
-// Edit data
-function editData(id) {
-  const item = dataPengeluaran.value.find((item) => item.id === id);
-  if (item) {
-    dataSedangDiedit.value = { ...item };
-    showEdit.value = true;
+async function handleUpdate(updatedData) {
+  try {
+    // The form now uses 'jumlah', so no conversion is needed.
+    await updatePemasukan(updatedData.id, updatedData);
+    showEdit.value = false;
+  } catch (error) {
+    console.error("Gagal memperbarui data:", error);
   }
 }
 
-// Fungsi update setelah diedit
-function perbaruiData(updated) {
-  const index = dataPengeluaran.value.findIndex(
-    (item) => item.id === updated.id
-  );
-  if (index !== -1) {
-    dataPengeluaran.value.splice(index, 1, { ...updated });
-
-    updateDataBulanIni();
-  }
-}
-
-// Fungsi untuk menampilkan dialog konfirmasi hapus
-function hapusData(id) {
+function handleDelete(id) {
   itemToDeleteId.value = id;
   showDeleteConfirmation.value = true;
 }
 
-// Fungsi yang dijalankan setelah konfirmasi hapus
-function confirmDelete() {
-  const index = dataPengeluaran.value.findIndex(
-    (item) => item.id === itemToDeleteId.value
-  );
-  if (index !== -1) {
-    dataPengeluaran.value.splice(index, 1);
+async function handleConfirmDelete() {
+  if (itemToDeleteId.value) {
+    try {
+      await deletePemasukan(itemToDeleteId.value);
+      showDeleteConfirmation.value = false;
+      itemToDeleteId.value = null;
+    } catch (error) {
+      console.error("Gagal menghapus data:", error);
+    }
   }
-  closeDeleteConfirmation();
-  updateDataBulanIni();
 }
 
-// Fungsi untuk menutup dialog konfirmasi
-function closeDeleteConfirmation() {
-  showDeleteConfirmation.value = false;
-  itemToDeleteId.value = null;
+// Utility and Pagination Functions
+function formatRupiah(angka) {
+  return "Rp " + new Intl.NumberFormat("id-ID").format(Number(angka) || 0);
 }
 
-// Pagination
-function prevPage() {
-  if (currentPage.value > 1) currentPage.value--;
-}
-function nextPage() {
-  if (currentPage.value < totalPages.value) currentPage.value++;
-}
-function goToPage(page) {
-  currentPage.value = page;
-}
+function prevPage() { if (currentPage.value > 1) currentPage.value--; }
+function nextPage() { if (currentPage.value < totalPages.value) currentPage.value++; }
+function goToPage(page) { currentPage.value = page; }
 </script>
 
 <style scoped>
