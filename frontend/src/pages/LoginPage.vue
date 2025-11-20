@@ -56,6 +56,14 @@
           </div>
         </div>
 
+        <div class="flex items-center justify-end">
+          <div class="text-sm">
+            <router-link to="/forgot-password" class="font-medium text-indigo-600 hover:text-indigo-500">
+              Forgot your password?
+            </router-link>
+          </div>
+        </div>
+
         <!-- Error -->
         <div v-if="errors.general && errors.general.length > 0" class="bg-red-50 border border-red-200 text-red-700 text-sm p-3 rounded-lg">
           {{ errors.general[0] }}

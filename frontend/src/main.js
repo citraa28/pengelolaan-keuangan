@@ -4,6 +4,8 @@ import './style.css'
 import App from './App.vue'
 import LoginPage from './pages/LoginPage.vue'
 import RegisterPage from './pages/RegisterPage.vue' // <-- Impor halaman registrasi
+import ForgotPasswordPage from './pages/ForgotPasswordPage.vue'
+import ResetPasswordPage from './pages/ResetPasswordPage.vue'
 import AwalPage from './pages/AwalPage.vue'
 import BerandaPage from './pages/BerandaPage.vue'
 import PemasukanPage from './pages/PemasukanPage.vue'
@@ -27,6 +29,16 @@ const routes = [
     path: '/register', // <-- Tambahkan rute registrasi
     name: 'Register',
     component: RegisterPage
+  },
+   {
+    path: '/forgot-password',
+    name: 'ForgotPassword',
+    component: ForgotPasswordPage
+  },
+  {
+    path: '/reset-password/:token',
+    name: 'ResetPassword',
+    component: ResetPasswordPage
   },
   {
     path: '/beranda',
