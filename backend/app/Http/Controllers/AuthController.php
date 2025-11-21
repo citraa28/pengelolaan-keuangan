@@ -32,6 +32,12 @@ class AuthController extends Controller
             return response()->json(['error' => 'Unauthorized'], 401);
         }
 
+        $user = Auth::user();
+        if (!$user->hasVerifiedEmail()) {
+            Auth::logout(); // Log the user out
+            return response()->json(['error' => 'Please verify your email address before logging in.'], 403);
+        }
+
         return $this->respondWithToken($token);
     }
 
@@ -55,17 +61,11 @@ class AuthController extends Controller
 
         // Kirim email verifikasi
         $user->sendEmailVerificationNotification();
-        
-        $token = Auth::login($user);
 
         return response()->json([
             'status' => 'success',
-            'message' => 'User created successfully',
-            'user' => $user,
-            'authorisation' => [
-                'token' => $token,
-                'type' => 'bearer',
-            ]
+            'message' => 'User created successfully. Please check your email to verify your account.',
+            'user' => $user
         ]);
     }
 

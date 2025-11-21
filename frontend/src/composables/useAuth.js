@@ -62,6 +62,8 @@ export function useAuth() {
         errors.value = e.response.data.errors;
       } else if (e.response && e.response.status === 401) {
         errors.value = { general: ['Email atau password salah.'] };
+      } else if (e.response && e.response.status === 403) {
+        errors.value = { general: [e.response.data.error || 'Your email is not verified. Please check your email.'] };
       } else {
         errors.value = { general: ['Terjadi kesalahan. Silakan coba lagi.'] };
         console.error(e);
@@ -75,24 +77,10 @@ export function useAuth() {
     loading.value = true;
     errors.value = {};
     try {
-      const response = await api.post('/auth/register', data);
-      const newToken = response.data.access_token;
-
-      // Simpan token
-      localStorage.setItem('token', newToken);
-      token.value = newToken;
-      // Header diatur oleh interceptor
-
-      // Ambil data user
-      await attempt();
-
-      if (user.value) {
-        await fetchPemasukan();
-        await fetchPengeluaran();
-      }
-
-      // Redirect ke beranda karena user sudah otomatis login
-      router.push({ name: 'Beranda' });
+      await api.post('/auth/register', data);
+      
+      // Redirect ke halaman login dengan notifikasi
+      router.push({ name: 'Login', query: { registered: 'true' } });
 
     } catch (e) {
       if (e.response && (e.response.status === 422 || e.response.status === 400)) {

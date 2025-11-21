@@ -14,6 +14,15 @@
         <p class="text-sm text-gray-500">Gunakan email dan kata sandi yang terdaftar</p>
       </div>
 
+      <!-- Notification Message -->
+      <div v-if="message" :class="{
+        'bg-green-50 border-green-200 text-green-700': messageType === 'success',
+        'bg-blue-50 border-blue-200 text-blue-700': messageType === 'info',
+        'bg-red-50 border-red-200 text-red-700': messageType === 'error'
+        }" class="text-sm p-3 rounded-lg text-center">
+        {{ message }}
+      </div>
+
       <!-- Form -->
       <form @submit.prevent="handleLogin" class="space-y-5">
         <div>
@@ -102,14 +111,35 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
+import { useRoute } from 'vue-router';
 import { useAuth } from '../composables/useAuth';
 
 const { login, errors, loading } = useAuth();
+const route = useRoute();
 
 const email = ref('');
 const password = ref('');
 const showPassword = ref(false);
+const message = ref('');
+const messageType = ref(''); // 'success', 'info', 'error'
+
+onMounted(() => {
+  const queryMessage = route.query.message;
+  if (route.query.registered === 'true') {
+    message.value = 'Pendaftaran berhasil! Silakan cek email Anda untuk verifikasi dan masuk.';
+    messageType.value = 'success';
+  } else if (queryMessage === 'verification_success') {
+    message.value = 'Email berhasil diverifikasi! Silakan masuk.';
+    messageType.value = 'success';
+  } else if (queryMessage === 'already_verified') {
+    message.value = 'Email Anda sudah terverifikasi. Silakan masuk.';
+    messageType.value = 'info';
+  } else if (queryMessage === 'verification_failed') {
+    message.value = 'Verifikasi email gagal. Link tidak valid atau sudah kedaluwarsa.';
+    messageType.value = 'error';
+  }
+});
 
 const handleLogin = async () => {
   await login({ 

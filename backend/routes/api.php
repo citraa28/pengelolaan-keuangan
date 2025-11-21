@@ -15,18 +15,18 @@ Route::get('/email/verify/{id}/{hash}', function (Request $request, $id) {
     $user = User::find($id);
 
     if (!$user || !hash_equals((string) $request->route('hash'), sha1($user->getEmailForVerification()))) {
-        return response()->json(['message' => 'Invalid verification link.'], 403);
+        return redirect(config('app.frontend_url').'/login?message=verification_failed');
     }
 
     if ($user->hasVerifiedEmail()) {
-        return response()->json(['message' => 'Email already verified.']);
+        return redirect(config('app.frontend_url').'/login?message=already_verified');
     }
 
     if ($user->markEmailAsVerified()) {
         event(new \Illuminate\Auth\Events\Verified($user));
     }
 
-    return response()->json(['message' => 'Email has been verified.']);
+    return redirect(config('app.frontend_url').'/login?message=verification_success');
 })->middleware('signed')->name('verification.verify');
 
 // AUTH ROUTES (JWT)
