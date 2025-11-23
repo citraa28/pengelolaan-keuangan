@@ -10,24 +10,28 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use App\Models\User;
 
-// ROUTE VERIFIKASI EMAIL
-Route::get('/email/verify/{id}/{hash}', function (Request $request, $id) {
-    $user = User::find($id);
+// ROUTE VERIFIKASI EMAIL (Public)
+Route::get('/auth/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
+    $user = User::find($request->route('id'));
 
-    if (!$user || !hash_equals((string) $request->route('hash'), sha1($user->getEmailForVerification()))) {
-        return redirect(config('app.frontend_url').'/login?message=verification_failed');
+    // Pastikan user ada dan hash cocok (handled by signed middleware and EmailVerificationRequest)
+    if (!$user) {
+        return redirect(config('app.frontend_url') . '/login?message=verification_failed');
     }
 
     if ($user->hasVerifiedEmail()) {
-        return redirect(config('app.frontend_url').'/login?message=already_verified');
+        return redirect(config('app.frontend_url') . '/login?message=already_verified');
     }
 
-    if ($user->markEmailAsVerified()) {
-        event(new \Illuminate\Auth\Events\Verified($user));
-    }
+    $request->fulfill(); // Tandai email sebagai diverifikasi
 
-    return redirect(config('app.frontend_url').'/login?message=verification_success');
-})->middleware('signed')->name('verification.verify');
+    return redirect(config('app.frontend_url') . '/login?message=verification_success');
+})->middleware(['signed'])->name('verification.verify');
+
+
+// ROUTE UNTUK MENGIRIM ULANG VERIFIKASI EMAIL (Public)
+Route::post('/auth/email/resend', [AuthController::class, 'resendVerificationEmail'])->middleware(['throttle:6,1'])->name('verification.send');
+
 
 // AUTH ROUTES (JWT)
 Route::group([
@@ -43,17 +47,6 @@ Route::group([
         Route::post('logout', [AuthController::class, 'logout']);
         Route::post('refresh', [AuthController::class, 'refresh']);
         Route::get('me', [AuthController::class, 'me']);
-        
-        // KIRIM ULANG VERIFIKASI EMAIL
-        Route::post('email/resend', function (Request $request) {
-            if ($request->user()->hasVerifiedEmail()) {
-                return response()->json(['message' => 'Email sudah diverifikasi'], 400);
-            }
-
-            $request->user()->sendEmailVerificationNotification();
-
-            return response()->json(['message' => 'Email verifikasi telah dikirim ulang!']);
-        });
     });
 });
 

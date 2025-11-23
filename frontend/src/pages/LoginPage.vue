@@ -23,6 +23,33 @@
         {{ message }}
       </div>
 
+      <!-- Verification Resend Section -->
+      <div v-if="needsVerification" class="bg-yellow-50 border-yellow-200 text-yellow-700 text-sm p-3 rounded-lg text-center space-y-3">
+        <p>Akun Anda belum diverifikasi. Silakan cek email Anda untuk tautan verifikasi.</p>
+        <p>Tidak menerima email? Anda bisa mengirim ulang di sini:</p>
+        <button
+          type="button"
+          @click="handleResendVerification"
+          :disabled="loading"
+          class="w-full py-2 bg-yellow-500 text-white font-semibold rounded-lg hover:shadow-lg hover:scale-[1.02] transition-all duration-200 disabled:opacity-60 disabled:cursor-not-allowed"
+        >
+          <span v-if="loading" class="flex items-center justify-center space-x-2">
+            <svg class="animate-spin h-5 w-5 text-white" viewBox="0 0 24 24" fill="none">
+              <circle class="opacity-25" cx="12" cy="12" r="10" stroke="white" stroke-width="4"></circle>
+              <path class="opacity-75" fill="white" d="M4 12a8 8 0 018-8V0C5 0 0 5 0 12h4z"></path>
+            </svg>
+            <span>Mengirim ulang...</span>
+          </span>
+          <span v-else>Kirim Ulang Email Verifikasi</span>
+        </button>
+        <div v-if="resendMessage" :class="{
+          'bg-green-50 border-green-200 text-green-700': resendMessageType === 'success',
+          'bg-red-50 border-red-200 text-red-700': resendMessageType === 'error'
+          }" class="text-sm p-3 rounded-lg text-center mt-3">
+          {{ resendMessage }}
+        </div>
+      </div>
+
       <!-- Form -->
       <form @submit.prevent="handleLogin" class="space-y-5">
         <div>
@@ -115,7 +142,7 @@ import { ref, onMounted } from "vue";
 import { useRoute } from 'vue-router';
 import { useAuth } from '../composables/useAuth';
 
-const { login, errors, loading } = useAuth();
+const { login, errors, loading, needsVerification, resendVerificationEmail } = useAuth();
 const route = useRoute();
 
 const email = ref('');
@@ -123,6 +150,8 @@ const password = ref('');
 const showPassword = ref(false);
 const message = ref('');
 const messageType = ref(''); // 'success', 'info', 'error'
+const resendMessage = ref('');
+const resendMessageType = ref('');
 
 onMounted(() => {
   const queryMessage = route.query.message;
@@ -146,6 +175,19 @@ const handleLogin = async () => {
     email: email.value, 
     password: password.value 
   });
+};
+
+const handleResendVerification = async () => {
+  resendMessage.value = '';
+  resendMessageType.value = '';
+  const response = await resendVerificationEmail(email.value);
+  if (response) {
+    resendMessage.value = response;
+    resendMessageType.value = 'success';
+  } else if (errors.value.general) {
+    resendMessage.value = errors.value.general[0];
+    resendMessageType.value = 'error';
+  }
 };
 </script>
 

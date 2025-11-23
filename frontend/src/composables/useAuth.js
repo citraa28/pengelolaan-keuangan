@@ -6,14 +6,13 @@ import { useKeuangan } from './useKeuangan.js';
 // State reaktif di luar fungsi agar menjadi singleton (hanya ada satu state)
 const user = ref(null);
 const token = ref(localStorage.getItem('token') || null);
+const needsVerification = ref(false); // New state to track if email verification is needed
 
 export function useAuth() {
   const router = useRouter();
   const errors = ref({});
   const loading = ref(false);
   const { fetchPemasukan, fetchPengeluaran, clearKeuanganState } = useKeuangan();
-
-  // Header diatur oleh axios interceptor, tidak perlu pengaturan manual di sini.
 
   // Fungsi untuk mencoba mengambil data user jika ada token
   const attempt = async () => {
@@ -38,6 +37,7 @@ export function useAuth() {
   const login = async (credentials) => {
     loading.value = true;
     errors.value = {};
+    needsVerification.value = false; // Reset on new login attempt
     try {
       const response = await api.post('/auth/login', credentials);
       const newToken = response.data.access_token;
@@ -63,7 +63,12 @@ export function useAuth() {
       } else if (e.response && e.response.status === 401) {
         errors.value = { general: ['Email atau password salah.'] };
       } else if (e.response && e.response.status === 403) {
-        errors.value = { general: [e.response.data.error || 'Your email is not verified. Please check your email.'] };
+        if (e.response.data.error === 'Please verify your email address before logging in.') {
+          needsVerification.value = true; // Set flag for login page
+          errors.value = { general: ['Email Anda belum diverifikasi.'] };
+        } else {
+          errors.value = { general: [e.response.data.error || 'Terjadi kesalahan otorisasi.'] };
+        }
       } else {
         errors.value = { general: ['Terjadi kesalahan. Silakan coba lagi.'] };
         console.error(e);
@@ -107,6 +112,7 @@ export function useAuth() {
       user.value = null;
       token.value = null;
       localStorage.removeItem('token');
+      needsVerification.value = false; // Reset on logout
       
       // Hapus state keuangan
       clearKeuanganState();
@@ -116,14 +122,36 @@ export function useAuth() {
     }
   };
 
+  const resendVerificationEmail = async (email) => {
+    loading.value = true;
+    errors.value = {};
+    let successMessage = '';
+    try {
+      const response = await api.post('/auth/email/resend', { email });
+      successMessage = response.data.message;
+    } catch (e) {
+      if (e.response && (e.response.status === 422 || e.response.status === 400 || e.response.status === 404)) {
+        errors.value = { general: [e.response.data.message || 'Gagal mengirim ulang email verifikasi.'] };
+      } else {
+        errors.value = { general: ['Terjadi kesalahan saat mengirim ulang email verifikasi.'] };
+        console.error(e);
+      }
+    } finally {
+      loading.value = false;
+      return successMessage;
+    }
+  };
+
   return {
     login,
     register,
     logout,
     attempt,
+    resendVerificationEmail, // Expose the new function
     user,
     errors,
     loading,
+    needsVerification, // Expose the new state
     // Status otentikasi sekarang hanya bergantung pada keberadaan token
     isAuthenticated: computed(() => !!token.value),
   };
