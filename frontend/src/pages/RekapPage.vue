@@ -1,6 +1,6 @@
 <template>
   <LayoutPage>
-    <div class="flex-1 p-2 overflow-auto">
+    <div class="flex-1 p-2 overflow-y-auto overflow-x-hidden">
       <!-- Header -->
       <header
         class="bg-white border border-blue-400 font-fredoka p-6 mx-auto max-w-5xl text-center shadow-xl rounded-xl mb-8"
@@ -54,12 +54,22 @@
           </div>
 
           <!-- Tombol -->
-          <button
-            @click="applyFilter"
-            class="px-6 py-2 rounded-lg text-white font-semibold shadow-md bg-blue-500 transition"
-          >
-            + Simpan Data
-          </button>
+          <div class="flex items-center gap-4">
+            <button
+              @click="applyFilter"
+              class="px-6 py-2 rounded-lg text-white font-semibold shadow-md bg-blue-500 hover:bg-blue-600 transition"
+            >
+              Terapkan Filter
+            </button>
+            <button
+              id="download-pdf-btn"
+              @click="triggerBackendPdfDownload"
+              :disabled="dataFilter.length === 0"
+              class="px-6 py-2 rounded-lg text-white font-semibold shadow-md bg-red-500 hover:bg-red-600 transition disabled:bg-gray-400 disabled:cursor-not-allowed"
+            >
+              Download PDF
+            </button>
+          </div>
         </div>
       </div>
 
@@ -67,22 +77,33 @@
       <div
         class="mx-auto max-w-5xl bg-white rounded-xl shadow-md overflow-hidden"
       >
-        <div class="overflow-x-auto">
-          <table class="min-w-full">
+        <div class="overflow-x-auto w-full">
+          <table class="w-full text-sm">
             <thead
               class="bg-gradient-to-r from-blue-500 to-indigo-500 text-white"
             >
               <tr>
-                <th class="px-4 py-3 text-left">No</th>
-                <th class="px-4 py-3 text-left">Jenis Keuangan</th>
-                <th class="px-4 py-3 text-left">Keterangan</th>
-                <th class="px-4 py-3 text-left">Kategori</th>
-                <th class="px-4 py-3 text-left">Tanggal</th>
-                <th class="px-4 py-3 text-left">Jumlah</th>
+                <th class="px-2 md:px-4 py-3 text-left">No</th>
+                <th class="px-2 md:px-4 py-3 text-left">Jenis</th>
+                <th class="px-2 md:px-4 py-3 text-left">Keterangan</th>
+                <th class="px-2 md:px-4 py-3 text-left">Kategori</th>
+                <th class="px-2 md:px-4 py-3 text-left">Tanggal</th>
+                <th class="px-2 md:px-4 py-3 text-left">Jumlah</th>
               </tr>
             </thead>
+
             <tbody>
               <tr
+                v-if="dataFilter.length === 0"
+                class="bg-white text-center"
+              >
+                <td colspan="6" class="px-4 py-8 text-gray-500">
+                  Tidak ada data untuk ditampilkan. Silakan atur filter Anda dan
+                  klik "Terapkan Filter".
+                </td>
+              </tr>
+              <tr
+                v-else
                 v-for="(item, index) in dataFilter"
                 :key="index"
                 class="odd:bg-white even:bg-gray-50 hover:bg-blue-50 transition"
@@ -133,6 +154,7 @@ import LayoutPage from "../layout/LayoutPage.vue";
 import { ref } from "vue";
 import { onMounted } from "vue";
 import { useKeuangan } from "../composables/useKeuangan.js";
+import api from "../api/axios";
 
 const { pemasukan, pengeluaran, fetchPemasukan, fetchPengeluaran } =
   useKeuangan();
@@ -155,7 +177,7 @@ function formatRupiah(angka) {
 }
 
 function applyFilter() {
-  console.log("Menerapkan filter..."); // Mengambil data dari localStorage (sumber data saat ini)
+  console.log("Menerapkan filter...");
   let semuaData = [
     ...pemasukan.value.map((p) => ({
       jenis: "pemasukan",
@@ -174,19 +196,17 @@ function applyFilter() {
   ];
 
   let hasil = semuaData.filter((item) => {
-    // Filter Jenis
     const pilihJenis =
-      form.value.jenis === "" || item.jenis === form.value.jenis; // Filter Tanggal
-
-    const tanggalItem = new Date(item.tanggal); // Konversi tanggal awal/akhir dari form menjadi objek Date
+      form.value.jenis === "" || item.jenis === form.value.jenis;
+    const tanggalItem = new Date(item.tanggal);
     const tanggalAwal = form.value.tanggalAwal
       ? new Date(form.value.tanggalAwal)
       : null;
     const tanggalAkhir = form.value.tanggalAkhir
       ? new Date(form.value.tanggalAkhir)
-      : null; // Logika perbandingan tanggal
+      : null;
 
-    const pilihTanggalAwal = !tanggalAwal || tanggalItem >= tanggalAwal; // Tambahkan satu hari ke tanggal akhir agar inklusif (opsional, tergantung kebutuhan)
+    const pilihTanggalAwal = !tanggalAwal || tanggalItem >= tanggalAwal;
     const pilihTanggalAkhir = !tanggalAkhir || tanggalItem <= tanggalAkhir;
 
     return pilihJenis && pilihTanggalAwal && pilihTanggalAkhir;
@@ -195,11 +215,54 @@ function applyFilter() {
   console.log(`Data difilter: ${hasil.length} entri ditemukan.`);
 }
 
-// Panggil filterData saat komponen pertama kali dimuat
+async function triggerBackendPdfDownload() {
+  const downloadButton = document.querySelector("#download-pdf-btn");
+  const originalButtonText = downloadButton.textContent;
+  
+  try {
+    downloadButton.textContent = "Membuat PDF...";
+    downloadButton.disabled = true;
+
+    const params = {
+      jenis: form.value.jenis || null,
+      tanggalAwal: form.value.tanggalAwal || null,
+      tanggalAkhir: form.value.tanggalAkhir || null,
+    };
+
+    const response = await api.get("/rekap/download", {
+      params,
+      responseType: "blob",
+    });
+
+    const url = window.URL.createObjectURL(new Blob([response.data]));
+    const link = document.createElement("a");
+    link.href = url;
+
+    const contentDisposition = response.headers["content-disposition"];
+    let fileName = "rekap_keuangan.pdf";
+    if (contentDisposition) {
+      const fileNameMatch = contentDisposition.match(/filename="(.+)"/);
+      if (fileNameMatch && fileNameMatch.length === 2) {
+        fileName = fileNameMatch[1];
+      }
+    }
+
+    link.setAttribute("download", fileName);
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+    window.URL.revokeObjectURL(url);
+  } catch (error) {
+    console.error("Error downloading PDF:", error);
+    alert("Gagal mengunduh PDF. Pastikan Anda sudah login dan coba lagi.");
+  } finally {
+    downloadButton.textContent = originalButtonText;
+    downloadButton.disabled = dataFilter.value.length === 0;
+  }
+}
+
 onMounted(async () => {
   await fetchPemasukan();
   await fetchPengeluaran();
-
-  applyFilter();
 });
 </script>
