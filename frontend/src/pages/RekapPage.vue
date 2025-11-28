@@ -5,15 +5,34 @@
       <header
         class="bg-white border border-blue-400 font-fredoka p-6 mx-auto max-w-5xl text-center shadow-xl rounded-xl mb-8"
       >
-        <div class="flex flex-col items-center gap-3 p-5">
+        <div class="flex flex-col items-center justify-center relative">
+          <!-- Gambar mobile di atas judul -->
+          <img
+            src="/src/assets/money-3.png"
+            class="w-18 h-17 mb-2 block lg:hidden"
+            alt="Finance Icon"
+          />
+          <!-- Gambar kiri - hanya tampil di layar besar -->
+          <img
+            src="/src/assets/money-4.png"
+            class="w-20 h-20 hidden lg:block absolute left-10 top-1/2 -translate-y-1/2"
+            alt="Finance Icon"
+          />
+          <!-- Judul -->
           <h1
-            class="text-2xl md:text-4xl font-bold text-gray-800 flex items-center gap-4"
+            class="text-xl md:text-3xl font-bold md:font-extrabold font-serif text-blue-600"
           >
-            💰 Rekap Data Keuangan 💰
+            Rekap Data Keuangan
           </h1>
-          <p class="font-pacifico text-lg text-pink-500 italic">
-            Hemat Pangkal Kaya
+          <p class="font-pacifico text-sm md:text-base text-gray-700 mt-2">
+            <i>Hemat Pangkal Kaya</i>
           </p>
+          <!-- Gambar kanan - hanya tampil di layar besar -->
+          <img
+            src="/src/assets/money-3.png"
+            class="w-23 h-23 hidden lg:block absolute right-10 top-1/2 -translate-y-1/2"
+            alt="Finance Icon"
+          />
         </div>
       </header>
 
@@ -93,10 +112,7 @@
             </thead>
 
             <tbody>
-              <tr
-                v-if="dataFilter.length === 0"
-                class="bg-white text-center"
-              >
+              <tr v-if="dataFilter.length === 0" class="bg-white text-center">
                 <td colspan="6" class="px-4 py-8 text-gray-500">
                   Tidak ada data untuk ditampilkan. Silakan atur filter Anda dan
                   klik "Terapkan Filter".
@@ -218,7 +234,7 @@ function applyFilter() {
 async function triggerBackendPdfDownload() {
   const downloadButton = document.querySelector("#download-pdf-btn");
   const originalButtonText = downloadButton.textContent;
-  
+
   try {
     downloadButton.textContent = "Membuat PDF...";
     downloadButton.disabled = true;

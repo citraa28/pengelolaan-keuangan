@@ -1,18 +1,39 @@
 <template>
-  <div class="h-screen flex bg-gray-200 font-sans">
-    <!-- Sidebar -->
+  <div class="relative min-h-screen w-full bg-blue-100 font-sans">
+    <!-- Overlay Saat Sidebar Terbuka -->
     <div
-      class="transition-all duration-300 ease-in-out bg-gray-800 text-gray-100"
-      :class="
-      sidebarOpen 
-      ? 'w-64 translate-x-0' 
-      : 'w-0 -translate-x-full'
-      "
+      v-if="sidebarOpen"
+      @click="sidebarOpen = false"
+      class="fixed inset-0 bg-black/40 z-40"
+    ></div>
+
+    <!-- Sidebar -->
+    <aside
+      class="fixed top-0 left-0 h-full w-64 bg-gray-800 text-gray-100 z-50 transition-transform duration-300 ease-in-out overflow-y-auto"
+      :class="sidebarOpen ? 'translate-x-0' : '-translate-x-full'"
     >
-      <div
-        class="w-64 h-full flex flex-col overflow-x-hidden"
-        :class="sidebarOpen ? 'w-64 translate-x-0' : 'w-0 -translate-x-full'"
+      <!-- Tombol Close -->
+      <button
+        @click="sidebarOpen = false"
+        class="absolute top-3 right-3 text-white hover:text-gray-300"
       >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="w-4 h-4"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke-width="2"
+          stroke="currentColor"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M6 18L18 6M6 6l12 12"
+          />
+        </svg>
+      </button>
+
+      <div class="h-full flex flex-col">
         <!-- Sidebar Header -->
         <div
           class="flex flex-col items-center justify-center gap-3 h-24 bg-gradient-to-r from-sky-400 to-indigo-800 border-b border-gray-700 px-3 py-2"
@@ -38,7 +59,7 @@
         </div>
 
         <!-- Navigation -->
-        <nav class="flex-1 px-2 py-4 space-y-2 overflow-y-auto">
+        <nav class="flex-1 px-2 py-4 space-y-2">
           <router-link
             to="/beranda"
             :class="linkClass"
@@ -61,10 +82,11 @@
             <span class="font-medium">Beranda</span>
           </router-link>
 
+          <!-- Dropdown -->
           <div>
             <button
               @click="toggleDropdown"
-              :class="linkClass + ' w-full justify-between flex items-center'"
+              :class="linkClass + ' w-full flex justify-between items-center'"
             >
               <div class="flex items-center gap-3">
                 <svg
@@ -98,48 +120,21 @@
                 />
               </svg>
             </button>
-            <div v-if="open" class="mt-2 space-y-1 pl-8">
+
+            <div v-if="open" class="mt-2 pl-8 space-y-1">
               <router-link
                 to="/pemasukan"
                 :class="linkClass"
                 :active-class="activeLinkClass"
               >
-                <svg
-                  class="w-5 h-5"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"
-                  />
-                </svg>
-                <span>Pemasukan</span>
+                ➕ Pemasukan
               </router-link>
               <router-link
                 to="/pengeluaran"
                 :class="linkClass"
                 :active-class="activeLinkClass"
               >
-                <svg
-                  class="w-5 h-5"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M13 17h8m0 0V9m0 8l-8-8-4 4-6-6"
-                  />
-                </svg>
-                <span>Pengeluaran</span>
+                ➖ Pengeluaran
               </router-link>
             </div>
           </div>
@@ -167,7 +162,7 @@
           </router-link>
         </nav>
 
-        <!-- Logout dan Settings -->
+        <!-- Logout -->
         <div class="p-2 border-t border-gray-700">
           <router-link
             to="/"
@@ -211,21 +206,18 @@
           </a>
         </div>
       </div>
-    </div>
+    </aside>
 
     <!-- Main Content Area -->
     <div class="flex-1 flex flex-col">
       <!-- Header -->
       <header
-        class="bg-blue-400 p-4 flex flex-wrap items-center justify-between shadow-md z-10"
+        class="bg-blue-400 p-4 flex flex-wrap items-center justify-between shadow-md"
       >
         <!-- Kiri: Hamburger + Logo -->
-        <div class="flex items-center flex-shrink-0">
+        <div class="flex items-center gap-3">
           <!-- Hamburger -->
-          <button
-            @click="sidebarOpen = !sidebarOpen"
-            class="text-white focus:outline-none mr-3"
-          >
+          <button @click="sidebarOpen = true" class="text-white">
             <svg
               class="w-6 h-6"
               fill="none"
@@ -242,17 +234,9 @@
           </button>
 
           <!-- Logo -->
-          <img
-            src="../assets/note2.png"
-            alt="note"
-            class="w-12 md:w-20 h-12 md:h-18 object-contain"
-          />
-          <h1
-            class="text-2xl md:text-3xl font-bold text-center text-white drop-shadow-md tracking-wide"
-          >
-            <span class="font-cursive">MAY</span
-            ><span class="font-bold">TRA</span>
-            <span class="text-white">Finance</span> ✨
+          <img src="../assets/note2.png" class="w-12 h-12 object-contain" />
+          <h1 class="text-xl md:text-2xl font-bold text-white drop-shadow-md">
+            <span class="font-cursive">MAY</span>TRA Finance ✨
           </h1>
         </div>
 
@@ -263,7 +247,7 @@
       </header>
 
       <!-- Slot Konten -->
-      <main class="flex-1 p-6 overflow-y-auto">
+      <main class="flex-1 p-6 pb-20">
         <slot />
       </main>
     </div>
