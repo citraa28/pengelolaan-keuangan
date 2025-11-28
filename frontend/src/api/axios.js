@@ -18,4 +18,20 @@ api.interceptors.request.use(config => {
   return Promise.reject(error);
 });
 
+// Interceptor untuk response (MENANGKAP TOKEN EXPIRED)
+api.interceptors.response.use(
+  response => response,
+  error => {
+    if (error.response && error.response.status === 401) {
+      // Hapus token dari localStorage
+      localStorage.removeItem('token');
+
+      // Redirect otomatis ke halaman login
+      window.location.href = "/login";
+    }
+
+    return Promise.reject(error);
+  }
+);
+
 export default api;

@@ -26,7 +26,7 @@ const routes = [
     component: LoginPage
   },
   {
-    path: '/register', // <-- Tambahkan rute registrasi
+    path: '/register', 
     name: 'Register',
     component: RegisterPage
   },
