@@ -4,6 +4,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\KategoriController;
 use App\Http\Controllers\PemasukanController;
 use App\Http\Controllers\PengeluaranController;
+use App\Http\Controllers\Api\ChartController;
 use App\Http\Controllers\PostController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -18,8 +19,6 @@ Route::group([
 ], function ($router) {
     Route::post('login', [AuthController::class, 'login']);
     Route::post('register', [AuthController::class, 'register']);
-    // Route::post('forgot-password', [AuthController::class, 'forgotPassword']);
-    // Route::post('reset-password', [AuthController::class, 'resetPassword']);
     
     Route::group(['middleware' => 'auth:api'], function() {
         Route::post('logout', [AuthController::class, 'logout']);
@@ -34,8 +33,11 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::apiResource('kategori', KategoriController::class);
     Route::apiResource('pemasukan', PemasukanController::class);
     Route::apiResource('pengeluaran', PengeluaranController::class);
+    
+    // Endpoint Agregasi Bar Chart
+    Route::get('chart/summary', [ChartController::class, 'getMonthlySummary']);
 
     // Route for PDF Download
-    Route::get('/rekap/download', [RekapController::class, 'download'])
-    ->middleware('auth:api');
+    Route::get('/rekap/download', [RekapController::class, 'download']);
 });
+
